@@ -44,6 +44,10 @@
 .num3{
     width: 0.70rem;
 }
+
+.chat-info{
+    padding-left: 0.3rem;
+}
     
 </style>
 
@@ -134,12 +138,13 @@
 
                     for (var i = 0; i < c; i++) {
                         var str = '';
+                        var len = data[i]['noread'].length;
 
                         str += '<a href="'+data[i]['chat_url']+'" target=_blank>';
                         str += '<div class="chat-list flex" >';
                         str += '<div class="chat-img"  style="background-image: url(\''+data[i]['head']+'\')">';
-                        if (data[i]['noread'] > 0) {
-                            str += '<span class="badge" style="top: -0.1rem;left: 80%;">'+data[i]['noread']+'</span>';
+                        if (data[i]['noread'] != '0') {
+                            str += '<span class="badge num'+len+'" style="top: -0.1rem;left: 80%;">'+data[i]['noread']+'</span>';
                         }                        
                         str += '</div>';
                         str += '<div class="chat-info">';

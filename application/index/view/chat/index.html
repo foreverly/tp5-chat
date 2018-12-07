@@ -16,8 +16,17 @@
 
 <style type="text/css">
 
+.chat-content{
+    overflow-y:scroll
+}
+
 .chat-text{
     line-height: 0.8rem;
+    word-wrap:break-word;
+}
+
+.chat-text span{
+    max-width: 6.501rem!important;
 }
 
 .section-right .text{
@@ -167,6 +176,8 @@
             } 
         }
     });
+
+    $('.scroll_bottom').click(function(){$('html,body').animate({scrollTop:$('.bottom').offset().top}, 800);});
 
     // 点击更多
     $("#more").on('click', function(){

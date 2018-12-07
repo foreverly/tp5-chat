@@ -126,8 +126,9 @@ class Chat extends Common
                 $noread[$fromid] = 0;
             }
 
-            if(!$value['isread']){
+            if(!$value['isread']){                
                 $noread[$fromid]++;
+                
             }
 
             $opts[$fromid] = [
@@ -135,8 +136,8 @@ class Chat extends Common
                 'fromname' => $value['fromname'],
                 'head' => $value['head_url'],
                 'toid' => $toid,
-                'content' => $value['content'],
-                'noread' => $noread[$fromid],
+                'content' => cutStr($value['content'], 20),
+                'noread' => $noread[$fromid] > 99 ? '99+' : (string)$noread[$fromid],
                 'type' => $value['type'],
                 'chat_url' => '/chat/with?fromid=' . $toid . '&toid=' . $fromid,
                 'created_time' => $value['created_time'],
