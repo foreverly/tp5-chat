@@ -11,11 +11,6 @@ class Common extends Controller
         parent::_initialize();
         $this->checkLogin();
     }
-    
-    public function index()
-    {
-        return 'index';
-    }
 
     private function checkLogin()
     {

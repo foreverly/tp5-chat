@@ -14,6 +14,7 @@ class Index extends Common
     
     public function index()
     {
+        echo "test";exit;
         return 'index';
     }
     
