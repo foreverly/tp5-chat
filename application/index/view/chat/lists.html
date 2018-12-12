@@ -99,17 +99,22 @@
                 break;
             case 'text':
                 $(".chat-fui-content").html("");
-                refreshList();
-
+                // 插入数据库需要一点时间，直接拉取会导致拉取不到最新的，延时200ms
+                setTimeout(function(){
+                    refreshList();
+                }, 200);
+                
                 break;
             case 'say_img':
                 $(".chat-fui-content").html("");
-                refreshList();
+                setTimeout(function(){
+                    refreshList();
+                }, 200);
 
                 break;
             // case 'save':
             //     saveMessage(message);
-                break;
+            //     break;
             // case 'online':
             //     if (message.status == 1) {
             //         online = 1;
