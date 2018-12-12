@@ -4,7 +4,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 
-class Login extends Common
+class Login extends Controller
 {
 
     public function _initialize()
@@ -14,6 +14,6 @@ class Login extends Common
     
     public function index()
     {
-        return 'index';
+    	return $this->fetch('index');
     }
 }

@@ -3,6 +3,8 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
+use think\Session;
+use think\Jump;
 
 class Common extends Controller
 {
@@ -14,6 +16,10 @@ class Common extends Controller
 
     private function checkLogin()
     {
-    	return true;
+    	$is_login = Session::get('is_login') ? true : false;
+
+    	if (!$is_login) {
+    		$this->redirect(url('/login'));
+    	}
     }
 }

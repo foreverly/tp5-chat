@@ -14,17 +14,11 @@ class Index extends Common
     
     public function index()
     {
-        echo "test";exit;
-        return 'index';
+        echo "Hello gays";
     }
     
-    public function hello()
+    public function info()
     {
-        return 'hello';
-    }
-    
-    public function data()
-    {
-        return 'data';
+        echo phpinfo();
     }
 }
