@@ -29,7 +29,7 @@ class Contact extends Common
         $list = Db::table('contact')
             ->alias('c')
             ->field('friend_id, u.display_name, u.head_url, u.my_sign')
-            ->where('uid', $fromid)
+            ->where('c.uid', $fromid)
             ->join('user_backend u','c.friend_id = u.id', 'left')
             ->select();
 

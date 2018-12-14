@@ -78,14 +78,23 @@ class User extends Common
     public function add()
     {
         $friend_name = trim(request()->post('user_name'));
+
+        if ($friend_name == $this->userInfo['user_name']) {
+            return ajaxError('不能添加自己');
+        }
+
         $friend_info = UserB::get(['username' => $friend_name]);
+
+        if (ContactModel::where(['uid' => $this->userInfo['uid'], 'friend_id' => $friend_info->id])->count()) {
+            return ajaxError('你和对方已经是朋友了');
+        }
 
         $contact = new ContactModel();
         $contact->uid = $this->userInfo['uid'];
         $contact->friend_id = $friend_info->id;
         $contact->created_time = date('Y-m-d H:i:s');
         $contact->save();
-        
+
         return ajaxSuccess();
     }
 

@@ -8,10 +8,10 @@
     <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/h5app.css">
     <link rel="stylesheet" type="text/css" href="__STATIC__/chat/fonts/iconfont.css?v=2016070717">
     <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/chat_list.css">
+    <link href="__STATIC__/dialog/dist/dialog.css" rel="stylesheet"></head>
     <script src="__STATIC__/qqFace/js/jquery.min.js"></script>
     <script src="__STATIC__/chat/js/dist/flexible/flexible_css.debug.js"></script>
     <script src="__STATIC__/chat/js/dist/flexible/flexible.debug.js"></script>
-    <link href="__STATIC__/dialog/dist/dialog.css" rel="stylesheet"></head>
     <script src="__STATIC__/dialog/dist/mDialogMin.js"></script>
 </head>
 <body>
@@ -170,38 +170,39 @@
 
     mdialog4.onclick = function(){
         Dialog.init('<input type="text" placeholder="请输入对方用户名"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
-            title : '查找用户',
+            title : '添加联系人',
             button : {
-                搜索 : function(){
-                    var user_name = this.querySelector('input').value;
-                    $.ajax({
-                        type:'POST',
-                        url:'/user/check',
-                        data:'user_name='+user_name,
-                        dataType:'json',
-                        success:function(res){
-                            if (res.code == '200') {
-                                Dialog.close(this);
-                            }else{
-                                Dialog.init('你查找的用户：'+user_name+'不存在！', 1100);
-                            }
-                        }
-                    })
-                },
+                // 搜索 : function(){
+                //     var user_name = this.querySelector('input').value;
+                //     $.ajax({
+                //         type:'POST',
+                //         url:'/user/check',
+                //         data:'user_name='+user_name,
+                //         dataType:'json',
+                //         success:function(res){
+                //             if (res.code == '200') {
+                //                 Dialog.close(this);
+                //             }else{
+                //                 Dialog.init('你查找的用户：'+user_name+'不存在！', 1100);
+                //             }
+                //         }
+                //     })
+                // },
                 添加 : function(){
                     var user_name = this.querySelector('input').value;
+                    var _this = this; // 寄存对象
                     $.ajax({
                         type:'POST',
                         url:'/user/add',
                         data:'user_name='+user_name,
                         dataType:'json',
                         success:function(res){
-                            if (res.code == '200') {                                
-                                Dialog.init('添加成功！', 1000);
-                                Dialog.close(this);
-                                refreshList();                                
-                            }else{
-                                Dialog.init('你查找的用户：'+user_name+'不存在！', 1100);
+                            if (res.code == '200') {
+                                Dialog.init('添加成功！', 1000);                                
+                                Dialog.close(_this);
+                                refreshList();
+                            }else{ 
+                                Dialog.init(res.msg, 1100);
                             }
                         }
                     })
@@ -211,6 +212,7 @@
     }
 
     function refreshList(){
+        $(".chat-fui-content").html('');
         $.post(
             API_URL+"getList",
             {fromid:fromid},
@@ -223,7 +225,7 @@
                     for (var i = 0; i < c; i++) {
                         var str = '';
 
-                        str += '<a href="'+data[i]['friend_id']+'" target=_blank>';
+                        str += '<a href="'+data[i]['chat_url']+'" target=_blank>';
                         str += '<div class="chat-list flex" >';
                         str += '<div class="chat-img"  style="background-image: url(\''+data[i]['head_url']+'\')">';
                                                 
@@ -237,7 +239,7 @@
                         str += '</div>';
                         str += '</a>';
 
-                        $(".chat-fui-content").html(str);
+                        $(".chat-fui-content").append(str);
                     }                    
                 }
             },'json'
