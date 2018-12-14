@@ -264,7 +264,7 @@
     function changeNoRead(){
         $.post(
             '/chat/changeread',
-            {"fromid":fromid, "toid":toid},
+            {"toid":toid},
             function(e){
 
             },'json'
@@ -339,12 +339,12 @@
     function getHead(){
         $.post(
             '/chat/gethead',
-            {"fromid":fromid, "toid":toid},
+            {"toid":toid},
             function(e){
                 fromhead = e.data.frominfo.head_url;
-                fromname = e.data.frominfo.display_name;
+                fromname = e.data.frominfo.nick_name;
                 tohead = e.data.toinfo.head_url;
-                toname = e.data.toinfo.display_name;
+                toname = e.data.toinfo.nick_name;
 
                 $(".with-who").text("与"+toname+"聊天中");
             },'json'
@@ -357,7 +357,7 @@
     function loadMessage(page){
         $.post(
             '/chat/loadmessage',
-            {"fromid":fromid, "toid":toid, "page":page},
+            {"toid":toid, "page":page},
             function(res){
                 var e = res.data;
                 var c = e.length;

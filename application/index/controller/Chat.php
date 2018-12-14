@@ -3,13 +3,13 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
+use think\Session;
 use think\Db;
 use app\index\model\User;
 use app\index\model\ChatContent;
 
 class Chat extends Common
 {
-
     public function _initialize()
     {
         parent::_initialize();
@@ -23,8 +23,7 @@ class Chat extends Common
     public function index()
     {
         return $this->fetch('lists', [
-            // 'fromid' => Yii::$app->user->id,
-            'fromid' => Request::instance()->get('fromid', '')
+            'fromid' => $this->userInfo['uid']
         ]);
     }
     
@@ -36,8 +35,7 @@ class Chat extends Common
     public function with()
     {
         return $this->fetch('index',[
-            // 'fromid' => Yii::$app->user->id,
-            'fromid' => Request::instance()->get('fromid', ''),
+            'fromid' => $this->userInfo['uid'],
             'toid' => Request::instance()->get('toid', ''),
         ]);
     }
@@ -50,8 +48,8 @@ class Chat extends Common
         $post_data = Request::instance()->post();
 
         $model = new ChatContent();
-        $model->fromid = $post_data['fromid'];
-        $model->fromname = User::getName($post_data['fromid']);
+        $model->fromid = $this->userInfo['uid'];
+        $model->fromname = $this->userInfo['nick_name'];
         $model->toid = $post_data['toid'];
         $model->toname = User::getName($post_data['toid']);
         $model->content = $post_data['data'];
@@ -83,8 +81,8 @@ class Chat extends Common
         if ($res = move_uploaded_file($file['tmp_name'], $base_path . $file_path)) {
             
             $model = new ChatContent();
-            $model->fromid = $post_data['fromid'];
-            $model->fromname = User::getName($post_data['fromid']);
+            $model->fromid = $this->userInfo['uid'];
+            $model->fromname = $this->userInfo['nick_name'];
             $model->toid = $post_data['toid'];
             $model->toname = User::getName($post_data['toid']);
             $model->content = $file_path;
@@ -105,7 +103,7 @@ class Chat extends Common
     */
     public function list()
     {
-        $fromid = Request::instance()->post('fromid', '');
+        $fromid = $this->userInfo['uid'];
 
         $res = Db::table('chat_content')
         	->alias('cc')
@@ -139,7 +137,7 @@ class Chat extends Common
                 'content' => cutStr($value['content'], 20),
                 'noread' => $noread[$fromid] > 99 ? '99+' : (string)$noread[$fromid],
                 'type' => $value['type'],
-                'chat_url' => '/chat/with?fromid=' . $toid . '&toid=' . $fromid,
+                'chat_url' => '/chat/with?toid=' . $fromid,
                 'created_time' => $value['created_time'],
             ];
         }
@@ -152,7 +150,7 @@ class Chat extends Common
     */
     public function changeRead()
     {
-        $fromid = Request::instance()->post('fromid', '');
+        $fromid = $this->userInfo['uid'];
         $toid = Request::instance()->post('toid', '');
         // $model = new ChatContent;
         $res = (new ChatContent)->save(['isread' => 1], ['fromid' => $toid, 'toid' => $fromid, 'isread' => 0]);
@@ -165,7 +163,7 @@ class Chat extends Common
     */
     public function loadMessage()
     {
-        $fromid = Request::instance()->post('fromid', '');
+        $fromid = $this->userInfo['uid'];
         $toid = Request::instance()->post('toid', '');
         $page = Request::instance()->post('page', 1);
 
@@ -186,14 +184,11 @@ class Chat extends Common
     */
     public function getHead()
     {
-        $fromid = Request::instance()->post('fromid', '');
+        $fromid = $this->userInfo['uid'];
         $toid = Request::instance()->post('toid', '');
 
-        // $frominfo = User::find()->where(['id' => $fromid])->select('display_name, head_url')->asArray()->one();
-        $frominfo = Db::table('user_backend')->field('display_name, head_url')->where('id', $fromid)->find();
-        // $toinfo = User::find()->where(['id' => $toid])->select('display_name, head_url')->asArray()->one();
-        $toinfo = Db::table('user_backend')->field('display_name, head_url')->where('id', $toid)->find();
+        $toinfo = Db::table('user_backend')->field('display_name as nick_name, head_url')->where('id', $toid)->find();
 
-        return ajaxSuccess(['frominfo' => $frominfo, 'toinfo' => $toinfo]);
+        return ajaxSuccess(['frominfo' => $this->userInfo, 'toinfo' => $toinfo]);
     }
 }

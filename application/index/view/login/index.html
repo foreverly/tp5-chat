@@ -9,11 +9,11 @@
     <meta name="Keywords" content="吾记网页版,吾记官网,吾记电脑版,吾记,吾记APP,吾记官方,吾记iOS版,吾记安卓版">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>吾记网页版 - 吾记电脑版在线写日记(吾记官网)</title>
-    <link href="static/css/856d476167df436bb4fde998445ac4de.css" rel="stylesheet"/>
+    <link href="__STATIC__/css/856d476167df436bb4fde998445ac4de.css" rel="stylesheet"/>
 
-    <link href="static/css/c78c7a35a6df4d5486e8e3fdb52b6864.css" rel="stylesheet"/>
+    <link href="__STATIC__/css/c78c7a35a6df4d5486e8e3fdb52b6864.css" rel="stylesheet"/>
 
-    <script src="static/js/ac76df5200b649c5974e9c272fb3bca3.js"></script>
+    <script src="__STATIC__/js/ac76df5200b649c5974e9c272fb3bca3.js"></script>
 
     <style>
         .indexbtn-default {
@@ -104,11 +104,18 @@
                 <section id="loginForm">
                     <form class="form-horizontal">
                         <hr />
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-md-2 control-label" for="Email">账号</label>
                             <div class="col-md-10">
                                 <input class="form-control" data-val="true" data-val-email="The 账号 field is not a valid e-mail address." data-val-required="账号 字段是必需的。" id="Email" name="Email" placeholder="输入账号邮箱" type="text" value="" />
                                 <label id="lblMsgEmailResult" style="display:none"></label>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="Email">账号</label>
+                            <div class="col-md-10">
+                                <input class="form-control" data-val="true" data-val-required="用户名 字段是必需的。" id="username" name="username" placeholder="输入用户名" type="text" value="" />
+                                <label id="lblMsgUsernameResult" style="display:none"></label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -142,7 +149,7 @@
                             </div>
                         </div>
                         <p>
-                            <a href="/login/RegisterUser">注册为新用户</a>
+                            <a href="/login/registerUser">注册为新用户</a>
                         </p>
                         
 
@@ -162,12 +169,13 @@
         </footer> -->
     </div>
 
-    <script src="static/js/11fccb833d7042aabd91dd7c57a9647e.js"></script>
+    <script src="__STATIC__/js/jquery.min.js"></script>
 
-    <!-- <script src="static/js/5ac0ee38601343638a12c4e153198bb3.js"></script> -->
+    <!-- <script src="__STATIC__/js/11fccb833d7042aabd91dd7c57a9647e.js"></script>
 
+    <script src="__STATIC__/js/5ac0ee38601343638a12c4e153198bb3.js"></script>
     
-    <script src="static/js/d1d0dc6009c7449cb9f98cb59db31e2b.js"></script>
+    <script src="__STATIC__/js/d1d0dc6009c7449cb9f98cb59db31e2b.js"></script> -->
 
 
     <script type="text/javascript">
@@ -176,16 +184,16 @@
         var loginflag = '';
 
     </script>
-    <script src="static/js/e65329d4406949318b61a6df68d1f7e2.js"></script>
+    <!-- <script src="__STATIC__/js/e65329d4406949318b61a6df68d1f7e2.js"></script> -->
 
 
 
     
 
-    <link href="static/css/layer_1.css" rel="stylesheet" />
+    <link href="__STATIC__/css/layer_1.css" rel="stylesheet" />
 
     <script>
-	 $(function () {
+	       $(function () {
             if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
 
 
@@ -193,6 +201,28 @@
                 $("#buyLi").attr("style", "display:none");
             }
         })
+
+
+
+
+        $("#btnLogin").on('click', function(){
+            var formData = $(".form-horizontal").serialize();
+            
+            $.ajax({
+                type:'POST',
+                url:'/login/login',
+                data:formData,
+                dataType:'json',
+                success:function(res){
+                    if (res.code == '200') {
+                        window.location.href = '/chat';
+                    }else{
+                        alert(res.msg)
+                    }
+                }
+            })
+        })
+
     </script>
 </body>
 

@@ -8,17 +8,21 @@ use think\Jump;
 
 class Common extends Controller
 {
+	protected $userInfo = [];
+
+	protected $isLogin = false;
+
     public function _initialize()
     {
         parent::_initialize();
+        $this->userInfo = Session::get('USER_INFO_SESSION') ?? [];
+        $this->isLogin = Session::get('is_login');
         $this->checkLogin();
     }
 
-    private function checkLogin()
+    protected function checkLogin()
     {
-    	$is_login = Session::get('is_login') ? true : false;
-
-    	if (!$is_login) {
+    	if (!$this->isLogin) {
     		$this->redirect(url('/login'));
     	}
     }
