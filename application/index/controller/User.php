@@ -4,6 +4,8 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Session;
+use think\Cache;
+use lib\Email;
 use think\Db;
 use app\index\model\User as UserB;
 use app\index\model\ContactModel;
@@ -29,12 +31,14 @@ class User extends Common
         $user->display_name = request()->post('nickName');
         $user->head_url = request()->post('headUrl');
         $user->my_sign = request()->post('mySign');
+        $user->email = request()->post('email');
         $user->updated_at = date('Y-m-d H:i:s');
 
         if ($user->save()) {
             $this->userInfo['nick_name'] = $user->display_name;
             $this->userInfo['head_url'] = $user->head_url;
             $this->userInfo['my_sign'] = $user->my_sign;
+            $this->userInfo['email'] = $user->email;
 
             Session::set('USER_INFO_SESSION', $this->userInfo);
 
@@ -96,6 +100,28 @@ class User extends Common
         $contact->save();
 
         return ajaxSuccess();
+    }
+
+    public function changePsw()
+    {
+        return $this->fetch('changepsw');
+    }
+
+    public function email()
+    {
+        $email = trim(request()->get('email'));
+        $code = makeRandStr();
+
+        $data = [ 
+            'user_email' => $email, //接收人邮箱 
+            'content' => "您正在修改密码，验证码：{$code}，如非本人操作，请勿理会。" 
+        ];
+
+        $res = Email::sendEmail($data);
+
+        if ($res['status']) {
+            Cache::set('VERIFY_EMAIL_'.$email, $code, 5*60);
+        }
     }
 
     public function logout()

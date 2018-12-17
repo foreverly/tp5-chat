@@ -48,6 +48,7 @@ class Login extends Controller
             'user_name'=> $user_info['username'],
             'nick_name'=>$user_info['display_name'],
             'my_sign'=>$user_info['my_sign'],
+            'email'=>$user_info['email'],
             'head_url'=>$user_info['head_url'],
         ];
 

@@ -115,3 +115,49 @@ if (!function_exists('pwdCrypt')) {
 	    return $psw;
 	}
 }
+
+if (!function_exists('makeRandStr')) {
+	/*
+	 * 生成随机字符串
+	 * @param int $length 生成随机字符串的长度
+	 * @param string $char 组成随机字符串的字符串
+	 * @return string $string 生成的随机字符串
+	 */
+	function makeRandStr($length = 32, $char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') 
+	{		
+	    if(!is_int($length) || $length < 0) {
+	        return false;
+	    }
+
+	    $string = '';
+	    for($i = $length; $i > 0; $i--) {
+	        $string .= $char[mt_rand(0, strlen($char) - 1)];
+	    }
+
+	    return $string;
+	}
+}
+
+if (!function_exists('makeVerifyCode')) {
+	/*
+	 * 生成随机验证码
+	 * @param int $length 生成随机字符串的长度
+	 * @param string $char 组成随机字符串的字符串
+	 * @return string $string 生成的随机验证码
+	 */
+	function makeVerifyCode($length = 6, $char = '0123456789') 
+	{		
+	    if(!is_int($length) || $length < 0) {
+	        return false;
+	    }
+
+	    $string = '';
+	    for($i = $length; $i > 0; $i--) {
+	        $string .= $char[mt_rand(0, strlen($char) - 1)];
+	    }
+
+	    return $string;
+	}
+}
+
+	

@@ -15,5 +15,7 @@
 define('APP_PATH', __DIR__ . '/../application/');
 // 绑定模块(URL不写模块名)
 define('BIND_MODULE','index');
+// 扩展目录
+define('EXTEND_PATH','../extend/');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
