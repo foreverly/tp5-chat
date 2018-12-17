@@ -96,3 +96,14 @@ if (!function_exists('cutStr')) {
 	  	return $returnstr;
 	}
 }
+
+if (function_exists('pwdCrypt')) {
+    function pwdCrypt($psw = '', $salt = '')
+	{
+	　　$psw = md5($psw);
+	　　$salt = substr($psw,-1,3);
+	　　$psw = crypt($psw, $salt);
+	
+	　　return $psw;
+	}
+}

@@ -9,6 +9,7 @@ use app\index\model\User;
 
 class Login extends Controller
 {
+	const SALT = '7JyV2hmLw3QkOo2dx2Zi7SILnk6mqDth';
 
     public function _initialize()
     {
@@ -39,8 +40,8 @@ class Login extends Controller
         	return ajaxError('用户不存在');
         }
 
-        if ($user_info['password'] != md5($password)) {
-        	# code...
+        if ($user_info['password'] != pwdCrypt($password, self::SALT)) {
+        	return ajaxError('密码错误');
         }
 
         // 用户登录成功后操作存储用户信息
@@ -66,7 +67,7 @@ class Login extends Controller
 
     	$model->username = trim($post_data['userName']);
     	$model->display_name = trim($post_data['nickName']);
-    	$model->password = trim($post_data['loginPwd']);
+    	$model->password = pwdCrypt(trim($post_data['loginPwd'], self::SALT));
     	$model->head_url = '/static/chat/img/avatar04.png';
     	$model->created_at = time();
     	$model->save();
