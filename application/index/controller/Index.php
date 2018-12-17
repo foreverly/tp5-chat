@@ -14,7 +14,7 @@ class Index extends Common
     
     public function index()
     {
-        echo "Hello gays";
+        $this->redirect(url('/chat'));
     }
     
     public function info()

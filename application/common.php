@@ -11,6 +11,8 @@
 
 // 应用公共文件
 
+define('MY_SALT', '7JyV2hmLw3QkOo2dx2Zi7SILnk6mqDth');
+
 if (!function_exists('ajaxSuccess')) {
 	function ajaxSuccess($data = [])
 	{
@@ -32,7 +34,8 @@ if (!function_exists('strLength')) {
 	 * @param $$charset string 编码
 	 * @return 返回长度，1中文=1位，2英文=1位
 	 */
-	function strLength($str,$charset='utf-8'){
+	function strLength($str,$charset='utf-8')
+	{
 	    if($charset=='utf-8') $str = iconv('utf-8','gb2312',$str);
 	    $num = strlen($str);
 	    $cnNum = 0;
@@ -55,7 +58,8 @@ if (!function_exists('cutStr')) {
 	 * @param unknown_type $sourcestr
 	 * @param unknown_type $cutlength
 	 */
-	function cutStr($sourcestr = '', $cutlength = 20, $addstr = '...') {
+	function cutStr($sourcestr = '', $cutlength = 20, $addstr = '...')
+	{
 	  	$returnstr = '';
 	  	$i = 0;
 	  	$n = 0;
@@ -97,13 +101,17 @@ if (!function_exists('cutStr')) {
 	}
 }
 
-if (function_exists('pwdCrypt')) {
-    function pwdCrypt($psw = '', $salt = '')
+if (!function_exists('pwdCrypt')) {
+	/**
+	 * PHP获取字符串中英文混合长度 
+	 * @param $psw string 字符串
+	 * @param $salt string 盐值
+	 * @return 返回hash
+	 */
+	function pwdCrypt($psw)
 	{
-	　　$psw = md5($psw);
-	　　$salt = substr($psw,-1,3);
-	　　$psw = crypt($psw, $salt);
-	
-	　　return $psw;
+		$psw = md5($psw);
+		$psw = crypt($psw, MY_SALT);
+	    return $psw;
 	}
 }

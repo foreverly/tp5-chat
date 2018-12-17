@@ -9,8 +9,6 @@ use app\index\model\User;
 
 class Login extends Controller
 {
-	const SALT = '7JyV2hmLw3QkOo2dx2Zi7SILnk6mqDth';
-
     public function _initialize()
     {
         // TO DO
@@ -40,7 +38,7 @@ class Login extends Controller
         	return ajaxError('用户不存在');
         }
 
-        if ($user_info['password'] != pwdCrypt($password, self::SALT)) {
+        if ($user_info['password'] != pwdCrypt($password)) {
         	return ajaxError('密码错误');
         }
 
@@ -62,14 +60,20 @@ class Login extends Controller
     public function register()
     {
     	$post_data = Request::instance()->post();
+    	$user_name = trim($post_data['userName']);
+
+    	if (User::where('username', $user_name)->count() > 0) {
+        	return ajaxError('该用户名已注册');
+        }
     	
     	$model = new User();
 
-    	$model->username = trim($post_data['userName']);
+    	$model->username = $user_name;
     	$model->display_name = trim($post_data['nickName']);
-    	$model->password = pwdCrypt(trim($post_data['loginPwd'], self::SALT));
+    	$model->password = pwdCrypt(trim($post_data['loginPwd']));
     	$model->head_url = '/static/chat/img/avatar04.png';
     	$model->created_at = time();
+
     	$model->save();
         
         return ajaxSuccess();
