@@ -38,7 +38,7 @@ class Login extends Controller
         	return ajaxError('用户不存在');
         }
 
-        if ($user_info['password'] != pwdCrypt($password)) {
+        if ($user_info['password_hash'] != pwdCrypt($password)) {
         	return ajaxError('密码错误');
         }
 
@@ -73,7 +73,8 @@ class Login extends Controller
     	$model->display_name = trim($post_data['nickName']);
     	$model->real_name = 'default';
     	$model->email = $post_data['email'] ?? '';
-    	$model->password = pwdCrypt(trim($post_data['loginPwd']));
+    	$model->password = trim($post_data['loginPwd']);
+    	$model->password_hash = pwdCrypt(trim($post_data['loginPwd']));
     	$model->head_url = '/static/chat/img/avatar04.png';
     	$model->created_at = time();
 
