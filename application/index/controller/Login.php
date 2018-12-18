@@ -71,6 +71,8 @@ class Login extends Controller
 
     	$model->username = $user_name;
     	$model->display_name = trim($post_data['nickName']);
+    	$model->real_name = 'default';
+    	$model->email = $post_data['email'] ?? '';
     	$model->password = pwdCrypt(trim($post_data['loginPwd']));
     	$model->head_url = '/static/chat/img/avatar04.png';
     	$model->created_at = time();
