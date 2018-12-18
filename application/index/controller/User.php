@@ -27,7 +27,9 @@ class User extends Common
     
     public function edit()
     {
-        $user = UserB::get($this->userInfo['uid']);
+        $uid = $this->userInfo['uid'];
+
+        $user = UserB::get($uid);
         $user->display_name = request()->post('nickName');
         $user->head_url = request()->post('headUrl');
         $user->my_sign = request()->post('mySign');
@@ -81,21 +83,26 @@ class User extends Common
 
     public function add()
     {
-        $friend_name = trim(request()->post('user_name'));
+        $friend_id = intval(request()->post('user_id'));
 
-        if ($friend_name == $this->userInfo['user_name']) {
+        if ($friend_id == $this->userInfo['uid']) {
             return ajaxError('不能添加自己');
         }
 
-        $friend_info = UserB::get(['username' => $friend_name]);
+        $friend_id = $friend_id;
+        $uid = $this->userInfo['uid'];
 
-        if (ContactModel::where(['uid' => $this->userInfo['uid'], 'friend_id' => $friend_info->id])->count()) {
+        if (UserB::where('id', $friend_id)->count() == 0) {
+            return ajaxError('该用户不存在');
+        }
+
+        if (ContactModel::where(['uid' => $uid, 'friend_id' => $friend_id])->count()) {
             return ajaxError('你和对方已经是朋友了');
         }
 
         $contact = new ContactModel();
-        $contact->uid = $this->userInfo['uid'];
-        $contact->friend_id = $friend_info->id;
+        $contact->uid = $uid;
+        $contact->friend_id = $friend_id;
         $contact->created_time = date('Y-m-d H:i:s');
         $contact->save();
 
