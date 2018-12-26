@@ -12,6 +12,10 @@ class ComposerStaticInit2bc4f313dba415539e266f7ac2c87dcd
             'think\\composer\\' => 15,
             'think\\' => 6,
         ),
+        'p' => 
+        array (
+            'phpspider\\' => 10,
+        ),
         'a' => 
         array (
             'app\\' => 4,
@@ -26,6 +30,10 @@ class ComposerStaticInit2bc4f313dba415539e266f7ac2c87dcd
         'think\\' => 
         array (
             0 => __DIR__ . '/../..' . '/thinkphp/library/think',
+        ),
+        'phpspider\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/owner888/phpspider',
         ),
         'app\\' => 
         array (
