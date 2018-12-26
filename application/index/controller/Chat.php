@@ -71,7 +71,7 @@ class Chat extends Common
 
         $file = $_FILES['file'];
 
-        $base_path = ROOT_PATH . "/public";
+        $base_path = ROOT_PATH . "public";
         if (!is_dir($base_path . "/static/upload/")) {
             mkdir($base_path . "/static/upload/");
         }
