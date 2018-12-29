@@ -5,23 +5,32 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Jump;
+use app\index\model\ArticleModel;
 
 class Common extends Controller
 {
 	protected $userInfo = [];
 
-	protected $isLogin = false;
+    protected $isLogin = false;
+
+    protected $needLogin = true;
 
     public function _initialize()
     {
         parent::_initialize();        
         $this->checkLogin();
+
+        $this->assign([
+            'menu_list' => ArticleModel::getMenus($this->isLogin),
+            'is_login' => $this->isLogin,
+            'user_info' => $this->userInfo
+        ]);
     }
 
     protected function checkLogin()
     {
         $this->isLogin = $this->isLogin();
-    	if (!$this->isLogin) {
+    	if (!$this->isLogin && $this->needLogin) {
     		$this->redirect(url('/login'));
     	}else{
             $this->userInfo = Session::get('USER_INFO_SESSION') ?? [];            

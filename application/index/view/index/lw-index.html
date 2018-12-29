@@ -1,39 +1,4 @@
-{include file="layout/header"}
 
-<hr>
-<!-- nav start -->
-<nav class="am-g am-g-fixed blog-fixed blog-nav">
-<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
-
-  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
-    <ul class="am-nav am-nav-pills am-topbar-nav">
-      
-        {foreach $menu_list as $menu}
-
-        <li {if $menu.children eq true} class="am-dropdown" data-am-dropdown {/if}>
-            <a {if $menu.children eq true} class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;"{else} href="{$menu.url}"{/if}>
-                {$menu.name}{if $menu.children eq true} <span class="am-icon-caret-down"></span>{/if}
-            </a>
-            {if $menu.children eq true}
-            <ul class="am-dropdown-content">
-                {foreach $menu.children as $child}
-                <li><a href="{$child.url}">{$child.name}</a></li> 
-                {/foreach}
-            </ul>
-            {/if}
-        </li>
-
-        {/foreach}
-    </ul>
-    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
-      <div class="am-form-group">
-        <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
-      </div>
-    </form>
-  </div>
-</nav>
-<hr>
-<!-- nav end -->
 <!-- banner start -->
 <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-article-margin">
     <div data-am-widget="slider" class="am-slider am-slider-b1" data-am-slider='{&quot;controlNav&quot;:false}' >
@@ -69,9 +34,9 @@
                 <span><a href="" class="blog-color">{$article.author} &nbsp;</a></span>
                 <span> {$article.from} &nbsp;</span>
                 <span>{$article.time}</span>
-                <h1><a href="">{$article.title}</a></h1>
+                <h1><a href="{$article.url}">{$article.title}</a></h1>
                 <p>{$article.slogan}</p>
-                <p><a href="" class="blog-continue">continue reading</a></p>
+                <p><a href="{$article.url}" class="blog-continue">continue reading</a></p>
             </div>
         </article>
         {/foreach}
@@ -82,69 +47,6 @@
 </ul>
     </div>
 
-    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
-        <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-text-center blog-title"><span>About ME</span></h2>
-            <!-- <img src="__STATIC__/blog/assets/i/f14.jpg" alt="about me" class="blog-entry-img" >
-            <p>妹纸</p>
-            <p>
-            我是妹子UI，中国首个开源 HTML5 跨屏前端框架
-            </p>
-            <p>我不想成为一个庸俗的人。十年百年后，当我们死去，质疑我们的人同样死去，后人看到的是裹足不前、原地打转的你，还是一直奔跑、走到远方的我？</p> -->
-
-            <div class="am-u-sm-12 blog-clear-padding am-u-sm-centered">
-                {if $user_info eq true}
-                <img src="__STATIC__/blog/assets/i/f14.jpg" alt="about me" class="blog-entry-img" >
-                <p>妹纸</p>
-                <p>
-                我是妹子UI，中国首个开源 HTML5 跨屏前端框架
-                </p>
-                <p>我不想成为一个庸俗的人。十年百年后，当我们死去，质疑我们的人同样死去，后人看到的是裹足不前、原地打转的你，还是一直奔跑、走到远方的我？</p>
-                {else}
-                <h3>登录/<a>注册</a></h3>
-                <hr>
-                <br>
-
-                <div class="am-cf">
-                    <a href="/login" class="am-btn am-btn-primary am-btn-sm am-fl">去登录</a>
-                    <a href="/register" class="am-btn am-btn-default am-btn-sm am-fr">去注册</a>
-                </div>
-                <br>
-                {/if}
-            </div>
-        </div>
-        <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-text-center blog-title"><span>Contact ME</span></h2>
-            <p>
-                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
-                <a href=""><span class="am-icon-github am-icon-fw blog-icon"></span></a>
-                <a href=""><span class="am-icon-weibo am-icon-fw blog-icon"></span></a>
-                <a href=""><span class="am-icon-reddit am-icon-fw blog-icon"></span></a>
-                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon"></span></a>
-            </p>
-        </div>
-        <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
-            <h2 class="blog-title"><span>TAG cloud</span></h2>
-            <div class="am-u-sm-12 blog-clear-padding">
-            <a href="" class="blog-tag">amaze</a>
-            <a href="" class="blog-tag">妹纸 UI</a>
-            <a href="" class="blog-tag">HTML5</a>
-            <a href="" class="blog-tag">这是标签</a>
-            <a href="" class="blog-tag">Impossible</a>
-            <a href="" class="blog-tag">开源前端框架</a>
-            </div>
-        </div>
-        <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-title"><span>么么哒</span></h2>
-            <ul class="am-list">
-                <li><a href="#">每个人都有一个死角， 自己走不出来，别人也闯不进去。</a></li>
-                <li><a href="#">我把最深沉的秘密放在那里。</a></li>
-                <li><a href="#">你不懂我，我不怪你。</a></li>
-                <li><a href="#">每个人都有一道伤口， 或深或浅，盖上布，以为不存在。</a></li>
-            </ul>
-        </div>
-    </div>
+    {include file="layout/sidebar"}
 </div>
 <!-- content end -->
-
-{include file="layout/footer"}

@@ -3,174 +3,24 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
+use app\index\model\ArticleModel;
 
 class Index extends Common
 {
+
+    protected $needLogin = false;
+
     public function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
     }
     
     public function index()
     {
-        if ($is_login = $this->isLogin()) {
-            $this->checkLogin();
-        }
         return $this->fetch('lw-index', [
-            'menu_list' => $this->getMenus(),
             'article_list' => $this->getArticles(),
-            'rotation_list' => $this->getRotations(),
-            'is_login' => $is_login,
-            'user_info' => $this->userInfo
+            'rotation_list' => $this->getRotations()
         ]);
-    }
-
-    /*
-    * 获取菜单列表
-    * 模拟
-    * author：Bruce
-    */
-    public function getMenus()
-    {
-        $data = [
-            [
-                'name' => '首页',
-                'url' => '/',
-                'children' => []
-            ],
-            [
-                'name' => '美图',
-                'url' => '#',
-                'children' => [
-                    [
-                        'name' => '素材',
-                        'url' => '/picture/sucai',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '美女',
-                        'url' => '/picture/meinv',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '壁纸',
-                        'url' => '/picture/bizhi',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '图片库',
-                        'url' => '/picture/libs',
-                        'children' => []
-                    ],
-                ]
-            ],
-            [
-                'name' => '文章',
-                'url' => '#',
-                'children' => [
-                    [
-                        'name' => 'PHP',
-                        'url' => '/article/php',
-                        'children' => []
-                    ],
-                    [
-                        'name' => 'Linux',
-                        'url' => '/article/linux',
-                        'children' => []
-                    ],
-                    [
-                        'name' => 'Docker',
-                        'url' => '/article/docker',
-                        'children' => []
-                    ],
-                    [
-                        'name' => 'Others',
-                        'url' => '/article/others',
-                        'children' => []
-                    ],
-                ]
-            ],
-            [
-                'name' => '娱乐',
-                'url' => '#',
-                'children' => [
-                    [
-                        'name' => '聊天室',
-                        'url' => '/chat/group',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '五子棋',
-                        'url' => '/game/wuziqi',
-                        'children' => []
-                    ],
-                ]
-            ],
-            [
-                'name' => '用户中心',
-                'url' => '#',
-                'children' => [
-                    [
-                        'name' => '个人中心',
-                        'url' => '/user/profile',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '时间轴',
-                        'url' => '/user/time',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '退出',
-                        'url' => '/user/logout',
-                        'children' => []
-                    ],
-                ]
-            ]
-        ];
-
-        $user_center = [
-            'name' => '用户中心',
-            'url' => '#',
-            'children' => []
-        ];
-
-        if (!$this->isLogin()) {
-            $user_center['children'] = [
-                [
-                    'name' => '登录',
-                    'url' => '/login',
-                    'children' => []
-                ],
-                [
-                    'name' => '注册',
-                    'url' => '/register',
-                    'children' => []
-                ]
-            ];
-        }else{
-            $user_center['children'] = [
-                [
-                    'name' => '个人中心',
-                    'url' => '/user/profile',
-                    'children' => []
-                ],
-                [
-                    'name' => '时间轴',
-                    'url' => '/user/time',
-                    'children' => []
-                ],
-                [
-                    'name' => '退出',
-                    'url' => '/user/logout',
-                    'children' => []
-                ],
-            ];
-        }
-
-        array_push($data, $user_center);
-
-        return $data;
     }
 
     /*
@@ -183,8 +33,8 @@ class Index extends Common
         return [
             [
                 'title' => '我本楚狂人，凤歌笑孔丘',
-                'url' => '/article/1',
-                'covor_picture' => '/blog/assets/i/f10.jpg',
+                'url' => '/article/info?id=1',
+                'covor_picture' => '/blog/assets/i/f22.jpg',
                 'slogan' => '我们一直在坚持着，不是为了改变这个世界，而是希望不被这个世界所改变。',
                 'author' => 'Bruce',
                 'from' => '52xue.site',
@@ -192,8 +42,8 @@ class Index extends Common
             ],
             [
                 'title' => '世间所有的相遇，都是久别重逢。',
-                'url' => '/article/2',
-                'covor_picture' => '/blog/assets/i/f6.jpg',
+                'url' => '/article/info?id=2',
+                'covor_picture' => '/blog/assets/i/f20.jpg',
                 'slogan' => '你可以选择在原处不停地跟周遭不解的人解释你为何这么做，让他们理解你，你可以选择什么都不讲，自顾自往前走。',
                 'author' => 'Bruce',
                 'from' => '52xue.site',
@@ -201,8 +51,8 @@ class Index extends Common
             ],
             [
                 'title' => '陌上花开，可缓缓归矣。',
-                'url' => '/article/3',
-                'covor_picture' => '/blog/assets/i/f12.jpg',
+                'url' => '/article/info?id=3',
+                'covor_picture' => '/blog/assets/i/f10.jpg',
                 'slogan' => '那时候刚好下着雨，柏油路面湿冷冷的，还闪烁着青、黄、红颜色的灯火。我们就在骑楼下躲雨，看绿色的邮筒孤独地站在街的对面。',
                 'author' => 'Bruce',
                 'from' => '52xue.site',
@@ -210,26 +60,26 @@ class Index extends Common
             ],
             [
                 'title' => '爱自己是终生浪漫的开始',
-                'url' => '/article/4',
-                'covor_picture' => '/blog/assets/i/f22.jpg',
+                'url' => '/article/info?id=4',
+                'covor_picture' => '/blog/assets/i/f12.jpg',
                 'slogan' => '那时候刚好下着雨，柏油路面湿冷冷的，还闪烁着青、黄、红颜色的灯火。我们就在骑楼下躲雨，看绿色的邮筒孤独地站在街的对面。',
                 'author' => 'Bruce',
                 'from' => '52xue.site',
                 'time' => date('Y/m/d')
             ],
             [
-                'title' => '我本楚狂人，凤歌笑孔丘',
-                'url' => '/article/5',
-                'covor_picture' => '/blog/assets/i/f10.jpg',
-                'slogan' => '我们一直在坚持着，不是为了改变这个世界，而是希望不被这个世界所改变。',
+                'title' => '遇见你，是此生最美的风景',
+                'url' => '/article/info?id=5',
+                'covor_picture' => '/blog/assets/i/f19.jpg',
+                'slogan' => '情到深处，痴到极点，有情无情亦相伴，弦声悦耳，怎奈流水落花。花香不醉人，人自醉，情若伤人，人亦伤。叶子的离去，是因为风的追求，还是树的不挽留？不思量。自难忘…',
                 'author' => 'Bruce',
                 'from' => '52xue.site',
                 'time' => date('Y/m/d')
             ],
             [
                 'title' => '一想到你，我这张丑脸上就泛起微笑',
-                'url' => '/article/6',
-                'covor_picture' => '/blog/assets/i/f10.jpg',
+                'url' => '/article/info?id=6',
+                'covor_picture' => '/blog/assets/i/f161.jpg',
                 'slogan' => '那一天我二十一岁，在我一生的黄金时代。我有好多奢望。我想爱，想吃，还想在一瞬间变成天上半明半暗的云。',
                 'author' => 'Bruce',
                 'from' => '52xue.site',

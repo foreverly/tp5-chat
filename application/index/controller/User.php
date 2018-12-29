@@ -13,9 +13,11 @@ use app\index\model\ContactModel;
 class User extends Common
 {
 
+    protected $needLogin = false;
+
     public function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
     }
     
     public function profile()
@@ -29,6 +31,7 @@ class User extends Common
     
     public function edit()
     {
+        $this->checkLogin();
         $uid = $this->userInfo['uid'];
 
         $user = UserB::get($uid);
@@ -54,6 +57,7 @@ class User extends Common
 
     public function upload()
     {
+        $this->checkLogin();
         $file = request()->file("uploadImg");
 
         $base_path = ROOT_PATH.'public/static/upload';
@@ -74,6 +78,7 @@ class User extends Common
 
     public function check()
     {
+        $this->checkLogin();
         $user_name = trim(request()->post('user_name'));
         $count = UserB::where('username', $user_name)->count();   
 
@@ -85,6 +90,7 @@ class User extends Common
 
     public function add()
     {
+        $this->checkLogin();
         $friend_id = intval(request()->post('user_id'));
 
         if ($friend_id == $this->userInfo['uid']) {
@@ -136,11 +142,11 @@ class User extends Common
     public function login()
     {
         $post_data = Request::instance()->post();
-        $username = trim($post_data['username']);
+        $email = trim($post_data['email']);
         $password = trim($post_data['Password']);
 
         $user_info = Db::table('user_backend')
-            ->where(['username' => $username])
+            ->where(['email' => $email])
             ->find();
 
         if (empty($user_info)) {
@@ -170,26 +176,38 @@ class User extends Common
     public function register()
     {
         $post_data = Request::instance()->post();
-        $user_name = trim($post_data['userName']);
+        $user_name = trim($post_data['email']);
 
-        if (User::where('username', $user_name)->count() > 0) {
-            return ajaxError('该用户名已注册');
+        if (UserB::where('email', $user_name)->count() > 0) {
+            return ajaxError('该邮箱已注册');
+        }
+
+        if (empty($user_name)) {
+            return ajaxError('邮箱不能为空');
         }
         
-        $model = new User();
+        $model = new UserB();
 
         $model->username = $user_name;
         $model->display_name = trim($post_data['nickName']);
         $model->real_name = 'default';
-        $model->email = $post_data['email'] ?? '';
+        $model->email = $post_data['email'];
         $model->password = trim($post_data['loginPwd']);
         $model->password_hash = pwdCrypt(trim($post_data['loginPwd']));
-        $model->head_url = '/static/chat/img/avatar04.png';
+        $model->head_url = '/static/chat/img/'. $this->getHeaders()[array_rand($this->getHeaders(), 1)];
         $model->created_at = time();
 
         $model->save();
         
         return ajaxSuccess();
+    }
+
+    private function getHeaders()
+    {
+        return [
+            'avatar1.png','avatar2.png','avatar3.png','avatar4.png','avatar5.png',
+            'user1-128x128.jpg','user2-160x160.jpg','user3-128x128.jpg','user4-128x128.jpg','user5-128x128.jpg','user6-128x128.jpg','user7-128x128.jpg','user8-128x128.jpg'
+        ];
     }
 
     public function logout()
