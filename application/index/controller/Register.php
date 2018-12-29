@@ -1,9 +1,9 @@
 <?php
-namespace app\blog\controller;
+namespace app\index\controller;
 
 use think\Controller;
 
-class Login extends Controller
+class Register extends Controller
 {
     public function _initialize()
     {

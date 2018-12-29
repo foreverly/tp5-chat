@@ -4,11 +4,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <meta name="Title" content="吾记网页版 - 吾记网页版在线写日记">
-    <meta name="Description" content="岁月流逝，而回忆留在吾记。吾记APP官方网页版，实时与手机上的吾记APP同步，方便快捷记录。最受欢迎的日记平台，隐私、安全、简单、精致、功能强大。日记、记事、笔记、便签、都能够满足你。吾记，期待你的到来。">
-    <meta name="Keywords" content="吾记网页版,吾记官网,吾记电脑版,吾记,吾记APP,吾记官方,吾记iOS版,吾记安卓版">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>吾记网页版 - 吾记电脑版在线写日记(吾记官网)</title>
+    <meta name="Title" content="我爱学">
+    <meta name="Description" content="我爱学">
+    <meta name="Keywords" content="52xue,我爱学,自学">
+    <title>52学-个人博客(吾爱学)</title>
     <link href="__STATIC__/css/856d476167df436bb4fde998445ac4de.css" rel="stylesheet"/>
 
     <link href="__STATIC__/css/c78c7a35a6df4d5486e8e3fdb52b6864.css" rel="stylesheet"/>
@@ -48,45 +47,6 @@
  
 </head>
 <body id="BodyInnerHtml">
-    <!-- <div class="navbar navbar-inverse navbar-fixed-top"  id="topMune">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="btn-group" id="menuDiv">
-                    <button type="button" class="btn btn-default indexbtn-default dropdown-toggle navbar-brand " data-toggle="dropdown" id="btnMydiarys">
-                        我的日记
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" style="width: 250px;height:450px;overflow-y:auto" role="menu" id="ulmenu">
-                    </ul>
-                    
-                </div>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-
-                    <li><a href="/WuJi/PasserBy">过客</a></li>
-                    <li><a href="/Home/About">关于</a></li>
-                    <li><a href="/WuJi/Download" id="DownloadLink">下载</a></li>
-                    <li id="buyLi"><a href="/WuJi/BuyVip">购买</a></li>
-                    <li><a href="/WuJi/WuJiHelp">帮助</a></li>
-                </ul>
-
-                
-
-                <ul class="nav navbar-nav navbar-right">
-                    
-                    <li><a href="/WuJi/RegisterUser" id="registerLink">注册</a></li>
-                    <li><a href="/" id="loginLink">登录</a></li>
-
-                </ul>
-            </div>
-        </div>
-    </div> -->
     <div class="container body-content">
         
 
@@ -125,19 +85,6 @@
                                 <label id="lblMsgPasswordResult" style="display:none"></label>
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                            <label class="col-md-2 control-label" for="vrifyCode">验证码</label>
-                            <div class="col-md-10">
-
-                                <input class="form-control" id="vrifyCode" name="vrifyCode" placeholder="输入验证码" style="width:20%;float: left" type="text" value="" />
-
-                                <img src="static/picture/068f091ddd354e718dc4ebd5418f2b9e.gif" id="imgCode" alt="单击可刷新" onclick="ClickRemoveChangeCode()" style="margin: 5px;float: left" />
-                                <div style="float:left; margin-top: 5px;">
-                                    <a href="javascript:void(0)" onclick="ClickRemoveChangeCode();return false;">看不清，换一张</a>
-                                </div>
-                            </div>
-
-                        </div> -->
                         <div class="form-group" style="margin-left:18%">
                             <label id="lblVrifyCodeResult" style="display:none"></label>
                         </div>
@@ -150,7 +97,7 @@
                             </div>
                         </div>
                         <p>
-                            <a href="/login/registerUser">注册为新用户</a>
+                            <a href="/blog.php/login">注册为新用户</a>
                         </p>
                         
 
@@ -165,18 +112,9 @@
         </div>
 
         <hr />
-        <!-- <footer style="text-align:center">
-            <p id="ICPp">&copy; 2015 - 2018 吾记v1.0  粤ICP备17034106号 </p>
-        </footer> -->
     </div>
 
     <script src="__STATIC__/js/jquery.min.js"></script>
-
-    <!-- <script src="__STATIC__/js/11fccb833d7042aabd91dd7c57a9647e.js"></script>
-
-    <script src="__STATIC__/js/5ac0ee38601343638a12c4e153198bb3.js"></script>
-    
-    <script src="__STATIC__/js/d1d0dc6009c7449cb9f98cb59db31e2b.js"></script> -->
 
 
     <script type="text/javascript">
@@ -185,10 +123,6 @@
         var loginflag = '';
 
     </script>
-    <!-- <script src="__STATIC__/js/e65329d4406949318b61a6df68d1f7e2.js"></script> -->
-
-
-
     
 
     <link href="__STATIC__/css/layer_1.css" rel="stylesheet" />
@@ -204,19 +138,17 @@
         })
 
 
-
-
         $("#btnLogin").on('click', function(){
             var formData = $(".form-horizontal").serialize();
             
             $.ajax({
                 type:'POST',
-                url:'/login/login',
+                url:'/user/login',
                 data:formData,
                 dataType:'json',
                 success:function(res){
                     if (res.code == '200') {
-                        window.location.href = '/chat';
+                        window.location.href = '/';
                     }else{
                         alert(res.msg)
                     }

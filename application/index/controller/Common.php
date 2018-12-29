@@ -14,16 +14,17 @@ class Common extends Controller
 
     public function _initialize()
     {
-        parent::_initialize();
-        $this->userInfo = Session::get('USER_INFO_SESSION') ?? [];
-        $this->isLogin = Session::get('is_login');
+        parent::_initialize();        
         $this->checkLogin();
     }
 
     protected function checkLogin()
     {
+        $this->isLogin = Session::get('is_login');
     	if (!$this->isLogin) {
     		$this->redirect(url('/login'));
-    	}
+    	}else{
+            $this->userInfo = Session::get('USER_INFO_SESSION') ?? [];            
+        }
     }
 }
