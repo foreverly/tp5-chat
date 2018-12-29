@@ -8,15 +8,19 @@ class Index extends Common
 {
     public function _initialize()
     {
-        parent::_initialize();
+        // parent::_initialize();
     }
     
     public function index()
     {
+        if ($is_login = $this->isLogin()) {
+            $this->checkLogin();
+        }
         return $this->fetch('lw-index', [
             'menu_list' => $this->getMenus(),
             'article_list' => $this->getArticles(),
             'rotation_list' => $this->getRotations(),
+            'is_login' => $is_login,
             'user_info' => $this->userInfo
         ]);
     }
@@ -28,7 +32,7 @@ class Index extends Common
     */
     public function getMenus()
     {
-        return [
+        $data = [
             [
                 'name' => '首页',
                 'url' => '/',
@@ -124,6 +128,49 @@ class Index extends Common
                 ]
             ]
         ];
+
+        $user_center = [
+            'name' => '用户中心',
+            'url' => '#',
+            'children' => []
+        ];
+
+        if (!$this->isLogin()) {
+            $user_center['children'] = [
+                [
+                    'name' => '登录',
+                    'url' => '/login',
+                    'children' => []
+                ],
+                [
+                    'name' => '注册',
+                    'url' => '/register',
+                    'children' => []
+                ]
+            ];
+        }else{
+            $user_center['children'] = [
+                [
+                    'name' => '个人中心',
+                    'url' => '/user/profile',
+                    'children' => []
+                ],
+                [
+                    'name' => '时间轴',
+                    'url' => '/user/time',
+                    'children' => []
+                ],
+                [
+                    'name' => '退出',
+                    'url' => '/user/logout',
+                    'children' => []
+                ],
+            ];
+        }
+
+        array_push($data, $user_center);
+
+        return $data;
     }
 
     /*

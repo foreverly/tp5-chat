@@ -20,11 +20,16 @@ class Common extends Controller
 
     protected function checkLogin()
     {
-        $this->isLogin = Session::get('is_login');
+        $this->isLogin = $this->isLogin();
     	if (!$this->isLogin) {
     		$this->redirect(url('/login'));
     	}else{
             $this->userInfo = Session::get('USER_INFO_SESSION') ?? [];            
         }
+    }
+
+    protected function isLogin()
+    {
+        return Session::get('is_login') ? true : false;
     }
 }
