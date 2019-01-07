@@ -24,7 +24,7 @@
                         <span class="am-icon-angle-right am-fr am-margin-right"></span>
                         <ul class="am-list am-collapse admin-sidebar-sub child-ul" id="collapse-nav" style="">                            
                             {volist name='menu.children' id='child' key='k'}
-                            <li>
+                            <li  class="goPage">
                                 <a href="{$child.url}" {if $k eq 0} class="am-cf"{/if}>
                                     <span class="{$child.icon}"></span> {$child.name}
                                 </a>

@@ -9,38 +9,31 @@
       <hr>
 
       <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list">
-        
+        <!-- 列表输出 -->
       </ul>
 
       <div class="am-margin am-cf" id="pageBox">
-        <hr/>
-        <p class="am-fl">共 {$total} 条记录</p>
-        <ol class="am-pagination am-fr">
-          <li class="am-disabled"><a href="#">&laquo;</a></li>
-          <li class="am-active"><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#">&raquo;</a></li>
-        </ol>
+        <!-- 分页输出 -->
       </div>
     </div>
 
 <script type="text/javascript">
-  
-// 输出列表
-getPictures(1);
 
-function getPictures(curPage = 1, pageSize = 18){
+// 输出列表
+goPage(1);
+
+var picType = 'sucai';
+
+function goPage(curPage = 1, pageSize = 18){
 
   var page = curPage;
   var size = pageSize;
+  var type = picType;
 
   $.ajax({
     type:'POST',
     url:'/admin.php/picture/list',
-    data:{"page":page, "size":size, "type":'sucai'},
+    data:{"page":page, "size":size, "type":type},
     dataType:'json',
     success:function(res){
       if (res.code == '200') {

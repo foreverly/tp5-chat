@@ -36,25 +36,29 @@ class MenuModel extends Model
                 'children' => [
                     [
                         'name' => '素材',
-                        'url' => '/admin.php/picture/sucai',
+                        'data' => 'sucai',
+                        'url' => '#',
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
                     [
                         'name' => '美女',
-                        'url' => '/admin.php/picture/meinv',
+                        'data' => 'meinv',
+                        'url' => '#',
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
                     [
                         'name' => '壁纸',
-                        'url' => '/admin.php/picture/bizhi',
+                        'data' => 'bizhi',
+                        'url' => '#',
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
                     [
                         'name' => '图片库',
-                        'url' => '/admin.php/picture/libs',
+                        'data' => 'libs',
+                        'url' => '#',
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
