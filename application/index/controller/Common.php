@@ -5,7 +5,7 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Jump;
-use app\index\model\ArticleModel;
+use app\index\model\MenuModel;
 
 class Common extends Controller
 {
@@ -19,9 +19,9 @@ class Common extends Controller
     {
         parent::_initialize();        
         $this->checkLogin();
-
+        
         $this->assign([
-            'menu_list' => ArticleModel::getMenus($this->isLogin),
+            'menu_list' => MenuModel::getMenus($this->isLogin),
             'is_login' => $this->isLogin,
             'user_info' => $this->userInfo
         ]);

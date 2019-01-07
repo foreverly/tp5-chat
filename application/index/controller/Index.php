@@ -22,6 +22,11 @@ class Index extends Common
             'rotation_list' => $this->getRotations()
         ]);
     }
+    
+    public function info()
+    {
+        echo phpinfo();
+    }
 
     /*
     * 获取文章列表

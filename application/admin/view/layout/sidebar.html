@@ -1,0 +1,76 @@
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <!-- <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 页面模块 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li><a href="admin-user.html" class="am-cf"><span class="am-icon-check"></span> 个人资料<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li><a href="admin-help.html"><span class="am-icon-puzzle-piece"></span> 帮助页</a></li>
+                        <li><a href="admin-gallery.html"><span class="am-icon-th"></span> 相册页面<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
+                        <li><a href="admin-log.html"><span class="am-icon-calendar"></span> 系统日志</a></li>
+                        <li><a href="admin-404.html"><span class="am-icon-bug"></span> 404</a></li>
+                    </ul>
+                </li>
+                <li><a href="admin-table.html"><span class="am-icon-table"></span> 表格</a></li>
+                <li><a href="admin-form.html"><span class="am-icon-pencil-square-o"></span> 表单</a></li>
+                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li> -->
+
+                {volist name='menu_list' id='menu'}
+                <li class="list-parent {if $menu.children eq true}admin-parent{/if}">
+                    <a href="{$menu.url}" {if $menu.children eq true} class="am-cf lalalaji" data-am-collapse="{target: '#collapse-nav'}" {/if}>
+                        <span class="{$menu.icon}"></span> {$menu.name}
+                        {if $menu.children eq true} 
+                        <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                        <ul class="am-list am-collapse admin-sidebar-sub child-ul" id="collapse-nav" style="">                            
+                            {volist name='menu.children' id='child' key='k'}
+                            <li>
+                                <a href="{$child.url}" {if $k eq 0} class="am-cf"{/if}>
+                                    <span class="{$child.icon}"></span> {$child.name}
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                        {/if}
+                    </a>
+                </li>
+                {/volist}
+            </ul>
+
+            <div class="am-panel am-panel-default admin-sidebar-panel">
+                <div class="am-panel-bd">
+                    <p><span class="am-icon-bookmark"></span> 公告</p>
+                    <p>至人无己，神人无功，圣人无名<br> —— 庄子</p>
+                </div>
+            </div>
+
+            <div class="am-panel am-panel-default admin-sidebar-panel">
+                <div class="am-panel-bd">
+                    <p><span class="am-icon-tag"></span> wiki</p>
+                    <p>好好学习，天天向上!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+
+    $(function(){
+        // 给UI框架添加点击li，动态添加展开的id
+        $(".list-parent").on('click', function(){
+            // 坑爹的  removeAttr里只能填写class,id,style等，不能填写具体的属性
+            $(".child-ul").removeAttr("id"); 
+            $(this).children('.child-ul').attr('id', "collapse-nav");
+        })
+    })
+
+    window.onload = function(){
+        initIndexPage();
+    }
+
+    // 见鬼的框架，莫名其妙生成的标签只能这样移除
+    function initIndexPage() {
+        // 移除ul多余的标签
+        $(".child-ul .lalalaji").remove();
+    };
+</script>
