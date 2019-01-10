@@ -4,9 +4,9 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 use think\Paginator;
-use app\admin\model\PictureModel;
+use app\admin\model\Picture;
 
-class Picture extends Common
+class Controller extends Common
 {
 
     public function _initialize()
@@ -16,7 +16,9 @@ class Picture extends Common
     
     public function index()
     {
-        return $this->fetch('admin-gallery');
+        return $this->fetch('admin-gallery', [
+            'type' => $this->request->get('type', 'sucai')
+        ]);
     }
     
     public function list()
@@ -25,7 +27,7 @@ class Picture extends Common
         $size = $this->request->post('size', 18);
         $type = $this->request->post('type', 18);
 
-        $picture_list = PictureModel::getPictures();
+        $picture_list = Picture::getPictures();
 
         // $picture_html = Paginator
 

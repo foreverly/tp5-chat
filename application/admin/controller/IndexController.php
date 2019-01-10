@@ -4,7 +4,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 
-class Index extends Common
+class IndexController extends Common
 {
 
     protected $needLogin = true;
@@ -16,8 +16,9 @@ class Index extends Common
     
     public function index()
     {
-        return $this->fetch('admin-index', [
-            // 
+        // admin-
+        return $this->fetch('index', [
+            'type' => $this->request->get('type', 'sucai')
         ]);
     }
 }

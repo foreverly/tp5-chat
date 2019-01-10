@@ -3,7 +3,7 @@ namespace app\admin\model;
 
 use think\Model;
 
-class MenuModel extends Model
+class Menu extends Model
 {
     protected $pk = 'id';
 
@@ -19,46 +19,62 @@ class MenuModel extends Model
         $data = [
             [
                 'name' => '首页',
-                'url' => '/admin.php',
+                'url' => "javascript:jumpPage('index');",
+                'check' => false,
                 'icon' => 'am-icon-home',
+                'message' => [
+                    'num' => 9,
+                    'color' => 'primary',
+                ],
+                'children' => []
+            ],            
+            [
+                'name' => '菜单管理',
+                'url' => "/admin.php/menu",
+                'check' => false,
+                'icon' => 'am-icon-share-alt',
+                'message' => null,
                 'children' => []
             ],
             [
                 'name' => '轮播图设置',
-                'url' => '/admin.php/banner',
-                'icon' => 'am-icon-recycle',
+                'url' => "javascript:jumpPage('banner');",
+                'check' => false,
+                'icon' => 'am-icon-image',
+                'message' => [
+                    'num' => 9,
+                    'color' => 'success',
+                ],
                 'children' => []
             ],
             [
                 'name' => '美图',
-                'url' => '#',
-                'icon' => 'am-icon-circle-o',
+                'url' => "javascript:jumpPage('picture', 'sucai');",
+                'check' => false,
+                'icon' => 'am-icon-camera-retro',
+                'message' => null,
                 'children' => [
                     [
                         'name' => '素材',
-                        'data' => 'sucai',
-                        'url' => '#',
+                        'url' => "javascript:jumpPage('picture', 'sucai');",
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
                     [
                         'name' => '美女',
-                        'data' => 'meinv',
-                        'url' => '#',
+                        'url' => 'javascript:jumpPage("picture", "meinv");',
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
                     [
                         'name' => '壁纸',
-                        'data' => 'bizhi',
-                        'url' => '#',
+                        'url' => 'javascript:jumpPage("picture", "bizhi");',
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
                     [
                         'name' => '图片库',
-                        'data' => 'libs',
-                        'url' => '#',
+                        'url' => 'javascript:jumpPage("picture", "libs");',
                         'icon' => 'am-icon-circle-o',
                         'children' => []
                     ],
@@ -66,30 +82,32 @@ class MenuModel extends Model
             ],
             [
                 'name' => '文章管理',
-                'url' => '#',
-                'icon' => 'am-icon-book',
+                'url' => 'javascript:jumpPage("article", "php");',
+                'check' => false,
+                'icon' => 'am-icon-envira',
+                'message' => null,
                 'children' => [
                     [
                         'name' => 'PHP',
-                        'url' => '/admin.php/article/php',
+                        'url' => 'javascript:jumpPage("article", "php");',
                         'icon' => 'am-icon-book',
                         'children' => []
                     ],
                     [
                         'name' => 'Linux',
-                        'url' => '/admin.php/article/linux',
+                        'url' => 'javascript:jumpPage("article", "linux");',
                         'icon' => 'am-icon-book',
                         'children' => []
                     ],
                     [
                         'name' => 'Docker',
-                        'url' => '/admin.php/article/docker',
+                        'url' => 'javascript:jumpPage("article", "docker");',
                         'icon' => 'am-icon-book',
                         'children' => []
                     ],
                     [
                         'name' => 'Others',
-                        'url' => '/admin.php/article/others',
+                        'url' => 'javascript:jumpPage("article", "others");',
                         'icon' => 'am-icon-book',
                         'children' => []
                     ],
@@ -99,8 +117,13 @@ class MenuModel extends Model
 
         $web_setting = [
             'name' => '网站管理',
-            'url' => '#',
+            'url' => 'javascript:jumpPage("setting", "basic");',
+            'check' => false,
             'icon' => 'am-icon-cog',
+            'message' => [
+                'num' => 9,
+                'color' => 'danger',
+            ],
             'children' => []
         ];
 
@@ -121,13 +144,13 @@ class MenuModel extends Model
             $web_setting['children'] = [
                 [
                     'name' => '基础配置',
-                    'url' => '/admin.php/setting/basic',
+                    'url' => 'javascript:jumpPage("setting", "basic");',
                     'icon' => 'am-icon-circle-o',
                     'children' => []
                 ],
                 [
                     'name' => '其他',
-                    'url' => '/admin.php/setting/others',                    
+                    'url' => 'javascript:jumpPage("setting", "others");',                    
                     'icon' => 'am-icon-circle-o',
                     'children' => []
                 ],
@@ -141,6 +164,15 @@ class MenuModel extends Model
         }
 
         array_push($data, $web_setting);
+
+        foreach ($data as &$value) {
+            $value['url'] = str_replace('"', "'", $value['url']);
+            $value['message'] = $value['message'] ?? null;
+            foreach ($value['children'] as &$v) {
+                $v['url'] = str_replace('"', "'", $v['url']);
+                $v['message'] = $v['message'] ?? null;
+            }
+        }
 
         return $data;
     }

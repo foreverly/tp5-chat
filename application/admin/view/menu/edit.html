@@ -1,0 +1,118 @@
+<body data-type="generalComponents">
+    {include file='layout/top' /}
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+
+        {include file='layout/sidebar' /}
+        
+        <div class="tpl-content-wrapper">
+            <div class="tpl-content-page-title">
+                Amaze UI 表单
+            </div>
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">表单</a></li>
+                <li class="am-active">Amaze UI 表单</li>
+            </ol>
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 新增菜单
+                    </div>
+                </div>
+                <div class="tpl-block ">
+
+                    <div class="am-g tpl-amazeui-form">
+
+
+                        <div class="am-u-sm-12 am-u-md-9">
+                            <form class="am-form am-form-horizontal">
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">菜单名称</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" id="name" name="name" placeholder="菜单名称">
+                                        <small>输入菜单名称。</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">上级菜单</label>
+                                    <div class="am-u-sm-9">
+
+                                        <select id="parentMenu" name="parent" data-am-selected="{btnSize: 'md'}">
+                                            <option value="">所有菜单</option>
+                                        </select>
+
+                                        <small>父级菜单不选。</small>
+                                    </div>
+                                </div> 
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">路由</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" id="route" name="route" placeholder="路由" value="">
+                                    </div>
+                                </div>
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">图标</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" id="data" name="data" placeholder="默认：circle-o" value="">
+                                        <small>输入菜单图标代码，默认为 <i class="am-icon-circle-o"></i>，代码：circle-o</small>
+                                    </div>
+                                </div>  
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">排序</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="number" id="order" name="order" value="0">
+                                        <small>不填为默认排序</small>
+                                    </div>
+                                </div>                        
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    
+$("#parentMenu").on('click', function(){alert(1)
+    // $.ajax({
+    //     url:API_URL+'/menu/list',
+    //     type:'POST',
+    //     data:data,
+    //     dataType:'json',
+    //     success:function(res) {
+    //         alert(res.msg)
+    //     }
+    // })
+})
+
+var API_URL = '/admin.php/'
+
+$(".am-btn-primary").on('click', function(){
+    var data = $(".am-form").serialize();
+
+    $.ajax({
+        url:API_URL+'/menu/save',
+        type:'POST',
+        data:data,
+        dataType:'json',
+        success:function(res) {
+            alert(res.msg)
+        }
+    })
+})
+
+</script>

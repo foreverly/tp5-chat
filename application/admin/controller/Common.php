@@ -5,7 +5,7 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Jump;
-use app\admin\model\MenuModel;
+use app\admin\model\Menu;
 
 class Common extends Controller
 {
@@ -22,9 +22,19 @@ class Common extends Controller
         parent::_initialize();        
         $this->checkLogin();
         $this->request = Request::instance();
+        $menu_list = Menu::getMenus();
 
+        // foreach ($menu_list as &$menu) {
+        //     $url = trim($menu['url'], '#');
+        //     foreach ($menu['children'] as $children) {
+        //         if ($url && stripos($this->request->url(), $url) !== false) {
+        //             $menu['check'] = true;
+        //         }
+        //     }
+        // }
+        
         $this->assign([
-            'menu_list' => MenuModel::getMenus($this->userInfo),
+            'menu_list' => $menu_list,
             // 'menu_html' => $this->makeMenuHtml()
         ]);
     }
@@ -33,7 +43,7 @@ class Common extends Controller
     {
         $this->isLogin = $this->isLogin();
     	if (!$this->isLogin && $this->needLogin) {
-    		$this->redirect(url('/login'));
+    		$this->redirect(url('/index.php/login'));
     	}else{
             $this->userInfo = Session::get('USER_INFO_SESSION') ?? [];            
         }
@@ -46,7 +56,7 @@ class Common extends Controller
 
     public function makeMenuHtml()
     {
-        $menu_list = MenuModel::getMenus($this->isLogin);
+        $menu_list = Menu::getMenus($this->isLogin);
 
         $menu_html = '<ul class="am-list admin-sidebar-list">';
         foreach ($menu_list as $key => $menu) {
