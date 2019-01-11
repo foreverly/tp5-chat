@@ -34,7 +34,7 @@ class Common extends Controller
         // }
         
         $this->assign([
-            'menu_list' => $menu_list,
+            'sidebar_menu_list' => $menu_list,
             // 'menu_html' => $this->makeMenuHtml()
         ]);
     }

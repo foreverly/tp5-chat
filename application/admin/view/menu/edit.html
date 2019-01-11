@@ -20,6 +20,7 @@
                         <span class="am-icon-code"></span> 新增菜单
                     </div>
                 </div>
+
                 <div class="tpl-block ">
 
                     <div class="am-g tpl-amazeui-form">
@@ -28,37 +29,44 @@
                         <div class="am-u-sm-12 am-u-md-9">
                             <form class="am-form am-form-horizontal">
                                 
+                                <input type="hidden" id="id" name="id" value="{if $menu_info eq true}{$menu_info.id}{/if}">
+
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">菜单名称</label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" id="name" name="name" placeholder="菜单名称">
+                                        <input type="text" id="name" name="name" placeholder="菜单名称" value="{if $menu_info eq true}{$menu_info.name}{/if}">
                                         <small>输入菜单名称。</small>
                                     </div>
                                 </div>
                                 
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">上级菜单</label>
-                                    <div class="am-u-sm-9">
+                                    <div class="am-u-sm-9" id="parentMenu">
 
-                                        <select id="parentMenu" name="parent" data-am-selected="{btnSize: 'md'}">
-                                            <option value="">所有菜单</option>
+                                        <select name="parent" data-am-selected="{btnSize: 'sm'}">
+                                            <option value="0">选择菜单</option>
+                                            {volist name='father_menu_list' id='menu'}
+                                            <option value="{$menu.id}" {if $menu_info eq true && $menu.id eq $menu_info.parent}selected="selected"{/if}>{$menu.name}</option>
+                                            {/volist}
                                         </select>
 
                                         <small>父级菜单不选。</small>
                                     </div>
+
+
                                 </div> 
                                 
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">路由</label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" id="route" name="route" placeholder="路由" value="">
+                                        <input type="text" id="route" name="route" placeholder="路由" value="{if $menu_info eq true}{$menu_info.route}{/if}">
                                     </div>
                                 </div>
                                 
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">图标</label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" id="data" name="data" placeholder="默认：circle-o" value="">
+                                        <input type="text" id="data" name="data" placeholder="默认：circle-o" value="{if $menu_info eq true}{$menu_info.data}{/if}">
                                         <small>输入菜单图标代码，默认为 <i class="am-icon-circle-o"></i>，代码：circle-o</small>
                                     </div>
                                 </div>  
@@ -66,7 +74,7 @@
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">排序</label>
                                     <div class="am-u-sm-9">
-                                        <input type="number" id="order" name="order" value="0">
+                                        <input type="number" id="order" name="order" value="{if $menu_info eq true}{$menu_info.order}{/if}">
                                         <small>不填为默认排序</small>
                                     </div>
                                 </div>                        
@@ -86,22 +94,11 @@
 </body>
 
 <script type="text/javascript">
-    
-$("#parentMenu").on('click', function(){alert(1)
-    // $.ajax({
-    //     url:API_URL+'/menu/list',
-    //     type:'POST',
-    //     data:data,
-    //     dataType:'json',
-    //     success:function(res) {
-    //         alert(res.msg)
-    //     }
-    // })
-})
 
-var API_URL = '/admin.php/'
+var API_URL = '/admin.php';
 
 $(".am-btn-primary").on('click', function(){
+
     var data = $(".am-form").serialize();
 
     $.ajax({
@@ -110,7 +107,11 @@ $(".am-btn-primary").on('click', function(){
         data:data,
         dataType:'json',
         success:function(res) {
-            alert(res.msg)
+            if (res.code == 200) {
+                window.location.href = API_URL+'/menu';
+            }else{  
+                alert(res.msg)
+            }
         }
     })
 })
