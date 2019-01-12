@@ -1,0 +1,131 @@
+<body data-type="generalComponents">
+    {include file='layout/top' /}
+
+    <div class="tpl-page-container tpl-page-header-fixed">
+
+        {include file='layout/sidebar' /}
+        
+        <div class="tpl-content-wrapper">
+            <div class="tpl-content-page-title">
+                Amaze UI 表单
+            </div>
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li><a href="#">表单</a></li>
+                <li class="am-active">Amaze UI 表单</li>
+            </ol>
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 新增Banner
+                    </div>
+                </div>
+
+                <div class="tpl-block ">
+
+                    <div class="am-g tpl-amazeui-form">
+
+
+                        <div class="am-u-sm-12 am-u-md-9">
+                            <form class="am-form am-form-horizontal">
+                                
+                                <input type="hidden" id="id" name="id" value="{if $banner_info eq true}{$banner_info.id}{/if}">
+
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">标题</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" id="title" name="title" placeholder="菜单名称" value="{if $banner_info eq true}{$banner_info.title}{/if}">
+                                        <small>输入Banner标题。</small>
+                                    </div>
+                                </div> 
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">副标题</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" id="sub_title" name="sub_title" placeholder="副标题" value="{if $banner_info eq true}{$banner_info.sub_title}{/if}">
+                                        <small>输入Banner副标题。</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">描述</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" id="desc" name="desc" placeholder="描述" value="{if $banner_info eq true}{$banner_info.desc}{/if}">
+                                        <small>输入一段描述文字</small>
+                                    </div>
+                                </div>  
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">Banner图片</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="hidden" id="img_url" name="img_url" value="{if $banner_info eq true}{$banner_info.img_url}{/if}">
+                                        <div class="am-form-group am-form-file">
+                                            <button type="button" class="am-btn am-btn-default am-btn-sm">
+                                            <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>
+                                            <input type="file" multiple>
+                                        </div>
+                                    </div>
+                                </div>   
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">跳转地址</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="number" id="url" name="url" value="{if $banner_info eq true}{$banner_info.url}{/if}">
+                                        <small>输入跳转地址</small>
+                                    </div>
+                                </div>   
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">排序</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="number" id="order" name="order" value="{if $banner_info eq true}{$banner_info.order}{/if}">
+                                        <small>不填为默认排序</small>
+                                    </div>
+                                </div>      
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">状态</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="number" id="status" name="status" value="{if $banner_info eq true}{$banner_info.status}{/if}">
+                                        <small>不填为默认排序</small>
+                                    </div>
+                                </div>                        
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+var API_URL = '/admin.php';
+
+$(".am-btn-primary").on('click', function(){
+
+    var data = $(".am-form").serialize();
+
+    $.ajax({
+        url:API_URL+'/banner/save',
+        type:'POST',
+        data:data,
+        dataType:'json',
+        success:function(res) {
+            if (res.code == 200) {
+                window.location.href = API_URL+'/banner';
+            }else{  
+                alert(res.msg)
+            }
+        }
+    })
+})
+
+</script>

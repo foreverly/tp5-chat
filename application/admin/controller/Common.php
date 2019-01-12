@@ -22,7 +22,6 @@ class Common extends Controller
         parent::_initialize();        
         $this->checkLogin();
         $this->request = Request::instance();
-        $menu_list = Menu::getMenus();
 
         // foreach ($menu_list as &$menu) {
         //     $url = trim($menu['url'], '#');
@@ -34,7 +33,7 @@ class Common extends Controller
         // }
         
         $this->assign([
-            'sidebar_menu_list' => $menu_list,
+            'sidebar_menu_list' => Menu::getMenus(),
             // 'menu_html' => $this->makeMenuHtml()
         ]);
     }

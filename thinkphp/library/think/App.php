@@ -285,7 +285,7 @@ class App
                 Lang::load($path . 'lang' . DS . Request::instance()->langset() . EXT);
             }
         }
-
+        
         return Config::get();
     }
 

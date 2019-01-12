@@ -30,8 +30,6 @@ class Email
 	* @throws Exception
 	* @throws phpmailerException
 	*/
-	
-
     public static function sendEmail($data = []) 
     {
     	if (empty($data['user_email'])) {

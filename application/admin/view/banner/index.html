@@ -34,23 +34,14 @@
                         <div class="am-u-sm-12 am-u-md-6">
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <a href="/admin.php/menu/edit" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
+                                    <a href="/admin.php/banner/edit" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
                                     <!-- <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button> -->
                                 </div>
                             </div>
                         </div>
-                        <div class="am-u-sm-12 am-u-md-3">
-                            <div class="am-form-group" id="parentMenu">
-                                <select data-am-selected="{btnSize: 'sm'}">
-                                    <option value="0"><a href="/admin.php/menu">所有菜单</a></option>
-                                    {volist name='father_menu_list' id='menu'}
-                                    <option value="{$menu.id}" {if $parent eq $menu.id}selected="selected"{/if}>{$menu.name}</option>
-                                    {/volist}
-                                </select>
-                            </div>
-                        </div>
+                        
                         <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-input-group am-input-group-sm">
                                 <input type="text" class="am-form-field">
@@ -68,28 +59,30 @@
                                         <tr>
                                             <th class="table-check"><input type="checkbox" class="tpl-table-fz-check"></th>
                                             <th class="table-id">ID</th>
-                                            <th class="table-title">菜单名称</th>
-                                            <th class="table-type">上级菜单</th>
-                                            <th class="table-author am-hide-sm-only">图标</th>
-                                            <th class="table-date am-hide-sm-only">路由</th>
+                                            <th class="table-title">标题</th>
+                                            <th class="table-type">副标题</th>
+                                            <th class="table-author am-hide-sm-only">描述</th>
+                                            <th class="table-date am-hide-sm-only">图片</th>
+                                            <th class="table-date am-hide-sm-only">状态</th>
                                             <th class="table-set">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        {volist name='menu_list' id='menu'}
+                                        {volist name='banner_list' id='banner'}
                                         <tr>
                                             <td><input type="checkbox"></td>
-                                            <td>{$menu.id}</td>
-                                            <td><a href="#">{$menu.name}</a></td>
-                                            <td>{$menu.parent}</td>
-                                            <td class="am-hide-sm-only"><i class="am-icon-{$menu.data}"></i></td>
-                                            <td class="am-hide-sm-only">{$menu.route}</td>
+                                            <td>{$banner.id}</td>
+                                            <td><a href="#">{$banner.title}</a></td>
+                                            <td>{$banner.sub_title}</td>
+                                            <td>{$banner.desc}</td>
+                                            <td class="am-hide-sm-only">{$menu.img_url}</td>
+                                            <td class="am-hide-sm-only">{$menu.status}</td>
                                             <td>
                                                 <div class="am-btn-toolbar">
                                                     <div class="am-btn-group am-btn-group-xs">
 
-                                                        <a class="am-btn am-btn-default am-btn-xs am-text-secondary a-btn" onclick="doEdit({$menu.id})">
+                                                        <a class="am-btn am-btn-default am-btn-xs am-text-secondary a-btn" onclick="doEdit({$banner.id})">
                                                             <!-- <a href="/admin.php/menu/edit?id={$menu.id}"> -->
                                                             <span class="am-icon-pencil-square-o"></span> 编辑
                                                             <!-- </a> -->
@@ -99,7 +92,7 @@
                                                             <span class="am-icon-copy"></span> 复制
                                                         </a> -->
 
-                                                        <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only a-btn" onclick="doDel({$menu.id})">
+                                                        <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only a-btn" onclick="doDel({$banner.id})">
                                                             <span class="am-icon-trash-o"></span> 删除
                                                         </a>
 
@@ -124,7 +117,7 @@
                                             <li><a href="#">»</a></li>
                                         </ul> -->
                                         <!-- 下列生成的代码除上下页按钮 间隔都不对，但是上述代码却没问题，很奇怪，待处理 -->
-                                        {$bootstrap}
+                                        {$pager}
                                     </div>
 
                                     
@@ -149,19 +142,19 @@ var API_URL = '/admin.php';
     
 $("#parentMenu select").on('change', function(){
     var parent = $(this).val();
-    window.location.href = '/admin.php/menu?parent='+parent;
+    window.location.href = '/admin.php/banner';
 })
 
 function doEdit(id){
-    window.location.href = API_URL+'/menu/edit?id='+id;
+    window.location.href = API_URL+'/banner/edit?id='+id;
 }
 
 function doDel(id){
-    window.location.href = API_URL+'/menu/del?id='+id;
+    window.location.href = API_URL+'/banner/del?id='+id;
 }
 
 function doCopy(id){
-    window.location.href = API_URL+'/menu/edit?id='+id;
+    window.location.href = API_URL+'/banner/edit?id='+id;
 }
 
 </script>

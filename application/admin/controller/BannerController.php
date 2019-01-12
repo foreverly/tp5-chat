@@ -5,9 +5,9 @@ use think\Controller;
 use think\Request;
 use lib\Pager;
 use lib\Email;
-use app\admin\model\Menu;
+use app\admin\model\Banner;
 
-class MenuController extends Common
+class BannerController extends Common
 {
 
     public function _initialize()
@@ -17,21 +17,12 @@ class MenuController extends Common
     
     public function index()
     {
-        $parent = (int)$this->request->get('parent', null) ?: null;
-        $page = input('get.page');
-
-        if (isset($page) && null !== $page) {
-            $curPage = $page;
-        }
-        else {
-            $curPage = 1;
-        }
-
+        $curPage = (int)$this->request->get('page', 1) ?: 1;
         $pageSize = 10;
 
         $options = [
             'page' => $curPage,
-            'path' => url('/menu', '', false),
+            'path' => url('/banner', '', false),
         ];
 
         $options = array_merge($options, config('pager.admin'));
@@ -41,16 +32,13 @@ class MenuController extends Common
             $where = ['parent' => null];
         }
         
-        $father_menu_list = Menu::all()->toArray();
-        $menu_list = Menu::all($where)->toArray();
+        $banner_list = Banner::all($where)->toArray();
         
-        $bootstrap = new Pager($menu_list, $pageSize, $curPage, count($menu_list), false, $options);
+        $Pager = new Pager($banner_list, $pageSize, $curPage, count($banner_list), false, $options);
 
         return $this->fetch('index', [
-            'parent' => $parent,
-            'menu_list' => $menu_list,
-            'bootstrap' => $bootstrap->render(),
-            'father_menu_list' => $father_menu_list
+            'banner_list' => $banner_list,
+            'pager' => $Pager->render()
         ]);
     }
     
@@ -58,22 +46,19 @@ class MenuController extends Common
     {
         $id = (int)$this->request->get('id', null);
 
-        $menu_info = [];
+        $banner_info = [];
         if ($id) {
-            $menuModel = Menu::get($id);
+            $bannerModel = Banner::get($id);
 
-            if (empty($menuModel)) {
-                $this->error('该菜单不存在','/admin.php/menu');
+            if (empty($bannerModel)) {
+                $this->error('该菜单不存在','/admin.php/banner');
             }
 
-            $menu_info = $menuModel->toArray();
+            $banner_info = $bannerModel->toArray();
         }
 
-        $menu_list = Menu::all(['parent' => null])->toArray();
-
         return $this->fetch('edit', [
-            'menu_info' => $menu_info,
-            'father_menu_list' => $menu_list,
+            'banner_info' => $banner_info
         ]);
     }
 
@@ -89,9 +74,9 @@ class MenuController extends Common
         // 数据验证
 
         if ($id) {
-            $model = Menu::get($id);
+            $model = Banner::get($id);
         }else{
-            $model = new Menu();
+            $model = new Banner();
         }
 
         $model->name = $name;
