@@ -3,7 +3,7 @@ namespace app\index\model;
 
 use think\Model;
 
-class MenuModel extends Model
+class Menu extends Model
 {
     protected $pk = 'id';
 

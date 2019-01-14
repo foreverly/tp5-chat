@@ -27,7 +27,7 @@
 
 
                         <div class="am-u-sm-12 am-u-md-9">
-                            <form class="am-form am-form-horizontal">
+                            <form class="am-form am-form-horizontal" id="bannerForm" enctype='multipart/form-data'>
                                 
                                 <input type="hidden" id="id" name="id" value="{if $banner_info eq true}{$banner_info.id}{/if}">
 
@@ -58,11 +58,18 @@
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">Banner图片</label>
                                     <div class="am-u-sm-9">
-                                        <input type="hidden" id="img_url" name="img_url" value="{if $banner_info eq true}{$banner_info.img_url}{/if}">
+                                        
                                         <div class="am-form-group am-form-file">
-                                            <button type="button" class="am-btn am-btn-default am-btn-sm">
-                                            <i class="am-icon-cloud-upload"></i> 选择要上传的图片</button>
-                                            <input type="file" multiple>
+
+                                            <div class="tpl-form-file-img" id="doPreview" style="display: none;">
+                                                <img src="{if $banner_info eq true}{$banner_info.img_url}{else}__STATIC__/blog/admin1/img/a5.png{/if}" alt="">
+                                            </div>
+
+                                            <button type="button" id="uploadBtn" class="am-btn am-btn-default am-btn-sm">
+                                                <i class="am-icon-cloud-upload"></i> 选择要上传的图片
+                                            </button>
+                                            <input type="file" name="images" multiple="multipart/form-data" onchange="showPreview(this)">
+                                            <input type="hidden" id="img_url" name="img_url" value="{if $banner_info eq true}{$banner_info.img_url}{/if}">
                                         </div>
                                     </div>
                                 </div>   
@@ -70,7 +77,7 @@
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">跳转地址</label>
                                     <div class="am-u-sm-9">
-                                        <input type="number" id="url" name="url" value="{if $banner_info eq true}{$banner_info.url}{/if}">
+                                        <input type="text" id="url" name="url" value="{if $banner_info eq true}{$banner_info.url}{/if}">
                                         <small>输入跳转地址</small>
                                     </div>
                                 </div>   
@@ -87,13 +94,13 @@
                                     <label for="user-name" class="am-u-sm-3 am-form-label">状态</label>
                                     <div class="am-u-sm-9">
                                         <input type="number" id="status" name="status" value="{if $banner_info eq true}{$banner_info.status}{/if}">
-                                        <small>不填为默认排序</small>
+                                        <small>不填为默认开启</small>
                                     </div>
                                 </div>                        
 
                                 <div class="am-form-group">
                                     <div class="am-u-sm-9 am-u-sm-push-3">
-                                        <button type="button" class="am-btn am-btn-primary">保存</button>
+                                        <button type="button" class="am-btn am-btn-primary" id="saveBtn">保存</button>
                                     </div>
                                 </div>
                             </form>
@@ -109,10 +116,10 @@
 
 var API_URL = '/admin.php';
 
-$(".am-btn-primary").on('click', function(){
+$("#saveBtn").on('click', function(){
 
-    var data = $(".am-form").serialize();
-
+    var data = $("#bannerForm").serialize();
+console.log(data)
     $.ajax({
         url:API_URL+'/banner/save',
         type:'POST',
@@ -127,5 +134,82 @@ $(".am-btn-primary").on('click', function(){
         }
     })
 })
+
+// var uploading = false;
+
+function showPreview(obj){    
+    var fileData = obj.files[0];
+    var formData = new FormData();
+    formData.append("images", fileData);
+    formData.append("type", 'banner');
+
+    // if(uploading){
+    //     alert("头像正在上传中，请稍候");
+    //     return false;
+    // }
+
+    if (!verifyPicFile(obj)) {
+        // do something
+    }
+
+    $.ajax({
+        url: API_URL + "/upload/uploadPic",
+        type: 'POST',
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType:"json",
+        beforeSend: function(){
+            uploading = true;
+        },
+        success : function(res) {
+            if (res.code == 200) {
+                $("#doPreview img").attr("src", res.data.img_url);
+                $("#doPreview").show();
+                $("#img_url").val(res.data.img_url);
+
+                // 按钮样式
+                $("#uploadBtn").removeClass("am-btn-default").addClass("am-btn-primary");
+            } else {
+                showError(res.data.msg);
+                // 按钮样式
+                $("#uploadBtn").removeClass("am-btn-default").addClass("am-btn-danger");                
+            }
+
+            $("#uploadBtn").html('<i class="am-icon-cloud-upload"></i> 重新选择图片');         
+        }
+    });
+}
+
+//图片尺寸验证
+function verifyPicFile(file) {
+    var filePath = file.value;
+    if(filePath){
+        //读取图片数据
+        var filePic = file.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = e.target.result;
+            //加载图片获取图片真实宽度和高度
+            var image = new Image();
+            image.onload=function(){
+                var width = image.width;
+                var height = image.height;
+                if (width/height == 16/9){
+                    //  do nothing
+                }else {
+                    alert("图片宽高比例应为：16:9，建议上传1920*1280尺寸的图片");
+                    file.value = "";
+                    return false;
+                }
+            };
+            image.src= data;
+        };
+        reader.readAsDataURL(filePic);
+    }else{
+        return false;
+    }
+}
 
 </script>

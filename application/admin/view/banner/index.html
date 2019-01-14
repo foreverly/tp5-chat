@@ -52,6 +52,45 @@
                         </div>
                     </div>
                     <div class="am-g">
+
+                        <div class="tpl-table-images">
+                            {volist name='banner_list' id='banner'}
+                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+                                <div class="tpl-table-images-content">
+                                    <div class="tpl-table-images-content-i-time">发布时间：{$banner.created_time}</div>
+                                    <div class="tpl-i-title">
+                                        <b>{$banner.title}</b>
+                                    </div>
+                                    <a href="javascript:;" class="tpl-table-images-content-i">
+                                        <span class="tpl-table-images-content-i-shadow"></span>
+                                        <img src="{$banner.img_url}" alt="">
+                                    </a>
+                                    <div class="tpl-table-images-content-block">
+                                        <div class="tpl-i-font">
+                                            {$banner.sub_title}
+                                        </div>
+                                        <div class="tpl-i-more">
+                                            <ul>
+                                                <!-- <li><span class="am-icon-qq am-text-warning"> 100+</span></li>
+                                                <li><span class="am-icon-weixin am-text-success"> 235+</span></li>
+                                                <li><span class="am-icon-github font-green"> 600+</span></li> -->
+                                            </ul>
+                                        </div>
+                                        <div class="am-btn-toolbar">
+                                            <div class="am-btn-group am-btn-group-xs tpl-edit-content-btn">
+                                                <!-- <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button> -->
+                                                <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-edit"></span> 编辑</button>
+                                                <!-- <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button> -->
+                                                <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                    <!-- <div class="am-g">
                         <div class="am-u-sm-12">
                             <form class="am-form">
                                 <table class="am-table am-table-striped am-table-hover table-main">
@@ -76,21 +115,16 @@
                                             <td><a href="#">{$banner.title}</a></td>
                                             <td>{$banner.sub_title}</td>
                                             <td>{$banner.desc}</td>
-                                            <td class="am-hide-sm-only">{$menu.img_url}</td>
-                                            <td class="am-hide-sm-only">{$menu.status}</td>
+                                            <td class="am-hide-sm-only">{$banner.img_url}</td>
+                                            <td class="am-hide-sm-only">{$banner.status}</td>
                                             <td>
                                                 <div class="am-btn-toolbar">
                                                     <div class="am-btn-group am-btn-group-xs">
 
                                                         <a class="am-btn am-btn-default am-btn-xs am-text-secondary a-btn" onclick="doEdit({$banner.id})">
-                                                            <!-- <a href="/admin.php/menu/edit?id={$menu.id}"> -->
+                                                            
                                                             <span class="am-icon-pencil-square-o"></span> 编辑
-                                                            <!-- </a> -->
                                                         </a>
-
-                                                        <!-- <a class="am-btn am-btn-default am-btn-xs am-hide-sm-only a-btn" onclick="doCopy({$menu.id})">
-                                                            <span class="am-icon-copy"></span> 复制
-                                                        </a> -->
 
                                                         <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only a-btn" onclick="doDel({$banner.id})">
                                                             <span class="am-icon-trash-o"></span> 删除
@@ -107,16 +141,7 @@
                                 <div class="am-cf">
 
                                     <div class="am-fr">
-                                        <!-- <ul class="am-pagination tpl-pagination">
-                                            <li class="am-disabled"><a href="#">«</a></li>
-                                            <li class="am-active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li><a href="#">»</a></li>
-                                        </ul> -->
-                                        <!-- 下列生成的代码除上下页按钮 间隔都不对，但是上述代码却没问题，很奇怪，待处理 -->
+                                        
                                         {$pager}
                                     </div>
 
@@ -127,7 +152,7 @@
                             </form>
                         </div>
 
-                    </div>
+                    </div> -->
                 </div>
                 <div class="tpl-alert"></div>
             </div>

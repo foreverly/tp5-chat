@@ -2,12 +2,8 @@
 namespace app\index\controller;
 
 use think\Controller;
-use think\Request;
-use think\Session;
-use think\Db;
-use app\index\model\User;
 
-class Login extends Controller
+class RegisterController extends Controller
 {
     public function _initialize()
     {
@@ -16,6 +12,6 @@ class Login extends Controller
     
     public function index()
     {
-    	return $this->fetch('lw-log');
+    	return $this->fetch('lw-re');
     }
 }

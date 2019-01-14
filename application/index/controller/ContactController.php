@@ -1,13 +1,13 @@
-<?php
+Controller<?php
 namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
 use think\Session;
 use think\Db;
-use app\index\model\ContactModel;
+use app\index\model\Contact;
 
-class Contact extends Common
+class ContactController extends Common
 {
 
     public function _initialize()

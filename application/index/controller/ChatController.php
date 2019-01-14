@@ -5,10 +5,10 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Db;
-use app\index\model\User;
+use app\index\model\UserBackend;
 use app\index\model\ChatContent;
 
-class Chat extends Common
+class ChatController extends Common
 {
     public function _initialize()
     {
@@ -51,7 +51,7 @@ class Chat extends Common
         $model->fromid = $this->userInfo['uid'];
         $model->fromname = $this->userInfo['nick_name'];
         $model->toid = $post_data['toid'];
-        $model->toname = User::getName($post_data['toid']);
+        $model->toname = UserBackend::getName($post_data['toid']);
         $model->content = $post_data['data'];
         $model->isread = 0;
         $model->created_time = $post_data['date'];
@@ -84,7 +84,7 @@ class Chat extends Common
             $model->fromid = $this->userInfo['uid'];
             $model->fromname = $this->userInfo['nick_name'];
             $model->toid = $post_data['toid'];
-            $model->toname = User::getName($post_data['toid']);
+            $model->toname = UserBackend::getName($post_data['toid']);
             $model->content = $file_path;
             $model->isread = 0;
             $model->created_time = date('Y-m-d H:i:s');

@@ -64,26 +64,35 @@ class BannerController extends Common
 
     public function save()
     {
-        $id = (int)$this->request->post('id', null);
-        $name = $this->request->post('name', '');
-        $parent = $this->request->post('parent', null) ?: null;
-        $route = $this->request->post('route', '');
-        $data = $this->request->post('data', 'circle-o');
-        $order = (int)$this->request->post('order', 0);
+        $id         = (int)$this->request->post('id', null);
+        $title      = trim($this->request->post('title', ''));
+        $sub_title  = trim($this->request->post('sub_title', ''));
+        $desc       = trim($this->request->post('desc', ''));
+        $img_url    = trim($this->request->post('img_url', ''));
+        $url        = trim($this->request->post('url', ''));
+        $order      = (int)$this->request->post('order', 0);
+        $status     = (int)$this->request->post('status', 0);
         
         // 数据验证
+        if (empty($img_url)) {
+            ajaxError('请上传图片');
+        }
 
         if ($id) {
             $model = Banner::get($id);
+            $model->updated_time = date('Y-m-d H:i:s');
         }else{
             $model = new Banner();
+            $model->created_time = date('Y-m-d H:i:s');
         }
 
-        $model->name = $name;
-        $model->parent = $parent;
-        $model->route = $route;
-        $model->data = $data;
-        $model->order = $order;
+        $model->title       = $title;
+        $model->sub_title   = $sub_title;
+        $model->desc        = $desc;
+        $model->img_url     = $img_url;
+        $model->url         = $url;
+        $model->order       = $order;
+        $model->status      = $status;        
 
         $model->save();
 
@@ -96,26 +105,26 @@ class BannerController extends Common
         
         // 数据验证
 
-        $model = Menu::get($id);
+        $model = Banner::get($id);
 
         if (!$model) {
-            $this->error('该菜单不存在','/admin.php/menu');
+            $this->error('该轮播图不存在','/admin.php/banner');
         }
 
         if ($model->delete()) {
-            $this->success('删除成功','/admin.php/menu');
+            $this->success('删除成功','/admin.php/banner');
         }else{
-            $this->error('删除失败','/admin.php/menu');
+            $this->error('删除失败','/admin.php/banner');
         }
     }
     
     public function list()
     {
 
-        $menu_list = Menu::all(['pid' => null])->toArray();
+        $banner_list = Banner::all()->toArray();
 
         ajaxSuccess([
-            'menu_list' => $menu_list
+            'banner_list' => $banner_list
         ]);
     }
 }

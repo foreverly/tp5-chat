@@ -7,10 +7,10 @@ use think\Session;
 use think\Cache;
 use lib\Email;
 use think\Db;
-use app\index\model\User as UserB;
-use app\index\model\ContactModel;
+use app\index\model\UserBackend as UserB;
+use app\index\model\Contact;
 
-class User extends Common
+class UserController extends Common
 {
 
     protected $needLogin = false;
@@ -104,11 +104,11 @@ class User extends Common
             return ajaxError('该用户不存在');
         }
 
-        if (ContactModel::where(['uid' => $uid, 'friend_id' => $friend_id])->count()) {
+        if (Contact::where(['uid' => $uid, 'friend_id' => $friend_id])->count()) {
             return ajaxError('你和对方已经是朋友了');
         }
 
-        $contact = new ContactModel();
+        $contact = new Contact();
         $contact->uid = $uid;
         $contact->friend_id = $friend_id;
         $contact->created_time = date('Y-m-d H:i:s');

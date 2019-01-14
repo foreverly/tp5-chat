@@ -3,7 +3,7 @@ namespace app\index\model;
 
 use think\Model;
 
-class ContactModel extends Model
+class Contact extends Model
 {
     protected $pk = 'id';
 

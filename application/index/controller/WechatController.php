@@ -9,7 +9,7 @@ use wechat\WechatCallbackApi;
 
 define("TOKEN", "liangleyouwen");
 
-class Wechat extends Controller
+class WechatController extends Controller
 {
     public function _initialize()
     {

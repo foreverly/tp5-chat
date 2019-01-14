@@ -3,9 +3,9 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Request;
-use app\index\model\ArticleModel;
+use app\index\model\Article;
 
-class Index extends Common
+class IndexController extends Common
 {
 
     protected $needLogin = false;

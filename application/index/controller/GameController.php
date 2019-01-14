@@ -2,20 +2,12 @@
 namespace app\index\controller;
 
 use think\Controller;
-use think\Request;
-use think\Session;
-use think\Cache;
-use think\Db;
-use app\index\model\ArticleModel;
 
-class Article extends Common
+class GameController extends Common
 {
-
-    protected $needLogin = false;
-
 	public function _initialize()
     {
-        parent::_initialize();
+        // parent::_initialize();
     }
     
     /**
@@ -25,7 +17,7 @@ class Article extends Common
      */
     public function index()
     {
-        return $this->fetch('list', [
+        return $this->fetch('wuziqi', [
             //
         ]);
     }
@@ -35,9 +27,9 @@ class Article extends Common
      *
      * @return string
      */
-    public function info()
+    public function wuziqi()
     {
-        return $this->fetch('lw-article', [
+        return $this->fetch('wuziqi', [
             //
         ]);
     }
