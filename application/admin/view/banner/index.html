@@ -41,15 +41,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="am-u-sm-12 am-u-md-3">
-                            <div class="am-input-group am-input-group-sm">
-                                <input type="text" class="am-form-field">
-                                <span class="am-input-group-btn">
-                                    <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search" type="button"></button>
-                                </span>
-                            </div>
-                        </div>
                     </div>
                     <div class="am-g">
 
@@ -61,8 +52,8 @@
                                     <div class="tpl-i-title">
                                         <b>{$banner.title}</b>
                                     </div>
-                                    <a href="javascript:;" class="tpl-table-images-content-i">
-                                        <span class="tpl-table-images-content-i-shadow"></span>
+                                    <a href="javascript:;" class="tpl-table-images-content-i" style="height: 12vw;">
+                                        <!-- <span class="tpl-table-images-content-i-shadow"></span> -->
                                         <img src="{$banner.img_url}" alt="">
                                     </a>
                                     <div class="tpl-table-images-content-block">
@@ -77,11 +68,11 @@
                                             </ul>
                                         </div>
                                         <div class="am-btn-toolbar">
-                                            <div class="am-btn-group am-btn-group-xs tpl-edit-content-btn">
+                                            <div class="am-btn-group am-btn-group-sm tpl-edit-content-btn">
                                                 <!-- <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button> -->
-                                                <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-edit"></span> 编辑</button>
+                                                <a href="/admin.php/banner/edit?id={$banner.id}" class="am-btn am-btn-default am-btn-secondary" role="button"><span class="am-icon-edit"></span> 编辑</a>
                                                 <!-- <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button> -->
-                                                <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                                <a href="/admin.php/banner/del?id={$banner.id}" class="am-btn am-btn-default am-btn-danger" role="button"><span class="am-icon-trash-o"></span> 删除</a>
                                             </div>
                                         </div>
                                     </div>

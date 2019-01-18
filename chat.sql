@@ -11,11 +11,43 @@
  Target Server Version : 50553
  File Encoding         : 65001
 
- Date: 14/12/2018 18:46:45
+ Date: 18/01/2019 18:59:58
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for article
+-- ----------------------------
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `author_id` int(11) NOT NULL COMMENT '作者、渠道等',
+  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+  `sub_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '副标题',
+  `desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '简要描述',
+  `slogan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标语',
+  `cover_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '封面图片',
+  `seo_keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'SEO关键字，逗号分割',
+  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'default' COMMENT '文章分类，逗号分割',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=显示，0=隐藏',
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章内容',
+  `push_time` datetime NULL DEFAULT NULL COMMENT '推送时间',
+  `created_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `updated_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of article
+-- ----------------------------
+INSERT INTO `article` VALUES (1, 14, '国庆七天乐', '国庆七天乐', '', '国庆七天乐国庆七天乐国庆七天乐', '/static/blog/admin1/img/a5.png', '', 'default', 0, '&lt;p&gt;&lt;img src=&quot;http://img.baidu.com/hi/jx2/j_0059.gif&quot;/&gt;&lt;/p&gt;', '2019-01-17 11:20:30', '2019-01-17 11:20:30', '2019-01-18 18:42:16');
+INSERT INTO `article` VALUES (2, 14, '查询数据', '一个人站在汹涌的街头，突然就感到无可抑制的悲伤……', NULL, '国庆七天乐国庆七天乐国庆七天乐', '/static/blog/admin1/img/a5.png', '', 'default', 0, 'test内容', '2019-01-17 11:30:59', '2019-01-17 11:30:59', NULL);
+INSERT INTO `article` VALUES (3, 14, '这城市那么空', '爱就像蓝天白云，晴空万里，突然暴风雨……', NULL, '国庆七天乐国庆七天乐国庆七天乐', '/static/blog/admin1/img/a5.png', '', 'default', 0, 'test内容', '2019-01-17 11:31:05', '2019-01-17 11:31:05', NULL);
+INSERT INTO `article` VALUES (4, 14, '国庆七天乐', '国庆七天乐', NULL, '国庆七天乐国庆七天乐国庆七天乐', '/static/blog/admin1/img/a5.png', '', 'default', 0, 'test内容', '2019-01-17 11:31:12', '2019-01-17 11:31:12', NULL);
+INSERT INTO `article` VALUES (5, 14, '偏偏爱上你', '爱就像蓝天白云，晴空万里，突然暴风雨……', NULL, '国庆七天乐国庆七天乐国庆七天乐', '/static/blog/admin1/img/a5.png', '', 'default', 0, 'test内容', '2019-01-17 11:31:22', '2019-01-17 11:31:22', NULL);
+INSERT INTO `article` VALUES (6, 14, 'Laradock端口映射', '爱就像蓝天白云，晴空万里，突然暴风雨……', NULL, '国庆七天乐国庆七天乐国庆七天乐', '/static/blog/admin1/img/a5.png', '', 'default', 0, 'test内容', '2019-01-17 11:31:30', '2019-01-17 11:31:30', NULL);
 
 -- ----------------------------
 -- Table structure for auth_assignment
@@ -309,6 +341,31 @@ CREATE TABLE `auth_rule`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Table structure for banner
+-- ----------------------------
+DROP TABLE IF EXISTS `banner`;
+CREATE TABLE `banner`  (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `sub_title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '副标题',
+  `desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片地址',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '跳转地址',
+  `order` int(11) NULL DEFAULT NULL COMMENT '排序',
+  `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态1=启用，0=禁用',
+  `created_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `updated_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of banner
+-- ----------------------------
+INSERT INTO `banner` VALUES (1, '这城市那么空', '一个人站在汹涌的街头，突然就感到无可抑制的悲伤……', '你在哪...', '/static/upload/banner/20190115/e43667bf88b288fc5acddbb1c277dc09.jpg', 'www.52xue.site', 0, 1, '2019-01-14 16:14:28', '2019-01-15 15:45:41');
+INSERT INTO `banner` VALUES (2, '这城市那么空', '一个人站在汹涌的街头，突然就感到无可抑制的悲伤……', '', '/static/upload/banner/20190115/c058e067e3bccc4c1dd40318924cd6ce.jpg', '', 0, 0, '2019-01-15 10:17:48', '2019-01-15 15:45:49');
+INSERT INTO `banner` VALUES (3, '偏偏爱上你', '爱就像蓝天白云，晴空万里，突然暴风雨……', '', '/static/upload/banner/20190115/8a48e2b0d8ddcf7ae9a6aeabbc19aa40.jpg', '', 0, 0, '2019-01-15 10:18:53', NULL);
+
+-- ----------------------------
 -- Table structure for chat_content
 -- ----------------------------
 DROP TABLE IF EXISTS `chat_content`;
@@ -323,7 +380,7 @@ CREATE TABLE `chat_content`  (
   `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=文本,2=图片',
   `created_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 621 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 636 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of chat_content
@@ -352,6 +409,21 @@ INSERT INTO `chat_content` VALUES (617, 5, '索隆', 1, '李白', '3231', 1, 1, 
 INSERT INTO `chat_content` VALUES (618, 5, '索隆', 1, '李白', '321313', 1, 1, '2018-12-13 10:30:32');
 INSERT INTO `chat_content` VALUES (619, 5, '索隆', 1, '李白', '3', 1, 1, '2018-12-13 10:32:09');
 INSERT INTO `chat_content` VALUES (620, 5, '索隆', 1, '李白', '3231', 1, 1, '2018-12-13 10:32:40');
+INSERT INTO `chat_content` VALUES (621, 8, 'morning', 1, '李白', '123', 1, 1, '2018-12-17 07:42:14');
+INSERT INTO `chat_content` VALUES (622, 8, 'morning', 2, '测试', '2222222', 0, 1, '2018-12-18 08:06:58');
+INSERT INTO `chat_content` VALUES (623, 8, 'morning', 2, '测试', '111', 0, 1, '2018-12-19 09:43:49');
+INSERT INTO `chat_content` VALUES (624, 8, 'morning', 2, '测试', '222', 0, 1, '2018-12-19 09:43:55');
+INSERT INTO `chat_content` VALUES (625, 8, 'morning', 2, '测试', '[em_18]', 0, 1, '2018-12-19 09:44:00');
+INSERT INTO `chat_content` VALUES (626, 1, '李白', 8, 'morning', '111', 0, 1, '2018-12-26 08:52:19');
+INSERT INTO `chat_content` VALUES (627, 2, '测试', 1, '李白', '123333', 1, 1, '2018-12-26 08:58:04');
+INSERT INTO `chat_content` VALUES (628, 1, '李白', 2, '测试', '321313212311231', 1, 1, '2018-12-26 08:58:09');
+INSERT INTO `chat_content` VALUES (629, 2, '测试', 1, '李白', '[em_22]', 1, 1, '2018-12-26 08:59:16');
+INSERT INTO `chat_content` VALUES (630, 2, '测试', 1, '李白', '[em_35]', 1, 1, '2018-12-26 08:59:32');
+INSERT INTO `chat_content` VALUES (631, 1, '李白', 2, '测试', '2', 1, 1, '2018-12-26 09:00:14');
+INSERT INTO `chat_content` VALUES (632, 1, '李白', 2, '测试', '2', 1, 1, '2018-12-26 09:00:21');
+INSERT INTO `chat_content` VALUES (633, 2, '测试', 1, '李白', '22', 1, 1, '2018-12-26 09:00:32');
+INSERT INTO `chat_content` VALUES (634, 2, '测试', 1, '李白', '/static/upload/chat_img_5c2353e82ae9c.jpg', 1, 2, '2018-12-26 18:11:52');
+INSERT INTO `chat_content` VALUES (635, 1, '李白', 2, '测试', '/static/upload/chat_img_5c2355d2701e4.jpg', 1, 2, '2018-12-26 18:20:02');
 
 -- ----------------------------
 -- Table structure for contact
@@ -364,7 +436,7 @@ CREATE TABLE `contact`  (
   `created_time` datetime NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_uid_fid`(`uid`, `friend_id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
+) ENGINE = MyISAM AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Fixed;
 
 -- ----------------------------
 -- Records of contact
@@ -374,29 +446,9 @@ INSERT INTO `contact` VALUES (2, 1, 3, '2018-12-14 10:03:22');
 INSERT INTO `contact` VALUES (3, 1, 4, '2018-12-14 10:03:33');
 INSERT INTO `contact` VALUES (4, 1, 5, '2018-12-14 10:03:46');
 INSERT INTO `contact` VALUES (17, 1, 6, '2018-12-14 17:17:32');
-
--- ----------------------------
--- Table structure for make_eth
--- ----------------------------
-DROP TABLE IF EXISTS `make_eth`;
-CREATE TABLE `make_eth`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `eth` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `make_eth` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'email拼eth后md5',
-  `request_time` datetime NULL DEFAULT NULL COMMENT '请求时间',
-  `created_time` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of make_eth
--- ----------------------------
-INSERT INTO `make_eth` VALUES (1, '213123.com', 'dsadsaewq321321', '5f8e1ce4feef24c1735184cd576732d0', '2018-10-31 21:51:55', '2018-10-31 21:51:55');
-INSERT INTO `make_eth` VALUES (8, '21312@3.com', 'dsadsa2ewq321321', '591b96a88285e8939494fb26ec17bfd3', '2018-10-31 22:21:03', '2018-10-31 22:21:03');
-INSERT INTO `make_eth` VALUES (9, '213212@3.com', 'dsadsa2ewq321321', 'cde56ea56461c3952785d9926b25a4cd', '2018-10-31 22:44:05', '2018-10-31 22:44:05');
-INSERT INTO `make_eth` VALUES (10, '213212@3.com', 'dsadsa222ewq321321', '2797d117e53ea9a7a29c256577c39074', '2018-10-31 22:48:35', '2018-10-31 22:48:35');
-INSERT INTO `make_eth` VALUES (11, '2132212@3.com', 'dsadsa222ewq321321', 'd9fc94cbc722f8f2370579b332f177c3', '2018-10-31 22:48:50', '2018-10-31 22:48:50');
+INSERT INTO `contact` VALUES (18, 8, 1, '2018-12-17 15:42:06');
+INSERT INTO `contact` VALUES (22, 8, 3, '2018-12-18 10:35:21');
+INSERT INTO `contact` VALUES (21, 8, 2, '2018-12-18 10:25:13');
 
 -- ----------------------------
 -- Table structure for menu
@@ -412,40 +464,26 @@ CREATE TABLE `menu`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `parent`(`parent`) USING BTREE,
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES (1, '后台用户管理', NULL, '/user-backend/index', 1, NULL);
-INSERT INTO `menu` VALUES (2, '权限管理', NULL, '/admin/route/index', 4, NULL);
-INSERT INTO `menu` VALUES (3, '权限管理', 2, '/admin/permission/index', NULL, NULL);
-INSERT INTO `menu` VALUES (4, '菜单设置', 2, '/admin/menu/index', NULL, NULL);
-INSERT INTO `menu` VALUES (5, '角色分配', 2, '/admin/assignment/index', NULL, NULL);
-INSERT INTO `menu` VALUES (6, '角色管理', 2, '/admin/role/index', NULL, NULL);
-INSERT INTO `menu` VALUES (7, '路由管理', 2, '/admin/route/index', NULL, NULL);
-
--- ----------------------------
--- Table structure for node
--- ----------------------------
-DROP TABLE IF EXISTS `node`;
-CREATE TABLE `node`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '社群昵称',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `eth` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '来源',
-  `request_time` datetime NULL DEFAULT NULL COMMENT '抢占时间',
-  `created_time` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of node
--- ----------------------------
-INSERT INTO `node` VALUES (1, '123', '213123.com', 'dsadsaewq321321', NULL, '2018-10-31 21:51:55', '2018-10-31 21:51:55');
-INSERT INTO `node` VALUES (8, '2313', '21312@3.com', 'dsadsa2ewq321321', '', '2018-10-31 22:21:03', '2018-10-31 22:21:03');
-INSERT INTO `node` VALUES (9, '2313', '213212@3.com', 'dsadsa222ewq321321', NULL, '2018-10-31 22:44:40', '2018-10-31 22:44:40');
+INSERT INTO `menu` VALUES (11, '首页', NULL, '/admin.php/index', 1, 'home');
+INSERT INTO `menu` VALUES (13, '菜单管理', NULL, '/admin.php/menu', 0, 'share-alt');
+INSERT INTO `menu` VALUES (15, '轮播管理', NULL, '/admin.php/banner', 0, 'image');
+INSERT INTO `menu` VALUES (16, '素材管理', NULL, '#', 4, 'camera-retro');
+INSERT INTO `menu` VALUES (17, '文章管理', NULL, '#', 0, 'envira');
+INSERT INTO `menu` VALUES (18, '网站设置', NULL, '/admin.php/setting', 0, 'cog');
+INSERT INTO `menu` VALUES (19, '素材', 16, '/admin.php/picture/sucai', 0, '');
+INSERT INTO `menu` VALUES (20, '美女', 16, '/admin.php/picture/meinv', 0, '');
+INSERT INTO `menu` VALUES (21, '壁纸', 16, '/admin.php/picture/bizhi', 0, '');
+INSERT INTO `menu` VALUES (22, '图片库', 16, '/admin.php/picture/libs', 0, '');
+INSERT INTO `menu` VALUES (23, 'PHP', 17, '/admin.php/article/php', 0, '');
+INSERT INTO `menu` VALUES (24, 'Linux', 17, '/admin.php/article/linux', 0, '');
+INSERT INTO `menu` VALUES (25, 'Docker', 17, '/admin.php/article/docker', 0, '');
+INSERT INTO `menu` VALUES (26, 'Others', 17, '/admin.php/article/others', 0, '');
+INSERT INTO `menu` VALUES (27, '文章列表', 17, '/admin.php/article', -1, '');
 
 -- ----------------------------
 -- Table structure for user
@@ -489,10 +527,10 @@ CREATE TABLE `user_backend`  (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `my_sign` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '',
   `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `login_num` int(11) NOT NULL,
+  `login_num` int(11) NOT NULL DEFAULT 0,
   `login_ip` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `login_time` datetime NULL DEFAULT NULL,
-  `user_group` int(11) NOT NULL,
+  `user_group` int(11) NOT NULL DEFAULT 10,
   `updated_by` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `updated_at` datetime NOT NULL,
   `status` smallint(6) NOT NULL,
@@ -503,16 +541,24 @@ CREATE TABLE `user_backend`  (
   `role` smallint(6) NOT NULL,
   `created_at` int(11) NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of user_backend
 -- ----------------------------
-INSERT INTO `user_backend` VALUES (1, 'superadmin', '/static/chat/img/user2-160x160.jpg', '李白', '', '123456', '靡不有初，鲜克有终', '', 0, '', '0000-00-00 00:00:00', 0, '管理员甲', '2018-12-14 09:46:11', 10, 'superadmin@admin.com', 'e3FX_xB9zC0ICa1ybXoPZW14JZDMID9G', '$2y$13$0xfVo63PPDzLhCWKT8mOOeR0O8SCni/ER1dxA1GxCHjEM0p1fmzGe', '', 0, 1498650661);
-INSERT INTO `user_backend` VALUES (2, 'test', '/static/chat/img/123.jpg', '测试', '', '123456', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 10, 'test@qq.com', 'PHA8NjRFeCCcDBl25YH0mB8dClT-Bncl', '$2y$13$RVd./v8lZq77Ey68cjLLh.Wgo8g2fZ0caL3RsaGK0YmM0gvztINEa', NULL, 0, 1542346674);
-INSERT INTO `user_backend` VALUES (3, 'luohao', '/static/chat/img/28dfbfef890719d3002f73613562a783_1.jpg', '罗豪', '', '123456', '', '', 0, '', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 10, 'test@qq.com', 'PHA8NjRFeCCcDBl25YH0mB8dClT-Bncl', '$2y$13$RVd./v8lZq77Ey68cjLLh.Wgo8g2fZ0caL3RsaGK0YmM0gvztINEa', '', 0, 1542346674);
-INSERT INTO `user_backend` VALUES (4, 'luohao', '/static/chat/img/user1-128x128.jpg', '罗罗', '', '123456', '', '', 0, '', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 10, 'test@qq.com', 'PHA8NjRFeCCcDBl25YH0mB8dClT-Bncl', '$2y$13$RVd./v8lZq77Ey68cjLLh.Wgo8g2fZ0caL3RsaGK0YmM0gvztINEa', '', 0, 1542346674);
-INSERT INTO `user_backend` VALUES (5, '1', '/static/upload/headImg/20181213/e7293e3e8508b5d181cf012e72c9cee0.jpg', '索隆', '', '1', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '', NULL, 0, 1544671452);
-INSERT INTO `user_backend` VALUES (6, '2', '/static/chat/img/avatar04.png', '23333', '', '2', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '', NULL, 0, 1544671589);
+INSERT INTO `user_backend` VALUES (1, 'superadmin', '/static/chat/img/user2-160x160.jpg', '李白', '', '7JZ/s2oPwZBEw', '靡不有初，鲜克有终', '', 0, '', '0000-00-00 00:00:00', 0, '管理员甲', '2018-12-14 09:46:11', 10, 'superadmin@admin.com', 'e3FX_xB9zC0ICa1ybXoPZW14JZDMID9G', '7JZ/s2oPwZBEw', '', 0, 1498650661);
+INSERT INTO `user_backend` VALUES (2, 'test', '/static/upload/headImg/20181226/2df2926b1a6345754e67038cb429d7f4.jpg', '测试', '', '7JZ/s2oPwZBEw', '', NULL, 0, NULL, NULL, 0, '', '2018-12-26 17:00:07', 10, 'test@qq.com', 'PHA8NjRFeCCcDBl25YH0mB8dClT-Bncl', '7JZ/s2oPwZBEw', NULL, 0, 1542346674);
+INSERT INTO `user_backend` VALUES (3, 'luohao', '/static/chat/img/28dfbfef890719d3002f73613562a783_1.jpg', '罗豪', '', '7JZ/s2oPwZBEw', '', '', 0, '', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 10, 'test@qq.com', 'PHA8NjRFeCCcDBl25YH0mB8dClT-Bncl', '7JZ/s2oPwZBEw', '', 0, 1542346674);
+INSERT INTO `user_backend` VALUES (4, 'luohao', '/static/chat/img/user1-128x128.jpg', '罗罗', '', '7JZ/s2oPwZBEw', '', '', 0, '', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 10, 'test@qq.com', 'PHA8NjRFeCCcDBl25YH0mB8dClT-Bncl', '7JZ/s2oPwZBEw', '', 0, 1542346674);
+INSERT INTO `user_backend` VALUES (5, '1', '/static/upload/headImg/20181213/e7293e3e8508b5d181cf012e72c9cee0.jpg', '索隆', '', '7JZ/s2oPwZBEw', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '7JZ/s2oPwZBEw', NULL, 0, 1544671452);
+INSERT INTO `user_backend` VALUES (6, '2', '/static/chat/img/avatar04.png', '23333', '', '7JZ/s2oPwZBEw', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '7JZ/s2oPwZBEw', NULL, 0, 1544671589);
+INSERT INTO `user_backend` VALUES (7, 'test', '/static/chat/img/avatar04.png', '猫猫', '', '7JZ/s2oPwZBEw', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '7JZ/s2oPwZBEw', NULL, 0, 1545030597);
+INSERT INTO `user_backend` VALUES (8, 'test001', '/static/chat/img/avatar04.png', 'morning', '', '7JZ/s2oPwZBEw', '喵，早安', NULL, 0, NULL, NULL, 0, '', '2018-12-18 10:34:50', 0, '', '', '7JZ/s2oPwZBEw', NULL, 0, 1545030934);
+INSERT INTO `user_backend` VALUES (9, '3', '/static/chat/img/avatar04.png', '3', 'default', '7JZ/s2oPwZBEw', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '7JZ/s2oPwZBEw', NULL, 0, 1545097214);
+INSERT INTO `user_backend` VALUES (10, '4', '/static/chat/img/avatar04.png', '4', 'default', '7JZ/s2oPwZBEw', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '7JZ/s2oPwZBEw', NULL, 0, 1545097728);
+INSERT INTO `user_backend` VALUES (11, '333', '/static/chat/img/avatar04.png', '333', 'default', '333', '', NULL, 0, NULL, NULL, 0, '', '0000-00-00 00:00:00', 0, '', '', '7J40Bg.0PDvjo', NULL, 0, 1545120751);
+INSERT INTO `user_backend` VALUES (12, '2222', '/static/chat/img/avatar04.png', '2222', 'default', '22222222', '', NULL, 0, NULL, NULL, 10, '', '0000-00-00 00:00:00', 0, '', '', '7JJsWyQ2o6.CQ', NULL, 0, 1546068909);
+INSERT INTO `user_backend` VALUES (14, '185330767@qq.com', '/static/chat/img/user1-128x128.jpg', '超人会飞吗', 'default', '123456', '', NULL, 0, NULL, NULL, 10, '', '2018-12-29 18:11:18', 0, '185330767@qq.com', '', '7JZ/s2oPwZBEw', NULL, 0, 1546073840);
+INSERT INTO `user_backend` VALUES (15, 'bruce_1110@163.com', '/static/chat/img/user4-128x128.jpg', '超人喔', 'default', '123456', '', NULL, 0, NULL, NULL, 10, '', '0000-00-00 00:00:00', 0, 'bruce_1110@163.com', '', '7JZ/s2oPwZBEw', NULL, 0, 1546413070);
 
 SET FOREIGN_KEY_CHECKS = 1;

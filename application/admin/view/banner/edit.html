@@ -61,12 +61,12 @@
                                         
                                         <div class="am-form-group am-form-file">
 
-                                            <div class="tpl-form-file-img" id="doPreview" style="display: none;">
+                                            <div class="tpl-form-file-img" id="doPreview" if $banner_info neq true}style="display: none;"{/if}>
                                                 <img src="{if $banner_info eq true}{$banner_info.img_url}{else}__STATIC__/blog/admin1/img/a5.png{/if}" alt="">
                                             </div>
 
-                                            <button type="button" id="uploadBtn" class="am-btn am-btn-default am-btn-sm">
-                                                <i class="am-icon-cloud-upload"></i> 选择要上传的图片
+                                            <button type="button" id="uploadBtn" class="am-btn {if $banner_info}am-btn-primary{else}am-btn-default{/if} am-btn-sm">
+                                                <i class="am-icon-cloud-upload"></i> {if $banner_info}重新选择图片{else}选择要上传的图片{/if}
                                             </button>
                                             <input type="file" name="images" multiple="multipart/form-data" onchange="showPreview(this)">
                                             <input type="hidden" id="img_url" name="img_url" value="{if $banner_info eq true}{$banner_info.img_url}{/if}">

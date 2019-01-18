@@ -38,10 +38,10 @@ class MenuController extends Common
 
         $where = [];
         if (!empty($parent)) {
-            $where = ['parent' => null];
+            $where = ['parent' => $parent];
         }
         
-        $father_menu_list = Menu::all()->toArray();
+        $father_menu_list = Menu::all(['parent' => null])->toArray();
         $menu_list = Menu::all($where)->toArray();
         
         $bootstrap = new Pager($menu_list, $pageSize, $curPage, count($menu_list), false, $options);

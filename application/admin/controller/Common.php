@@ -33,7 +33,7 @@ class Common extends Controller
         // }
         
         $this->assign([
-            'sidebar_menu_list' => Menu::getMenus(),
+            'sidebar_menu_list' => $this->getMenus(),
             // 'menu_html' => $this->makeMenuHtml()
         ]);
     }
@@ -51,6 +51,60 @@ class Common extends Controller
     protected function isLogin()
     {
         return Session::get('is_login') ? true : false;
+    }
+
+    public function getMenus()
+    {
+        $menu_list = Menu::getMenus();
+        $data = [];
+        foreach ($menu_list as $key => $menu) {
+            if ($menu['parent']) {
+                $check = $this->checkUrl($menu['route']);
+                $data[$menu['parent']]['children'][] = [
+                    'name' => $menu['name'],
+                    'url' => str_replace('"', "'", $menu['route']),
+                    'message' => $menu['message'] ?? null,
+                    'icon' => $menu['data'] ?? 'circle-o',
+                    'check' => $check,
+                    'children' => [],
+                ];
+
+                if ($check) {
+                    $data[$menu['parent']]['check'] = $check;
+                }
+            }else{
+                $data[$menu['id']] = [
+                    'name' => $menu['name'],
+                    'url' => str_replace('"', "'", $menu['route']),
+                    'message' => $menu['message'] ?? null,
+                    'icon' => $menu['data'] ?? 'circle-o',
+                    'check' => $this->checkUrl($menu['route']),
+                    'children' => [],
+                ];
+            }
+        }
+
+        return $data;
+    }
+
+    public function checkUrl($url = '')
+    {        
+        $module_name = $this->request->module();
+        $controller_name = strtolower($this->request->controller());
+        $action = $this->request->action();
+        $active_url = $module_name.'/'.$controller_name.'/'.$action;
+
+        $url_arr = parse_url($url);
+
+        if (isset($url_arr['path'])) {
+            $path_list = str_replace('.php', '', trim($url_arr['path'], '/'));
+            $path_list = explode('/', $path_list);
+            $path_stri = (!empty($path_list[0])?$path_list[0]:'admin') . '/' . (!empty($path_list[1])?$path_list[1]:'index') . '/' . (!empty($path_list[2])?$path_list[2]:'index');
+        }else{
+            $path_stri = '';
+        }            
+
+        return strtolower($active_url) == strtolower($path_stri);
     }
 
     public function makeMenuHtml()

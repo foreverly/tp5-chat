@@ -176,28 +176,28 @@ class Menu extends Model
 
         $menu_list = self::all()->toArray();
         
-        $data = [];
-        foreach ($menu_list as $key => $menu) {
-            if ($menu['parent']) {
-                $data[$menu['parent']]['children'][] = [
-                    'name' => $menu['name'],
-                    'url' => str_replace('"', "'", $menu['route']),
-                    'message' => $menu['message'] ?? null,
-                    'icon' => $menu['data'] ?? 'circle-o',
-                    'children' => [],
-                ];
-            }else{
-                $data[$menu['id']] = [
-                    'name' => $menu['name'],
-                    'url' => str_replace('"', "'", $menu['route']),
-                    'message' => $menu['message'] ?? null,
-                    'icon' => $menu['data'] ?? 'circle-o',
-                    'children' => [],
-                ];
-            }
-        }
+        // $data = [];
+        // foreach ($menu_list as $key => $menu) {
+        //     if ($menu['parent']) {
+        //         $data[$menu['parent']]['children'][] = [
+        //             'name' => $menu['name'],
+        //             'url' => str_replace('"', "'", $menu['route']),
+        //             'message' => $menu['message'] ?? null,
+        //             'icon' => $menu['data'] ?? 'circle-o',
+        //             'children' => [],
+        //         ];
+        //     }else{
+        //         $data[$menu['id']] = [
+        //             'name' => $menu['name'],
+        //             'url' => str_replace('"', "'", $menu['route']),
+        //             'message' => $menu['message'] ?? null,
+        //             'icon' => $menu['data'] ?? 'circle-o',
+        //             'children' => [],
+        //         ];
+        //     }
+        // }
 
-        return $data;
+        return $menu_list;
     }
 }
 
