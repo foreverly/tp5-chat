@@ -5,7 +5,7 @@
     <ul class="am-slides">
         {foreach $rotation_list as $rotation}
         <li>
-            <img src="__STATIC__{$rotation.picture}">
+            <img src="{$rotation.picture}">
             <div class="blog-slider-desc am-slider-desc ">
                 <div class="blog-text-center blog-slider-con">
                     <span><a href="" class="blog-color">{$rotation.author} &nbsp;</a></span>               
@@ -28,7 +28,7 @@
         {foreach $article_list as $article}
         <article class="am-g blog-entry-article">
             <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                <img src="__STATIC__{$article.covor_picture}" alt="" class="am-u-sm-12">
+                <img src="{$article.cover_picture}" alt="" class="am-u-sm-12">
             </div>
             <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
                 <span><a href="" class="blog-color">{$article.author} &nbsp;</a></span>

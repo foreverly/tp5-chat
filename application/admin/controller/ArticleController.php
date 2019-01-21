@@ -3,6 +3,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\Request;
+use think\Db;
 use lib\Pager;
 use lib\Email;
 use app\admin\model\Article;
@@ -19,10 +20,13 @@ class ArticleController extends Common
     {
         $curPage = (int)$this->request->get('page', 1) ?: 1;
         $pageSize = 5;
-
+        
         $options = [
             'page' => $curPage,
+            'query' => request()->param(),
+            'type' => 'lib\Pager',
             'path' => url('/article', '', false),
+            'var_page'  => 'page'
         ];
 
         $options = array_merge($options, config('pager.admin'));
@@ -32,13 +36,18 @@ class ArticleController extends Common
             $where = ['parent' => null];
         }
         
-        $article_list = Article::all($where)->toArray();
+        // $article_list = Article::all($where)->toArray();
+        $article_list = Db::table('article')->where($where)->order(['id'=>'desc'])->paginate(
+            $pageSize, 
+            false, 
+            $options
+        );
         
-        $Pager = new Pager($article_list, $pageSize, $curPage, count($article_list), false, $options);
+        // $Pager = new Pager($article_list, $pageSize, $curPage, count($article_list), false, $options);
 
         return $this->fetch('index', [
             'article_list' => $article_list,
-            'pager' => $Pager->render()
+            'pager' => $article_list->render()
         ]);
     }
     
@@ -55,9 +64,8 @@ class ArticleController extends Common
             }
 
             $article_info = $articleModel->toArray();
-        }
-
-        $article_info['content'] = htmlspecialchars_decode($article_info['content']);
+            $article_info['content'] = htmlspecialchars_decode($article_info['content']);
+        }       
 
         return $this->fetch('edit', [
             'article_info' => $article_info

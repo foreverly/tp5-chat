@@ -16,7 +16,7 @@ class Article extends Model
     */
     public static function getArticles()
     {
-        self::all()->toArray();
+        return self::all()->toArray();
     }
 }
 

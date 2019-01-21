@@ -3,6 +3,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\Request;
+use think\Db;
 use lib\Pager;
 use lib\Email;
 use app\admin\model\Menu;
@@ -31,7 +32,10 @@ class MenuController extends Common
 
         $options = [
             'page' => $curPage,
+            'query' => request()->param(),
+            'type' => 'lib\Pager',
             'path' => url('/menu', '', false),
+            'var_page'  => 'page'
         ];
 
         $options = array_merge($options, config('pager.admin'));
@@ -42,14 +46,18 @@ class MenuController extends Common
         }
         
         $father_menu_list = Menu::all(['parent' => null])->toArray();
-        $menu_list = Menu::all($where)->toArray();
-        
-        $bootstrap = new Pager($menu_list, $pageSize, $curPage, count($menu_list), false, $options);
+        $menu_list        = Db::table('menu')->where($where)->order(['id'=>'desc'])->paginate(
+            $pageSize, 
+            false, 
+            $options
+        );
+
+        // $bootstrap = new Pager($menu_list, $pageSize, $curPage, count($menu_list), false, $options);
 
         return $this->fetch('index', [
             'parent' => $parent,
             'menu_list' => $menu_list,
-            'bootstrap' => $bootstrap->render(),
+            'bootstrap' => $menu_list->render(),
             'father_menu_list' => $father_menu_list
         ]);
     }

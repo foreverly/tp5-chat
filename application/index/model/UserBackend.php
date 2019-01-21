@@ -3,7 +3,7 @@ namespace app\index\model;
 
 use think\Model;
 
-class User extends Model
+class UserBackend extends Model
 {
     protected $pk = 'id';
 
