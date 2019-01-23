@@ -6,6 +6,7 @@ use think\Request;
 use think\Session;
 use think\Jump;
 use app\index\model\Menu;
+use app\index\model\Tag;
 
 class Common extends Controller
 {
@@ -22,6 +23,7 @@ class Common extends Controller
         
         $this->assign([
             'menu_list' => Menu::getMenus($this->isLogin),
+            'tag_list' => (new Tag())->getTags(['status' => 1]),
             'is_login' => $this->isLogin,
             'user_info' => $this->userInfo
         ]);

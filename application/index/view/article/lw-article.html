@@ -80,13 +80,13 @@
           {volist name="comment_list" id="comment"}
           <li class="am-comment">
             <a href="#link-to-user-home">
-              <img src="/static/blog/images/27.jpg" alt="" class="am-comment-avatar" width="48" height="48"/>
+              <img src="{$comment.head_url}" alt="" class="am-comment-avatar" width="48" height="48"/>
             </a>
 
             <div class="am-comment-main">
               <header class="am-comment-hd">
                 <div class="am-comment-meta">
-                  <a href="#link-to-user" class="am-comment-author">张三</a>
+                  <a href="#link-to-user" class="am-comment-author">{$comment.name}</a>
                   评论于 <time datetime="{$comment.created_time}" title="{$comment.created_time}">{$comment.created_time}</time>
                 </div>
               </header>
@@ -117,7 +117,7 @@
             <input type="hidden" name="article_id" value="{$info.id}">
         
             <div class="am-form-group">
-              <textarea class="" id="" name="content" rows="5" placeholder="一字千金"></textarea>
+              <textarea class="" id="contentArea" name="content" rows="5" placeholder="按个爪~"></textarea>
             </div>
         
             <p><button type="button" id="btnComment" class="am-btn am-btn-default">发表评论</button></p>
@@ -142,7 +142,7 @@ $("#btnComment").on('click', function(){
     url:'/article/comment',
     success:function(res){
       if (res.code == '200') {
-
+        getComments();
       }else{
         alert(res.msg)
       }
@@ -153,7 +153,40 @@ $("#btnComment").on('click', function(){
 getComments();
 
 function getComments(){
+  var article_id = "{$info.id}";
+  $.ajax({
+    type:'POST',
+    data:"article_id="+article_id,
+    dataType:'json',
+    url:'/article/getComments',
+    success:function(res){
+      if (res.code == '200') {
 
+        var commentHtml = '';
+        var data = res.data;
+        for (var i = 0; i < data.length; i++) {
+          commentHtml += '<li class="am-comment">';
+          commentHtml += '<a href="#link-to-user-home">';
+          commentHtml += '<img src="'+data[i].head_url+'" alt="" class="am-comment-avatar" width="48" height="48"/>';
+          commentHtml += '</a>';
+          commentHtml += '<div class="am-comment-main">';
+          commentHtml += '<header class="am-comment-hd">';
+          commentHtml += '<div class="am-comment-meta">';
+          commentHtml += '<a href="#link-to-user" class="am-comment-author">'+data[i].name+'</a>';
+          commentHtml += '评论于 <time datetime="'+data[i].created_time+'" title="'+data[i].created_time+'">'+data[i].created_time+'</time>';
+          commentHtml += '</div>';
+          commentHtml += '</header>';
+          commentHtml += '<div class="am-comment-bd">' + data[i].content;
+          commentHtml += '</div></div></li>';
+        }
+
+        $(".am-comments-list").html(commentHtml);
+        $("#contentArea").val('')
+      }else{
+        alert(res.msg)
+      }
+    }
+  }) 
 }
 
 </script>

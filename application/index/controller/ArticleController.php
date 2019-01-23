@@ -58,24 +58,27 @@ class ArticleController extends Common
         }
 
         // 评论列表
-        $comment_list = Comment::all(['article_id' => $id])->toArray();
+        $comment_list = (new Comment())->getComments(['article_id' => $id]);
 
         return $this->fetch('lw-article', [
             'prev' => $prev,
             'info' => $info,
             'next' => $next,
             'author_info' => [
-                'name' => $author_info['display_name'], 
-                'my_sign' => $author_info['my_sign'],
-                'head_url' => $author_info['head_url'],                
+                'name' => $author_info['display_name'] ?: '佚名', 
+                'my_sign' => $author_info['my_sign'] ?: '桃李不言，下自成蹊。',
+                'head_url' => $author_info['head_url'] ?: '/static/chat/img/avatar5.png',                
             ],
             'comment_list' => $comment_list
         ]);
     }
 
-    public function getComments($id)
+    public function getComments()
     {
-        return Comment::all(['article_id' => $id])->toArray();
+        $article_id = $this->request->post('article_id', null);
+        $comment_list = (new Comment())->getComments(['article_id' => $article_id]);
+
+        ajaxSuccess($comment_list);
     }
 
     public function comment()

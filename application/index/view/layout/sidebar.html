@@ -1,6 +1,6 @@
     <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
         <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-text-center blog-title"><span>About ME</span></h2>
+            <h2 class="blog-text-center blog-title"><span>我</span></h2>
             <!-- <img src="__STATIC__/blog/assets/i/f14.jpg" alt="about me" class="blog-entry-img" >
             <p>妹纸</p>
             <p>
@@ -10,12 +10,9 @@
 
             <div class="am-u-sm-12 blog-clear-padding am-u-sm-centered">
                 {if $user_info eq true}
-                <img src="__STATIC__/blog/assets/i/f14.jpg" alt="about me" class="blog-entry-img" >
-                <p>陌上花开</p>
-                <p>
-                遇见你，是劫是缘，都是命中注定。
-                </p>
-                <p>也许，这世间，人与人的相遇，原本就是一种奇妙的缘，而那相逢的一瞬，竟可以穿越千年，抵过了世间万千的暖――你若问我，为何而执着，我只能说，前世的相遇，便是最好的答案。人间流水梦一场，青春迟来花流水。</p>
+                <img src="{$user_info.head_url}" alt="about me" class="blog-entry-img" >
+                <p>{$user_info.nick_name}</p>
+                {$user_info.my_sign}
                 {else}
                 <h3>登录/<a>注册</a></h3>
                 <hr>
@@ -30,7 +27,7 @@
             </div>
         </div>
         <div class="blog-sidebar-widget blog-bor">
-            <h2 class="blog-text-center blog-title"><span>Contact ME</span></h2>
+            <h2 class="blog-text-center blog-title"><span>联系我</span></h2>
             <p>
                 <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
                 <a href=""><span class="am-icon-github am-icon-fw blog-icon"></span></a>
@@ -40,14 +37,11 @@
             </p>
         </div>
         <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
-            <h2 class="blog-title"><span>TAG cloud</span></h2>
+            <h2 class="blog-title"><span>热门标签</span></h2>
             <div class="am-u-sm-12 blog-clear-padding">
-            <a href="" class="blog-tag">amaze</a>
-            <a href="" class="blog-tag">妹纸 UI</a>
-            <a href="" class="blog-tag">HTML5</a>
-            <a href="" class="blog-tag">这是标签</a>
-            <a href="" class="blog-tag">Impossible</a>
-            <a href="" class="blog-tag">开源前端框架</a>
+                {volist name='tag_list' id='tag'}
+                <a href="#" class="blog-tag">{$tag.name}</a>
+                {/volist}
             </div>
         </div>
         <div class="blog-sidebar-widget blog-bor">
