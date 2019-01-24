@@ -2,6 +2,7 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\Db;
 
 class Menu extends Model
 {
@@ -14,7 +15,7 @@ class Menu extends Model
     * 模拟
     * author：Bruce
     */
-    public static function getMenus($user_info = [])
+    public function getMenus($where = [])
     {
         // $data = [
         //     [
@@ -174,7 +175,7 @@ class Menu extends Model
         //     }
         // }
 
-        $menu_list = self::all()->toArray();
+        // $menu_list = self::all()->toArray();        
         
         // $data = [];
         // foreach ($menu_list as $key => $menu) {
@@ -196,6 +197,8 @@ class Menu extends Model
         //         ];
         //     }
         // }
+
+        $menu_list = Db::table($this->table)->where($where)->order('order asc, id asc')->select();
 
         return $menu_list;
     }

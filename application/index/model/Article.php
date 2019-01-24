@@ -2,6 +2,7 @@
 namespace app\index\model;
 
 use think\Model;
+use think\Db;
 
 class Article extends Model
 {
@@ -26,14 +27,47 @@ class Article extends Model
     * 
     * author：Bruce
     */
-    public static function getArticles()
-    {
-        $list = self::all()->toArray();
-        foreach ($list as $key => $value) {
-            $list[$key]['content'] = htmlspecialchars_decode($value['content']);
-        }
+    // public static function getArticles()
+    // {
+    //     $list = self::all()->toArray();
+    //     foreach ($list as $key => $value) {
+    //         $list[$key]['content'] = htmlspecialchars_decode($value['content']);
+    //     }
 
-        return $list;
+    //     return $list;
+    // }
+
+    /*
+    * 获取文章列表
+    * 模拟
+    * author：Bruce
+    */
+    public function getArticles($where = [], $curPage = 1, $pageSize = 5)
+    {
+        $offset = (($curPage) < 1 ? 0 : ($curPage - 1)) * $pageSize;
+        $limit  = $pageSize;
+
+        $res = Db::table('article')->where($where)->orderRaw('created_time desc')->limit($offset, $limit)->select();
+
+        $article_list = [];
+        foreach ($res as $key => $value) {
+            $article_list[] = [
+                'title' => $value['title'],
+                'url' => '/article/info?id=' . $value['id'],
+                'cover_picture' => $value['cover_image'],
+                // 'slogan' => $value['slogan'] ?: cutStr(htmlspecialchars_decode($value['content']), 212, '...'),
+                'slogan' => $value['slogan'],
+                'author' => 'Bruce',
+                'from' => '52xue.site',
+                'time' => $value['created_time']
+            ];
+        }
+        return $article_list;
+    }
+
+    public function getCount($where = [])
+    {
+        return Db::table($this->table)->where($where)->count();
     }
 
     public function user()

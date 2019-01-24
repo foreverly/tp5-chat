@@ -95,7 +95,7 @@
                 </a>
 
                 {if $menu.children eq true}
-                <ul class="tpl-left-nav-sub-menu">
+                <ul class="tpl-left-nav-sub-menu" {if $menu.check eq true}style="display: block;"{/if}>
                     <li>
                         {volist name='menu.children' id='child' key='k'}
                         <a href="{$child.url}" {if $child.check eq true}class="active"{/if}>

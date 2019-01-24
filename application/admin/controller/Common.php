@@ -55,10 +55,15 @@ class Common extends Controller
 
     public function getMenus()
     {
-        $menu_list = Menu::getMenus();
+        $menu_list = (new Menu())->getMenus(['status' => 1]);
         $data = [];
         foreach ($menu_list as $key => $menu) {
-            if ($menu['parent']) {
+            if ($menu['parent']) { 
+                           
+                // if (!isset($data[$menu['parent']])) {
+                //     continue;
+                // }
+
                 $check = $this->checkUrl($menu['route']);
                 $data[$menu['parent']]['children'][] = [
                     'name' => $menu['name'],

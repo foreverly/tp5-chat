@@ -11,6 +11,10 @@ class IndexController extends Common
 
     protected $needLogin = false;
 
+    protected $page = 1;
+
+    protected $size = 5;
+
     public function _initialize()
     {
         parent::_initialize();
@@ -18,8 +22,11 @@ class IndexController extends Common
     
     public function index()
     {
+        $where = "1=1";
         return $this->fetch('lw-index', [
-            'article_list' => $this->getArticles(),
+            'article_list' => (new Article())->getArticles($where, $this->page, $this->size),
+            'page' => $this->page,
+            'totalPage' => ceil((new Article())->getCount($where)/$this->size),
             'rotation_list' => $this->getRotations()
         ]);
     }
@@ -35,22 +42,13 @@ class IndexController extends Common
     * author：Bruce
     */
     public function getArticles()
-    {
-        $res = Db::table('article')->limit(5)->select();
+    {        
+        $page = (int)$this->request->post('page', 1);
 
-        $article_list = [];
-        foreach ($res as $key => $value) {
-            $article_list[] = [
-                'title' => $value['title'],
-                'url' => '/article/info?id=' . $value['id'],
-                'cover_picture' => $value['cover_image'],
-                'slogan' => $value['slogan'],
-                'author' => 'Bruce',
-                'from' => '52xue.site',
-                'time' => $value['created_time']
-            ];
-        }
-        return $article_list;
+        $where = '1=1';
+        $article_list = (new Article())->getArticles($where, $page, $this->size);
+
+        ajaxSuccess($article_list);
     }
 
     /*

@@ -27,6 +27,15 @@ if (!function_exists('ajaxError')) {
 	}
 }
 
+if (!function_exists('dd')) {
+	function dd($data)
+	{
+		echo '<pre>';
+		var_dump($data);
+		exit; 
+	}
+}
+
 if (!function_exists('strLength')) {
 	/**
 	 * PHP获取字符串中英文混合长度 

@@ -69,7 +69,7 @@ class TagController extends Common
         $name       = trim($this->request->post('name', ''));
         $status     = (int)$this->request->post('status', 0);
         
-        try{
+        try {
             if ($id) {
                 $model = Tag::get($id);
             }else{
@@ -83,7 +83,7 @@ class TagController extends Common
             $model->save();
 
             ajaxSuccess();
-        }catch(\Exception $e)){
+        } catch (\Exception $e){
             ajaxError($model->error);
         }                    
     }

@@ -87,12 +87,13 @@ class MenuController extends Common
 
     public function save()
     {
-        $id = (int)$this->request->post('id', null);
-        $name = $this->request->post('name', '');
+        $id     = (int)$this->request->post('id', null);
+        $name   = $this->request->post('name', '');
         $parent = $this->request->post('parent', null) ?: null;
-        $route = $this->request->post('route', '');
-        $data = $this->request->post('data', 'circle-o');
-        $order = (int)$this->request->post('order', 0);
+        $route  = $this->request->post('route', '');
+        $data   = $this->request->post('data', 'circle-o');
+        $order  = (int)$this->request->post('order', 0);
+        $status = (int)$this->request->post('status', 1);
         
         // 数据验证
 
@@ -102,11 +103,12 @@ class MenuController extends Common
             $model = new Menu();
         }
 
-        $model->name = $name;
-        $model->parent = $parent;
-        $model->route = $route;
-        $model->data = $data;
-        $model->order = $order;
+        $model->name    = $name;
+        $model->parent  = $parent;
+        $model->route   = $route;
+        $model->data    = $data;
+        $model->order   = $order;
+        $model->status  = $status;
 
         $model->save();
 
