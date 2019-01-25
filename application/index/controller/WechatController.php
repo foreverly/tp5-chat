@@ -7,7 +7,7 @@ use think\Session;
 use think\Db;
 use wechat\WechatCallbackApi;
 
-define("TOKEN", "liangleyouwen");
+define("TOKEN", "52xue");
 
 class WechatController extends Controller
 {
