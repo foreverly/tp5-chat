@@ -20,7 +20,7 @@ class Common extends Controller
     {
         parent::_initialize();        
         $this->checkLogin();
-        
+
         $this->assign([
             'menu_list' => Menu::getMenus($this->isLogin),
             'tag_list' => (new Tag())->getTags(['status' => 1]),
@@ -29,6 +29,7 @@ class Common extends Controller
         ]);
     }
 
+    //
     protected function checkLogin()
     {
         $this->isLogin = $this->isLogin();
