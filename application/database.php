@@ -11,7 +11,7 @@
 
 return [
     // 数据库类型
-    'type'            => 'mysql',
+    'type'            => 'mysql', 
     // 服务器地址
     'hostname'        => '193.112.9.235',
     // 数据库名

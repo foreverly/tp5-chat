@@ -7,18 +7,21 @@ use think\Session;
 use think\Db;
 use wechat\WechatCallbackApi;
 
-define("TOKEN", "52xue");
-
 class WechatController extends Controller
 {
+	private $wechatToken = '52xue';
     public function _initialize()
     {
-        // TO DO
+    	// 取出配置表里的token
+        $wechatToken = Db::table('website_setting')->where(['name' => 'wechatToken'])->value('value');
+        if (!empty($wechatToken)) {
+        	$this->wechatToken = $wechatToken;
+        }
     }
 
     public function volid()
     {    	
-		$wechatObj = new WechatCallbackApi();
+		$wechatObj = new WechatCallbackApi($this->wechatToken);
 		$wechatObj->valid();
     }
 }
