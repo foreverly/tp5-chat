@@ -19,7 +19,7 @@ class WechatController extends Controller
         }
     }
 
-    public function volid()
+    public function valid()
     {
 		$wechatObj = new WechatCallbackApi($this->wechatToken);
 		$wechatObj->valid();
