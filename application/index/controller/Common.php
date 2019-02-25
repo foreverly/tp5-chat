@@ -5,8 +5,10 @@ use think\Controller;
 use think\Request;
 use think\Session;
 use think\Jump;
-use app\index\model\Menu;
 use app\index\model\Tag;
+use app\index\model\Menu;
+use app\index\model\Article;
+use app\index\model\Setting;
 
 class Common extends Controller
 {
@@ -24,7 +26,9 @@ class Common extends Controller
         $this->assign([
             'menu_list' => Menu::getMenus($this->isLogin),
             'tag_list' => (new Tag())->getTags(['status' => 1]),
+            'hot_articles' => (new Article())->getHots(['status' => 1]),
             'is_login' => $this->isLogin,
+            'settingInfo' => Setting::getSettings(),
             'user_info' => $this->userInfo
         ]);
     }

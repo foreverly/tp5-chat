@@ -42,7 +42,7 @@ class Common extends Controller
     {
         $this->isLogin = $this->isLogin();
     	if (!$this->isLogin && $this->needLogin) {
-    		$this->redirect(url('/index.php/login'));
+    		$this->redirect(url('/login'));
     	}else{
             $this->userInfo = Session::get('USER_INFO_SESSION') ?? [];            
         }

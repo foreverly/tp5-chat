@@ -65,6 +65,26 @@ class Article extends Model
         return $article_list;
     }
 
+    /*
+    * 获取热门文章
+    * 
+    * author：Bruce
+    */
+    public function getHots($where = [], $orderBy = 'hot desc', $limit = 10)
+    {
+        $res = Db::table('article')->where($where)->orderRaw($orderBy)->limit($limit)->select();
+
+        $article_list = [];
+        foreach ($res as $key => $value) {
+            $article_list[] = [
+                'title' => $value['title'],
+                'url' => '/article/info?id=' . $value['id'],
+            ];
+        }
+
+        return $article_list;
+    }
+
     public function getCount($where = [])
     {
         return Db::table($this->table)->where($where)->count();
