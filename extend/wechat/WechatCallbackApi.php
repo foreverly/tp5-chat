@@ -120,7 +120,7 @@ class WechatCallbackApi
         </xml>";
 
         $result = sprintf($xmlTpl, $object->FromUserName, $object->ToUserName, time(), count($content));
-        return $result;
+        echo $result;
     }
     
     public function handleText($postObj)
@@ -182,7 +182,7 @@ class WechatCallbackApi
         }
 
         $resultStr = $this->responseText($object, $contentStr);
-        return $resultStr;
+        echo $resultStr;
     }
 
     public function responseText($object, $content, $flag = 0)
@@ -196,7 +196,7 @@ class WechatCallbackApi
                     <FuncFlag>%d</FuncFlag>
                     </xml>";
         $resultStr = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $content, $flag);
-        return $resultStr;
+        echo $resultStr;
     }
 
     public static function getAccessToken($appid, $app_secret)
