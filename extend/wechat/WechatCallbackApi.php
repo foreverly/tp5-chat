@@ -68,7 +68,7 @@ class WechatCallbackApi
                     $resultStr = $this->handleText($postObj);
                     break;
                 // 关注公众号事件
-                case 'variable':
+                case 'event':
                     $resultStr = $this->handleEvent($postObj);
                     break;                
                 default:
