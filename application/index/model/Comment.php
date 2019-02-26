@@ -15,7 +15,7 @@ class Comment extends Model
         // $comment_list = self::all($where);
         $comment_list = Db::table($this->table)
                         ->alias('c')
-                        ->Join('user_backend u', 'c.uid = u.id')
+                        ->Join('user_backend u', 'c.uid = u.id', 'left')
                         ->field('c.*, u.display_name as name, u.head_url')
                         ->where($where)
                         ->orderRaw('c.id desc')

@@ -77,7 +77,7 @@ class ArticleController extends Common
     {
         $article_id = $this->request->post('article_id', null);
         $comment_list = (new Comment())->getComments(['article_id' => $article_id]);
-
+        
         ajaxSuccess($comment_list);
     }
 
