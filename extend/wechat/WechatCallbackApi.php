@@ -172,11 +172,11 @@ class WechatCallbackApi
         switch ($object->Event) {
             // 首次关注
             case 'subscribe':
-                $contentStr = "嘻嘻，欢迎关注吾爱学，一起来学习吧~\n<a href='http://www.52xue.site'>开始学习</a>";
+                $contentStr = "嘻嘻，欢迎关注吾爱学。\n\n<a href='http://www.52xue.site'>一起来学习吧~</a>";
                 break;
             // 已关注
             case 'SCAN':
-                $contentStr = "嗨，老朋友，欢迎回来！\n每天起床第一句，先给自己打个气：今天也要好好学习哦~\n<a href='http://www.52xue.site'>开始学习</a>";
+                $contentStr = "嗨，老朋友，欢迎回来！\n每天起床第一句，先给自己打个气：今天也要好好学习哦~\n\n<a href='http://www.52xue.site'>开始学习</a>";
                 break;            
             default:
         }
