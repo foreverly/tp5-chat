@@ -1,6 +1,8 @@
 <?php
 namespace wechat;
 
+use lib\base\Curl;
+
 /**
   * wechat php api
   */
@@ -48,7 +50,7 @@ class WechatCallbackApi
 				if(!empty( $keyword ))
                 {
               		$msgType = "text";
-                	$contentStr = "Welcome to wechat world!";
+                	$contentStr = "感谢关注!";
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 	echo $resultStr;
                 }else{
@@ -79,6 +81,27 @@ class WechatCallbackApi
 			return false;
 		}
 	}
+
+    public static function getAccessToken($appid, $app_secret)
+    {        
+        $curlData = [
+            'grant_type' => 'client_credential',
+            'appid' => $appid,
+            'secret' => $app_secret
+        ];
+
+        $curlUrl = 'https://api.weixin.qq.com/cgi-bin/token?' . http_build_query($curlData);
+
+        $res = Curl::get($curlUrl);
+
+        $data = json_decode($res, true);
+
+        if (!empty($data['errcode'])) {
+            return $data['errmsg'];
+        }
+
+        return $data['access_token'];
+    }
 }
 
 ?>
