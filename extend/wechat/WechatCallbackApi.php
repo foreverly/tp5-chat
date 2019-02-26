@@ -152,7 +152,7 @@ class WechatCallbackApi
                     $contentStr = '爱你哦~';
                     break;                
                 default:
-                    # code...
+                    $contentStr = '母鸡~';
                     break;
             }
 
