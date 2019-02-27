@@ -7,6 +7,7 @@ use think\Session;
 use think\Db;
 use wechat\WechatCallbackApi;
 use lib\helpers\ArrayHelper;
+use lib\weather\HeFeng;
 
 class WechatController extends Controller
 {
@@ -31,7 +32,7 @@ class WechatController extends Controller
     public function index()
     {
         $wechatObj = new WechatCallbackApi($this->Token);
-
+        
         if (!isset($_GET['echostr'])) {
             $wechatObj->responseMsg();
         }else{

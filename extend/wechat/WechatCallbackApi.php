@@ -2,6 +2,7 @@
 namespace wechat;
 
 use lib\base\Curl;
+use lib\weather\HeFeng;
 
 /**
   * wechat php api
@@ -141,19 +142,30 @@ class WechatCallbackApi
         if (!empty($keyword)) {
             $msgType = "text";
 
-            switch ($keyword) {
-                case '天气':
-                    $contentStr = '天气多云转晴，未来将有台风，准备放假哦~';
-                    break;
-                case '音乐':
-                    $contentStr = '陈奕迅的歌很好听哦~';
-                    break; 
-                case '我爱你':
-                    $contentStr = '爱你哦~';
-                    break;                
-                default:
-                    $contentStr = '母鸡~';
-                    break;
+            // 末尾是天气则查询实时天气
+            if (mb_substr($keyword, -2) == '天气') {
+                $location = str_replace('天气', '', $keyword);
+                $contentStr = (new HeFeng())->getWeather($location);
+            }
+            elseif(mb_substr($keyword, -4) == '天气预报'){
+                $location = str_replace('天气预报', '', $keyword);
+                $contentStr = (new HeFeng())->getForecast($location);                
+            }
+            else{
+                switch ($keyword) {
+                    case '天气':
+                        $contentStr = "请输入【XX天气】查询实时天气状况哦~如【北京天气】。\n请输入【XX天气预报】查询未来几天的天气状况哦~如【北京天气预报】。";
+                        break;
+                    case '音乐':
+                        $contentStr = '陈奕迅的歌很好听哦~';
+                        break; 
+                    case '我爱你':
+                        $contentStr = '爱你哦~';
+                        break;                
+                    default:
+                        $contentStr = "请输入【XX天气】查询实时天气状况哦~如【北京天气】。\n请输入【XX天气预报】查询未来几天的天气状况哦~如【北京天气预报】。";
+                        break;
+                }
             }
 
             $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
