@@ -172,7 +172,7 @@ class WechatCallbackApi
                         $contentStr = '爱你哦~';
                         break;                
                     default:
-                        $contentStr = "请输入【XX天气】查询实时天气状况哦~如【北京天气】。\n请输入【XX天气预报】查询未来几天的天气状况哦~如【北京天气预报】。";
+                        $contentStr = "输入【XX天气】查询实时天气状况，如【北京天气】。\n输入【XX天气预报】查询未来几天的天气状况，如【北京天气预报】。\n输入【XX菜谱】查询美食制作方法，如【梅菜扣肉菜谱】。\n查询时去掉【】";
                         break;
                 }
             }
