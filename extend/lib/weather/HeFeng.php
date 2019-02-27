@@ -31,7 +31,8 @@ class HeFeng
 		$rdata = [];
 		if ($res) {
 			$rdata = json_decode($res, true);
-			if ($rdata['HeWeather6'][0]['status'] = 'ok') {
+			unset($rdata['HeWeather6'][0]['status']);
+			if ($rdata['HeWeather6'][0]) {
 				$rdata = $rdata['HeWeather6'][0];
 			}else{
 				return '未查询到结果';
@@ -79,7 +80,8 @@ class HeFeng
 		$rdata = [];
 		if ($res) {
 			$rdata = json_decode($res, true);
-			if ($rdata['HeWeather6'][0]['status'] = 'ok') {
+			unset($rdata['HeWeather6'][0]['status']);
+			if ($rdata['HeWeather6'][0]) {
 				$rdata = $rdata['HeWeather6'][0];
 			}else{
 				return '未查询到结果';
