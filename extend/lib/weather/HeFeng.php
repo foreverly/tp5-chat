@@ -30,7 +30,7 @@ class HeFeng
 
 		$rdata = [];
 		if ($res) {
-			$rdata = json_decode($res, true);var_dump($rdata);exit;
+			$rdata = json_decode($res, true);
 			if ($rdata['HeWeather6'][0]['status'] = 'ok') {
 				$rdata = $rdata['HeWeather6'][0];
 			}else{
