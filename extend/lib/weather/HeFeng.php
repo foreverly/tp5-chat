@@ -30,14 +30,14 @@ class HeFeng
 
 		$rdata = [];
 		if ($res) {
-			$rdata = json_decode($res, true);
+			$rdata = json_decode($res, true);var_dump($rdata);exit;
 			if ($rdata['HeWeather6'][0]['status'] = 'ok') {
 				$rdata = $rdata['HeWeather6'][0];
 			}else{
 				return '未查询到结果';
 			}
 		}
-var_dump($rdata);exit;
+
 		$basic  = $rdata['basic'];
 		$update = $rdata['update'];
 		$now	= $rdata['now'];
