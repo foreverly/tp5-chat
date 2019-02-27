@@ -29,6 +29,7 @@ class HeFeng
 		$res = Curl::get($this->apiUrl . '?' . http_build_query($data));
 
 		$rdata = [];
+		$str = '';
 		if ($res) {
 			$rdata = json_decode($res, true);
 			unset($rdata['HeWeather6'][0]['status']);
@@ -45,7 +46,7 @@ class HeFeng
 			$str = "【{$basic['location']}实时天气】\n\n{$now['cond_txt']}，当前气温{$now['tmp']}℃，体感温度{$now['fl']}℃，风力{$now['wind_sc']}级，风速{$now['wind_spd']}公里/小时。\n更新时间{$update['loc']}。";
 		}
 
-		return '未查询到结果';
+		return $str ? $str : '未查询到结果';
 	}
 
 	// 历史天气
@@ -78,6 +79,7 @@ class HeFeng
 		$res = Curl::get($this->forUrl . '?' . http_build_query($data));
 
 		$rdata = [];
+		$str = '';
 		if ($res) {
 			$rdata = json_decode($res, true);
 			unset($rdata['HeWeather6'][0]['status']);
@@ -102,7 +104,7 @@ class HeFeng
 			}
 		}
 			
-		return '未查询到结果';
+		return $str ? $str : '未查询到结果';
 	}
 }
 ?>
