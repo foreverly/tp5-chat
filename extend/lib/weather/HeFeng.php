@@ -37,7 +37,7 @@ class HeFeng
 				return '未查询到结果';
 			}
 		}
-
+var_dump($rdata);exit;
 		$basic  = $rdata['basic'];
 		$update = $rdata['update'];
 		$now	= $rdata['now'];
@@ -81,6 +81,8 @@ class HeFeng
 			$rdata = json_decode($res, true);
 			if ($rdata['HeWeather6'][0]['status'] = 'ok') {
 				$rdata = $rdata['HeWeather6'][0];
+			}else{
+				return '未查询到结果';
 			}
 		}
 

@@ -143,11 +143,11 @@ class WechatCallbackApi
             $msgType = "text";
 
             // 末尾是天气则查询实时天气
-            if (mb_substr($keyword, -2) == '天气') {
+            if ($keyword !== '天气' && mb_substr($keyword, -2) == '天气') {
                 $location = str_replace('天气', '', $keyword);
                 $contentStr = (new HeFeng())->getWeather($location);
             }
-            elseif(mb_substr($keyword, -4) == '天气预报'){
+            elseif($keyword !== '天气预报' && mb_substr($keyword, -4) == '天气预报'){
                 $location = str_replace('天气预报', '', $keyword);
                 $contentStr = (new HeFeng())->getForecast($location);                
             }
