@@ -37,15 +37,15 @@ class HeFeng
 			}else{
 				return '未查询到结果';
 			}
+
+			$basic  = $rdata['basic'];
+			$update = $rdata['update'];
+			$now	= $rdata['now'];
+
+			$str = "【{$basic['location']}实时天气】\n\n{$now['cond_txt']}，当前气温{$now['tmp']}℃，体感温度{$now['fl']}℃，风力{$now['wind_sc']}级，风速{$now['wind_spd']}公里/小时。\n更新时间{$update['loc']}。";
 		}
 
-		$basic  = $rdata['basic'];
-		$update = $rdata['update'];
-		$now	= $rdata['now'];
-
-		$str = "【{$basic['location']}实时天气】\n\n{$now['cond_txt']}，当前气温{$now['tmp']}℃，体感温度{$now['fl']}℃，风力{$now['wind_sc']}级，风速{$now['wind_spd']}公里/小时。\n更新时间{$update['loc']}。";
-
-		return $str;
+		return '未查询到结果';
 	}
 
 	// 历史天气
@@ -86,23 +86,23 @@ class HeFeng
 			}else{
 				return '未查询到结果';
 			}
-		}
 
-		$str = '';
-		if ($rdata) {
-			$basic  = $rdata['basic'];
-			$update = $rdata['update'];
-			$daily  = $rdata['daily_forecast'];
-			
-			$str .= "【{$basic['location']}天气预报】\n\n";
-			foreach ($daily as $key => $value) {
-				$date = date('m-d', strtotime($value['date']));
-				$str .= "{$date}日，白天{$value['cond_txt_d']}，夜晚{$value['cond_txt_n']}，气温{$value['tmp_min']}~{$value['tmp_max']}℃，风力{$value['wind_sc']}级，风速{$value['wind_spd']}公里/小时。\n";
+			$str = '';
+			if ($rdata) {
+				$basic  = $rdata['basic'];
+				$update = $rdata['update'];
+				$daily  = $rdata['daily_forecast'];
+				
+				$str .= "【{$basic['location']}天气预报】\n\n";
+				foreach ($daily as $key => $value) {
+					$date = date('m-d', strtotime($value['date']));
+					$str .= "{$date}日，白天{$value['cond_txt_d']}，夜晚{$value['cond_txt_n']}，气温{$value['tmp_min']}~{$value['tmp_max']}℃，风力{$value['wind_sc']}级，风速{$value['wind_spd']}公里/小时。\n";
+				}
+				$str .= "更新时间{$update['loc']}。";
 			}
-			$str .= "更新时间{$update['loc']}。";
 		}
-
-		return $str;
+			
+		return '未查询到结果';
 	}
 }
 ?>

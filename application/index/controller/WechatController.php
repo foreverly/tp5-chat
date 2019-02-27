@@ -8,6 +8,7 @@ use think\Db;
 use wechat\WechatCallbackApi;
 use lib\helpers\ArrayHelper;
 use lib\weather\HeFeng;
+use lib\life\Cookbook;
 
 class WechatController extends Controller
 {
@@ -20,7 +21,7 @@ class WechatController extends Controller
     {
     	// 取出配置表里的token
         $wechatSettings = Db::table('website_setting')->where(['type' => 'wechat'])->select();
-
+var_dump(Cookbook::getMenu("梅菜扣肉"));exit;
         foreach ($wechatSettings as $setting) {
             $keyStr = substr($setting['name'], 7);
             if (!empty($setting['value'])) {                

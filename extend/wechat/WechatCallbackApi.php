@@ -3,6 +3,7 @@ namespace wechat;
 
 use lib\base\Curl;
 use lib\weather\HeFeng;
+use lib\life\Cookbook;
 
 /**
   * wechat php api
@@ -150,6 +151,14 @@ class WechatCallbackApi
             elseif($keyword !== '天气预报' && mb_substr($keyword, -4) == '天气预报'){
                 $location = str_replace('天气预报', '', $keyword);
                 $contentStr = (new HeFeng())->getForecast($location);                
+            }
+            elseif(mb_substr($keyword, -2) == '菜谱'){
+                if ($keyword == '菜谱') {
+                    $contentStr = "输入【XX菜谱】查询详细菜谱~如【梅菜扣肉菜谱】。";
+                }else{
+                    $menu_name = str_replace('菜谱', '', $keyword);
+                    $contentStr = Cookbook::getMenu($menu_name);
+                }               
             }
             else{
                 switch ($keyword) {
