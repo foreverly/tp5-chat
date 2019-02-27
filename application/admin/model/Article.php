@@ -2,6 +2,7 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\Db;
 use lib\life\Cookbook as Book;
 
 class Article extends Model
