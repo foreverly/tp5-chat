@@ -25,7 +25,7 @@ class Article extends Model
     {
         $info = Db::table('article')->where('title', 'like', "%{$menu_name}%")->order('hot desc')->find();
         if (empty($info)) {
-            (new Book())->getCookbooks();
+            (new Book())->getCookbooks($menu_name);
             $info = Db::table('article')->where('title', 'like', "%{$menu_name}%")->order('hot desc')->find();
         }
 

@@ -26,7 +26,7 @@ class Cookbook extends Model
     {
         $info = Db::table('cookbook')->where('title', 'like', "%{$menu_name}%")->order('request_num desc, like desc')->find();
         if (empty($info)) {
-            (new Book())->getCookbooks();
+            (new Book())->getCookbooks($menu_name);
             $info = Db::table('cookbook')->where('title', 'like', "%{$menu_name}%")->order('request_num desc, like desc')->find();
         }
 
