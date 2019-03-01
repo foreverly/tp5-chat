@@ -8,6 +8,7 @@ use think\Db;
 use wechat\WechatCallbackApi;
 use lib\helpers\ArrayHelper;
 use lib\weather\HeFeng;
+use lib\life\Cookbook;
 
 class WechatController extends Controller
 {

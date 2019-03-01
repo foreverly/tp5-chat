@@ -29,22 +29,24 @@ class HeFeng
 		$res = Curl::get($this->apiUrl . '?' . http_build_query($data));
 
 		$rdata = [];
+		$str = '';
 		if ($res) {
 			$rdata = json_decode($res, true);
-			if ($rdata['HeWeather6'][0]['status'] = 'ok') {
+			unset($rdata['HeWeather6'][0]['status']);
+			if ($rdata['HeWeather6'][0]) {
 				$rdata = $rdata['HeWeather6'][0];
 			}else{
 				return '未查询到结果';
 			}
+
+			$basic  = $rdata['basic'];
+			$update = $rdata['update'];
+			$now	= $rdata['now'];
+
+			$str = "【{$basic['location']}实时天气】\n\n{$now['cond_txt']}，当前气温{$now['tmp']}℃，体感温度{$now['fl']}℃，风力{$now['wind_sc']}级，风速{$now['wind_spd']}公里/小时。\n更新时间{$update['loc']}。";
 		}
-var_dump($rdata);exit;
-		$basic  = $rdata['basic'];
-		$update = $rdata['update'];
-		$now	= $rdata['now'];
 
-		$str = "【{$basic['location']}实时天气】\n\n{$now['cond_txt']}，当前气温{$now['tmp']}℃，体感温度{$now['fl']}℃，风力{$now['wind_sc']}级，风速{$now['wind_spd']}公里/小时。\n更新时间{$update['loc']}。";
-
-		return $str;
+		return $str ? $str : '未查询到结果';
 	}
 
 	// 历史天气
@@ -77,30 +79,32 @@ var_dump($rdata);exit;
 		$res = Curl::get($this->forUrl . '?' . http_build_query($data));
 
 		$rdata = [];
+		$str = '';
 		if ($res) {
 			$rdata = json_decode($res, true);
-			if ($rdata['HeWeather6'][0]['status'] = 'ok') {
+			unset($rdata['HeWeather6'][0]['status']);
+			if ($rdata['HeWeather6'][0]) {
 				$rdata = $rdata['HeWeather6'][0];
 			}else{
 				return '未查询到结果';
 			}
-		}
 
-		$str = '';
-		if ($rdata) {
-			$basic  = $rdata['basic'];
-			$update = $rdata['update'];
-			$daily  = $rdata['daily_forecast'];
-			
-			$str .= "【{$basic['location']}天气预报】\n\n";
-			foreach ($daily as $key => $value) {
-				$date = date('m-d', strtotime($value['date']));
-				$str .= "{$date}日，白天{$value['cond_txt_d']}，夜晚{$value['cond_txt_n']}，气温{$value['tmp_min']}~{$value['tmp_max']}℃，风力{$value['wind_sc']}级，风速{$value['wind_spd']}公里/小时。\n";
+			$str = '';
+			if ($rdata) {
+				$basic  = $rdata['basic'];
+				$update = $rdata['update'];
+				$daily  = $rdata['daily_forecast'];
+				
+				$str .= "【{$basic['location']}天气预报】\n\n";
+				foreach ($daily as $key => $value) {
+					$date = date('m-d', strtotime($value['date']));
+					$str .= "{$date}日，白天{$value['cond_txt_d']}，夜晚{$value['cond_txt_n']}，气温{$value['tmp_min']}~{$value['tmp_max']}℃，风力{$value['wind_sc']}级，风速{$value['wind_spd']}公里/小时。\n";
+				}
+				$str .= "更新时间{$update['loc']}。";
 			}
-			$str .= "更新时间{$update['loc']}。";
 		}
-
-		return $str;
+			
+		return $str ? $str : '未查询到结果';
 	}
 }
 ?>

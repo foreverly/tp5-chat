@@ -22,7 +22,7 @@ class IndexController extends Common
     
     public function index()
     {
-        $where = "1=1";
+        $where = ["index" => 1];
         return $this->fetch('lw-index', [
             'article_list' => (new Article())->getArticles($where, $this->page, $this->size),
             'page' => $this->page,

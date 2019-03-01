@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Db;
 use think\Request;
 use lib\Pager;
 use lib\Email;
@@ -67,7 +68,7 @@ class TagController extends Common
         $id         = (int)$this->request->post('id', null);
         $value      = trim($this->request->post('value', ''));
         $name       = trim($this->request->post('name', ''));
-        $status     = (int)$this->request->post('status', 0);
+        $status     = (int)$this->request->post('status', 1);
         
         try {
             if ($id) {
@@ -108,11 +109,33 @@ class TagController extends Common
     
     public function list()
     {
-
         $tag_list = Tag::all()->toArray();
 
         ajaxSuccess([
             'tag_list' => $tag_list
         ]);
+    }
+
+    public function doSearch()
+    {
+        $keyword = trim($this->request->post('keyword', ''));
+        $current = trim($this->request->post('current', ''));
+        $current = explode(';', $current);
+
+        // 闭包查询
+        $tag_list = Db::table('tag')->select(function ($query) use ($keyword, $current)
+        {
+            if ($current != '') {
+                $query->where('name', 'not in', $current);
+            }
+
+            if ($keyword != '') {
+                $query->where('name', 'like', "%{$keyword}%");
+            }
+
+            $query->order("num desc");
+        });
+
+        ajaxSuccess($tag_list);
     }
 }

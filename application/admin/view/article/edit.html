@@ -4,6 +4,49 @@
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/utf8-php/lang/zh-cn/zh-cn.js"></script>
 
+<style type="text/css">
+
+.my-badge{
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px
+}
+
+.md-badge{
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px
+}
+
+.btn-badge{
+    float: left;
+    margin-left: 15px;
+    margin-bottom: 5px;
+}
+
+.my-badge > .am-close{
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/*.btn-search{
+    margin: 5px auto 0 auto;
+    margin-left: -5px;
+    line-height: 1.2rem;
+}*/
+
+.tag-box{
+    width: 80%;
+    margin: 5px auto 0 auto;
+}
+
+/*.am-modal-bd {
+    padding: 65px 10px;
+}*/
+
+
+</style>
+
 <body data-type="generalComponents">
     {include file='layout/top' /}
 
@@ -44,7 +87,62 @@
                                         <small>输入文章标题。</small>
                                     </div>
                                 </div> 
+                                <!-- 1=普通文章，2=菜谱，3=新闻，4=技术文章 -->
+
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">文章分类 </label>
+                                    <div class="am-u-sm-9">
+                                        <select name="type" data-am-selected="{searchBox: 1}">
+                                          <option value="1" {if $article_info eq true && 1 eq $article_info.type}selected="selected"{/if}>心情</option>
+                                          <option value="2" {if $article_info eq true && 2 eq $article_info.type}selected="selected"{/if}>新闻</option>
+                                          <option value="3" {if $article_info eq true && 3 eq $article_info.type}selected="selected"{/if}>菜谱</option>
+                                          <option value="4" {if $article_info eq true && 4 eq $article_info.type}selected="selected"{/if}>技术</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">文章标签 </label>
+                                    <input type="hidden" id="category" name="category" value="{if $article_info eq true}{$article_info.category}{/if}">
+                                    <div class="am-u-sm-9">
+                                        {if $article_info eq true}
+                                        {volist name="$article_info.category_list" id='category'}
+                                        <i class="tpl-left-nav-content tpl-badge-secondary my-badge">{$category}</i>
+                                        {/volist}
+                                        {/if}
+
+                                        <a class="tpl-left-nav-content tpl-badge-danger btn-badge btn-substract">-</a>
+                                        <a class="tpl-left-nav-content tpl-badge-danger btn-badge btn-yes" style="display: none">√</a>
+                                        <a class="tpl-left-nav-content tpl-badge-primary btn-badge btn-add" id="doc-prompt-toggle">+</a>
+                                    </div>
+                                </div>
                                 
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">首页推荐</label>
+                                    <div class="am-u-sm-9">
+                                        <div class="tpl-switch">
+                                            <input type="checkbox" id="index" name="index" class="ios-switch bigswitch tpl-switch-btn" {if $article_info eq true && $article_info.index eq 1}checked{/if}/>
+                                            <div class="tpl-switch-btn-view">
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">热门文章</label>
+                                    <div class="am-u-sm-9">
+                                        <div class="tpl-switch">
+                                            <input type="checkbox" id="hot" name="hot" class="ios-switch bigswitch tpl-switch-btn" {if $article_info eq true && $article_info.hot eq 1}checked{/if}/>
+                                            <div class="tpl-switch-btn-view">
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">副标题</label>
                                     <div class="am-u-sm-9">
@@ -102,6 +200,25 @@
         </div>
     </div>
 </body>
+
+<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">搜索标签</div>
+    <div class="am-modal-bd">
+        <!-- 如果找不到，请添加。 -->       
+        
+        <input type="text" class="am-modal-prompt-input" id="in-search" style="display: inline-block!important" placeholder="搜索...">
+        
+        <div class="tag-box">
+
+        </div>
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn modal-cancel" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn modal-confirm" data-am-modal-confirm>选中</span>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
 
@@ -178,6 +295,172 @@ var ue = UE.getEditor('editor', {toolbars: [[
 // 獲取編輯器文本內容
 function getContent() {
     return UE.getEditor('editor').getContent();
+}
+
+$(".btn-substract").click(function(){
+    $(".my-badge").append('<a href="#" class="am-close">&times;</a>');
+    $(this).hide();
+    $(".btn-yes").show();
+})
+
+$(".btn-yes").click(function(){
+    $(".my-badge .am-close").remove();
+    // TODO
+    $(this).hide();
+    $(".btn-substract").show();
+})
+
+$(".my-badge").on('click', '.am-close', function(){
+    $(this).parent().remove();
+})
+
+// 获取input 元素,并实时监听用户输入
+$("#in-search").bind('input propertychange', function()
+{
+    var keyword = $(this).val();
+    var current = $("#category").val();
+    if (keyword == '') {
+        modalRender();
+        return;
+    }
+
+    $.ajax({
+        url:API_URL+'/tag/doSearch',
+        type:'POST',
+        data:{"keyword":keyword, "current":current},
+        dataType:'json',
+        success:function(res) {
+            if (res.code == 200) {
+                var data = res.data;
+                var len  = data.length;
+
+                if (len) {
+
+                    var html = '';
+                    for (var i = 0; i < len; i++) {
+                        html += '<a class="tpl-left-nav-content tpl-badge-secondary md-badge">' + data[i].name + '</a>';
+                    }
+
+                    modalRender(html, '选中', '65px');
+                }else{
+                    modalRender('<em>暂无</em>', '新增并选中');
+                }
+            }else{  
+                modalRender();
+            }
+        }
+    })
+})
+
+// 选中的标签变色并且打钩
+$(".tag-box").on('click', '.md-badge', function(){
+    if (!$(this).hasClass('tpl-badge-danger')) {
+        $(this).removeClass('tpl-badge-secondary').addClass('tpl-badge-danger');
+        $(this).append('<i>√</i>');
+    }else{
+        $(this).removeClass('tpl-badge-danger').addClass('tpl-badge-secondary');
+        $(this).find('i').remove();
+    }
+})
+
+// 点击选中保存 组件自带
+$(function() {
+    $('#doc-prompt-toggle').on('click', function() {
+        $('#my-prompt').modal({
+            relatedTarget: this,
+            onConfirm: function(e) {
+                // 清空弹出层的值
+                modalReset();
+            },
+            onCancel: function(e) {
+                modalReset();                
+            }
+        });
+    });
+});
+
+// 选中保存时改变隐藏的输入框
+$(".btn-yes").on('click', function(){    
+    categoryRender();
+})
+
+// 点击选中保存
+$(".modal-confirm").on('click', function(){
+
+    if ($("#in-search").val() == '') {
+        return false;
+    }
+
+    if ($(this).text() == '新增并选中') {
+        var tag = $("#in-search").val();
+        addTags(tag);   
+        $(".btn-substract").before('<i class="tpl-left-nav-content tpl-badge-secondary my-badge">'+tag+'</i>');     
+    }else{
+        // 将选中的值渲染到页面
+        $(".tag-box").find('i').each(function(){
+
+            if ($(this).find('i')) {
+                var tag = $(this).parent().text();
+                var tag = tag.split('√')[0];
+
+                $(".btn-substract").before('<i class="tpl-left-nav-content tpl-badge-secondary my-badge">'+tag+'</i>');
+            }                
+        })
+    }
+
+    // 表单隐藏输入框的值重新获取
+    categoryRender();
+})
+
+// 新增标签
+function addTags(tagName)
+{
+    $.ajax({
+        url:API_URL+'/tag/save',
+        type:'POST',
+        data:{"name":tagName},
+        dataType:'json',
+        success:function(res) {
+            if (res.code == 200) {
+                // TODO
+            }
+        }
+    })
+}
+
+function categoryRender()
+{
+    var tags = [];
+    $(".my-badge").each(function(){
+        tags.push($(this).text());
+    })
+
+    $("#category").val(tags.join(';'));
+}
+
+function modalReset()
+{
+    modalRender();
+    $("#in-search").val('');
+}
+
+function modalRender(html = '', btnName = '选中', padBtm = '15px')
+{    
+    // if ($(".tag-box").find(".md-badge")) {
+    //     $(".tag-box").find(".md-badge").each(function(){
+    //         if (!$(this).hasClass(".tpl-badge-danger")) {
+    //             $(this).remove();
+    //         }
+    //     });
+
+    //     $(".tag-box").prepend(html);
+    // }else{
+    //     $(".tag-box").html(html);
+    // }
+    // 目前只能单选，不想做多选。。。TODO
+    $(".tag-box").html(html);
+    $(".am-modal-bd").css('padding-bottom', padBtm);
+    $(".modal-confirm").text(btnName);
 }
 
 var API_URL = '/admin.php';

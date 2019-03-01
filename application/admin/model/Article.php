@@ -2,6 +2,8 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\Db;
+use lib\life\Cookbook as Book;
 
 class Article extends Model
 {
@@ -17,6 +19,12 @@ class Article extends Model
     public static function getArticles()
     {
         return self::all()->toArray();
+    }
+
+    public static function getMenu($menu_name = '')
+    {
+        $info = Db::table('article')->where('title', 'like', "%{$menu_name}%")->order('hot desc')->find();
+        return $info;
     }
 }
 

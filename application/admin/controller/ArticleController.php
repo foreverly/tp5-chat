@@ -6,6 +6,7 @@ use think\Request;
 use think\Db;
 use lib\Pager;
 use lib\Email;
+use app\admin\model\Tag;
 use app\admin\model\Article;
 
 class ArticleController extends Common
@@ -19,7 +20,8 @@ class ArticleController extends Common
     public function index()
     {
         $curPage = (int)$this->request->get('page', 1) ?: 1;
-        $pageSize = 5;
+        $type = (int)$this->request->get('type', 4) ?: 4;
+        $pageSize = 10;
         
         $options = [
             'page' => $curPage,
@@ -32,10 +34,10 @@ class ArticleController extends Common
         $options = array_merge($options, config('pager.admin'));
 
         $where = [];
-        if (!empty($parent)) {
-            $where = ['parent' => null];
+        if (!empty($type)) {
+            $where['type'] = $type;
         }
-        
+
         // $article_list = Article::all($where)->toArray();
         $article_list = Db::table('article')->where($where)->order(['id'=>'desc'])->paginate(
             $pageSize, 
@@ -47,6 +49,7 @@ class ArticleController extends Common
 
         return $this->fetch('index', [
             'article_list' => $article_list,
+            'type' => $type,
             'pager' => $article_list->render()
         ]);
     }
@@ -65,7 +68,8 @@ class ArticleController extends Common
 
             $article_info = $articleModel->toArray();
             $article_info['content'] = htmlspecialchars_decode($article_info['content']);
-        }       
+            $article_info['category_list'] = explode(';', $article_info['category']);
+        }
 
         return $this->fetch('edit', [
             'article_info' => $article_info
@@ -85,8 +89,11 @@ class ArticleController extends Common
         $seo_keywords   = trim($this->request->post('seo_keywords', ''));
         $category       = trim($this->request->post('category', 'default'));
         $content        = $this->request->post('content', '');
-        $status         = (int)$this->request->post('status', 0);
-        
+        $status         = (int)$this->request->post('status', 1);
+        $type           = (int)$this->request->post('type', 0);
+        $hot            = $this->request->post('hot', '') == 'on' ? 1 : 0;
+        $index          = $this->request->post('index', '') == 'on' ? 1 : 0;
+
         // 数据验证
         if (empty($cover_image)) {
             ajaxError('请上传封面图片');
@@ -106,14 +113,30 @@ class ArticleController extends Common
         $model->title       = $title;
         $model->sub_title   = $sub_title;
         $model->desc        = $desc;
+        $model->hot         = $hot;
+        $model->index       = $index;
         $model->slogan      = $slogan;
         $model->cover_image = $cover_image;
         $model->seo_keywords= $seo_keywords;
         $model->category    = $category;
-        $model->content     = htmlspecialchars($content);        
-                
+        $model->content     = htmlspecialchars($content);
 
         $model->save();
+
+        // 更新标签热度
+        $tag_list = explode(';', $category);
+        foreach ($tag_list as $key => $tag) {
+            if ($tagModel = Tag::get(['name' => $tag])) {
+                $tagModel->num += 1;
+            }else{
+                $tagModel = new Tag();
+                $tagModel->name = $tag;
+                $tagModel->num = 1;
+                $tagModel->value = '';                
+            }
+
+            $tagModel->save();
+        }
 
         ajaxSuccess();
     }
@@ -145,5 +168,26 @@ class ArticleController extends Common
         ajaxSuccess([
             'banner_list' => $banner_list
         ]);
+    }
+
+    public function changePram()
+    {
+        $id  = (int)$this->request->post('id', 0);
+        $key = trim($this->request->post('key'));
+
+        if (!in_array($key, ['index', 'hot', 'status'])) {
+            ajaxError('未知的类型');
+        }
+
+        $model = Article::get($id);
+        if ($model->$key == 1) {
+            $model->$key = 0;
+        }else{
+            $model->$key = 1;
+        }
+
+        $model->save();
+
+        ajaxSuccess();
     }
 }

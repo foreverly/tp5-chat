@@ -3,6 +3,7 @@ namespace wechat;
 
 use lib\base\Curl;
 use lib\weather\HeFeng;
+use lib\life\Cookbook;
 
 /**
   * wechat php api
@@ -151,6 +152,14 @@ class WechatCallbackApi
                 $location = str_replace('天气预报', '', $keyword);
                 $contentStr = (new HeFeng())->getForecast($location);                
             }
+            elseif(mb_substr($keyword, -2) == '菜谱'){
+                if ($keyword == '菜谱') {
+                    $contentStr = "输入【XX菜谱】查询详细菜谱~如【梅菜扣肉菜谱】。";
+                }else{
+                    $menu_name = str_replace('菜谱', '', $keyword);
+                    $contentStr = Cookbook::getMenu($menu_name);
+                }               
+            }
             else{
                 switch ($keyword) {
                     case '天气':
@@ -163,7 +172,7 @@ class WechatCallbackApi
                         $contentStr = '爱你哦~';
                         break;                
                     default:
-                        $contentStr = "请输入【XX天气】查询实时天气状况哦~如【北京天气】。\n请输入【XX天气预报】查询未来几天的天气状况哦~如【北京天气预报】。";
+                        $contentStr = "输入【XX天气】查询实时天气状况，如【北京天气】。\n输入【XX天气预报】查询未来几天的天气状况，如【北京天气预报】。\n输入【XX菜谱】查询美食制作方法，如【梅菜扣肉菜谱】。\n查询时去掉【】";
                         break;
                 }
             }
@@ -188,7 +197,7 @@ class WechatCallbackApi
                 break;
             // 已关注
             case 'SCAN':
-                $contentStr = "嗨，老朋友，欢迎回来！\n每天起床第一句，先给自己打个气：今天也要好好学习哦~\n\n<a href='http://www.52xue.site'>开始学习</a>";
+                $contentStr = "嗨，老朋友，欢迎回来！\n今天也要好好学习哦~\n\n<a href='http://www.52xue.site'>开始学习~</a>";
                 break;            
             default:
         }
