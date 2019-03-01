@@ -26,7 +26,7 @@ class Common extends Controller
         $this->assign([
             'menu_list' => Menu::getMenus($this->isLogin),
             'tag_list' => (new Tag())->getTags(['status' => 1]),
-            'hot_articles' => (new Article())->getHots(['status' => 1]),
+            'hot_articles' => (new Article())->getHots(['status' => 1, 'hot' => 1]),
             'is_login' => $this->isLogin,
             'settingInfo' => Setting::getSettings(),
             'user_info' => $this->userInfo

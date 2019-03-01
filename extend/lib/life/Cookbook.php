@@ -155,8 +155,19 @@ class Cookbook
 	public static function getMenu($menu = '')
 	{
 		$info = Article::getMenu($menu);
+		if (empty($info)) {
+			Cache::store('redis')->push("LIFE_COOKBOOK_NEED_UPDATE", $menu);
+		}
 
-		$str  = "点击前往查看<a href='http://www.52xue.site/article/info?id=" . $info['id'] . "'>【{$info['title']}】</a>的详细制作过程~";
+		// 等5秒
+		sleep(5);
+		
+		$info = Article::getMenu($menu);		
+		if (!empty($info)) {
+			$str  = "点击前往查看<a href='http://www.52xue.site/article/info?id=" . $info['id'] . "'>【{$info['title']}】</a>的详细制作过程~";
+		}else{
+			$str = '未查询到【{$menu}】';
+		}		
 
 		return $str;
 	}

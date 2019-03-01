@@ -40,10 +40,4 @@ class WechatController extends Controller
             $wechatObj->valid();
         }
     }
-
-    public function updateCookbook()
-    {
-        $keyword = $_GET['keyword'];
-        (new Cookbook())->getCookbooks($keyword);
-    }
 }

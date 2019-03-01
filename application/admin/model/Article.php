@@ -24,11 +24,6 @@ class Article extends Model
     public static function getMenu($menu_name = '')
     {
         $info = Db::table('article')->where('title', 'like', "%{$menu_name}%")->order('hot desc')->find();
-        if (empty($info)) {
-            (new Book())->getCookbooks($menu_name);
-            $info = Db::table('article')->where('title', 'like', "%{$menu_name}%")->order('hot desc')->find();
-        }
-
         return $info;
     }
 }
