@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
+use app\index\model\Tag;
 use app\index\model\Article;
 
 class IndexController extends Common
@@ -71,5 +72,26 @@ class IndexController extends Common
         }
 
         return $banner_list;
+    }
+
+    /*
+    * 获取标签列表
+    * 模拟
+    * author：Bruce
+    */
+    public function getTags()
+    {
+        $res = (new Tag())->getTags(['status' => 1]);
+
+        $tag_list = [];
+        foreach ($res as $key => $value) {
+            $tag_list[] = [
+                'id' => $value['id'],
+                'name' => $value['name'],
+                'url' => '#'
+            ];
+        }
+
+        ajaxSuccess($tag_list);
     }
 }

@@ -7,7 +7,7 @@ class GameController extends Common
 {
 	public function _initialize()
     {
-        // parent::_initialize();
+        parent::_initialize();
     }
     
     /**

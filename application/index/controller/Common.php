@@ -25,7 +25,7 @@ class Common extends Controller
 
         $this->assign([
             'menu_list' => Menu::getMenus($this->isLogin),
-            'tag_list' => (new Tag())->getTags(['status' => 1]),
+            'tag_list' => json_encode($this->getTags()),
             'hot_articles' => (new Article())->getHots(['status' => 1, 'hot' => 1]),
             'is_login' => $this->isLogin,
             'settingInfo' => Setting::getSettings(),
@@ -47,5 +47,26 @@ class Common extends Controller
     protected function isLogin()
     {
         return Session::get('is_login') ? true : false;
+    }
+
+    /*
+    * 获取标签列表
+    * 模拟
+    * author：Bruce
+    */
+    public function getTags()
+    {
+        $res = (new Tag())->getTags(['status' => 1]);
+
+        $tag_list = [];
+        foreach ($res as $key => $value) {
+            $tag_list[] = [
+                'id' => $value['id'],
+                'name' => $value['name'],
+                'url' => '#'
+            ];
+        }
+
+        return ($tag_list);
     }
 }

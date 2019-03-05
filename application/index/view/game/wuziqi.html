@@ -1,30 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-   <meta charset="utf-8">
-	<title></title>
-	<style type="text/css">
-	canvas{display: block;margin:auto; border: 1px solid #aaa;box-shadow: -2px -2px 2px #efefef,4px 4px 4px #b9b9b9;}
-
+<style type="text/css">
+canvas{display: block;margin:auto; border: 1px solid #aaa;box-shadow: -2px -2px 2px #efefef,4px 4px 4px #b9b9b9;}
 .main{margin:auto;width: 425px;padding-top: 10px; }
 p{text-align: center;height: 10px;line-height: 10px;font-size: 18px;}
 p.mb-35{margin-bottom: 35px;}
 button{background-color: #fff;border: 2px solid #aaa;font-size: 18px;color: #222;cursor: pointer;border-radius: 5px;}
 button:hover{color: #777;}
+</style>
 
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed blog-content">
+	<div class="am-u-md-8 am-u-sm-12">
+		<div class="main">
+			<p>H5游戏五子棋AI</p>
+			<p class="mb-35"><button id="new-btn">new game</button></p>
+			<div id="box">
+				
+			</div>	
+		</div>
+	</div>
 
-	</style>
-</head>
-<body>
-<div class="main">
-	<p>H5游戏五子棋AI</p>
-	<p class="mb-35"><button id="new-btn">new game</button></p>
-	<div id="box">
-		
-	</div>	
+    {include file="layout/sidebar"}
 </div>
-</body>
-</html>
+<!-- content end -->
 <script type="text/javascript">
 
 var me;
@@ -63,7 +60,7 @@ var drawChessBoard = function(){
 
 
 
-var oneStep =function(i,j,me){
+var oneStep = function(i,j,me){
 
 	context.beginPath();
 	context.arc(15+i*30,15+j*30,13,0,2*Math.PI);
@@ -300,7 +297,7 @@ function myClick(e){
 	var i = Math.floor(e.offsetX/30);
 	var j = Math.floor(e.offsetY/30);
 	if (chessBoard[i][j] != 0)        return;
-console.log("3");
+	console.log("3");
 	oneStep(i,j,me);
 	chessBoard[i][j] = 1;
 		
@@ -318,12 +315,8 @@ console.log("3");
 	}
 };
 
-
 $("new-btn").onclick = function(){
-	location.reload() 
-	
+	location.reload() 	
 }
-
-
 
 </script> 
