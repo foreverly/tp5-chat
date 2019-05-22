@@ -34,7 +34,7 @@
                         <div class="am-u-sm-12 am-u-md-6">
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <a href="/admin.php/menu/edit" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
+                                    <a href="/menu/edit" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
                                     <!-- <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button> -->
@@ -44,7 +44,7 @@
                         <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-form-group" id="parentMenu">
                                 <select data-am-selected="{btnSize: 'sm'}">
-                                    <option value="0"><a href="/admin.php/menu">所有菜单</a></option>
+                                    <option value="0"><a href="/menu">所有菜单</a></option>
                                     {volist name='father_menu_list' id='menu'}
                                     <option value="{$menu.id}" {if $parent eq $menu.id}selected="selected"{/if}>{$menu.name}</option>
                                     {/volist}
@@ -90,7 +90,7 @@
                                                     <div class="am-btn-group am-btn-group-xs">
 
                                                         <a class="am-btn am-btn-default am-btn-xs am-text-secondary a-btn" onclick="doEdit({$menu.id})">
-                                                            <!-- <a href="/admin.php/menu/edit?id={$menu.id}"> -->
+                                                            <!-- <a href="/menu/edit?id={$menu.id}"> -->
                                                             <span class="am-icon-pencil-square-o"></span> 编辑
                                                             <!-- </a> -->
                                                         </a>
@@ -145,7 +145,7 @@
 
 <script type="text/javascript">
 
-var API_URL = '/admin.php';
+var API_URL = '';
     
 $("#parentMenu select").on('change', function(){
     var parent = $(this).val();

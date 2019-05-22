@@ -71,7 +71,7 @@ class MenuController extends Common
             $menuModel = Menu::get($id);
 
             if (empty($menuModel)) {
-                $this->error('该菜单不存在','/admin.php/menu');
+                $this->error('该菜单不存在','/menu');
             }
 
             $menu_info = $menuModel->toArray();
@@ -124,13 +124,13 @@ class MenuController extends Common
         $model = Menu::get($id);
 
         if (!$model) {
-            $this->error('该菜单不存在','/admin.php/menu');
+            $this->error('该菜单不存在','/menu');
         }
 
         if ($model->delete()) {
-            $this->success('删除成功','/admin.php/menu');
+            $this->success('删除成功','/menu');
         }else{
-            $this->error('删除失败','/admin.php/menu');
+            $this->error('删除失败','/menu');
         }
     }
     

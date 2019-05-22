@@ -34,12 +34,12 @@
     
     $.ajax({
         type:'POST',
-        url:'/admin.php/login/login',
+        url:'/login/login',
         data:formData,
         dataType:'json',
         success:function(res){
             if (res.code == '200') {
-                window.location.href = '/admin.php';
+                window.location.href = '/';
             }else{
                 alert(res.msg)
             }

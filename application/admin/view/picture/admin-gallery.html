@@ -29,7 +29,7 @@ function goPage(curPage = 1, pageSize = 18){
 
   $.ajax({
     type:'POST',
-    url:'/admin.php/picture/list',
+    url:'/picture/list',
     data:{"page":page, "size":size, "type":type},
     dataType:'json',
     success:function(res){

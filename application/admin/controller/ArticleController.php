@@ -63,7 +63,7 @@ class ArticleController extends Common
             $articleModel = Article::get($id);
 
             if (empty($articleModel)) {
-                $this->error('该文章不存在','/admin.php/article');
+                $this->error('该文章不存在','/article');
             }
 
             $article_info = $articleModel->toArray();
@@ -150,13 +150,13 @@ class ArticleController extends Common
         $model = Article::get($id);
 
         if (!$model) {
-            $this->error('该文章不存在','/admin.php/article');
+            $this->error('该文章不存在','/article');
         }
 
         if ($model->delete()) {
-            $this->success('删除成功','/admin.php/article');
+            $this->success('删除成功','/article');
         }else{
-            $this->error('删除失败','/admin.php/article');
+            $this->error('删除失败','/article');
         }
     }
     

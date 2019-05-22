@@ -52,7 +52,7 @@ class TagController extends Common
             $tagModel = Tag::get($id);
 
             if (empty($tagModel)) {
-                $this->error('该菜单不存在','/admin.php/tag');
+                $this->error('该菜单不存在','/tag');
             }
 
             $tag_info = $tagModel->toArray();
@@ -97,13 +97,13 @@ class TagController extends Common
         $model = Tag::get($id);
 
         if (!$model) {
-            $this->error('该标签不存在','/admin.php/tag');
+            $this->error('该标签不存在','/tag');
         }
 
         if ($model->delete()) {
-            $this->success('删除成功','/admin.php/tag');
+            $this->success('删除成功','/tag');
         }else{
-            $this->error('删除失败','/admin.php/tag');
+            $this->error('删除失败','/tag');
         }
     }
     

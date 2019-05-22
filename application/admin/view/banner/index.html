@@ -34,7 +34,7 @@
                         <div class="am-u-sm-12 am-u-md-6">
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <a href="/admin.php/banner/edit" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
+                                    <a href="/banner/edit" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
                                     <!-- <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button> -->
@@ -70,9 +70,9 @@
                                         <div class="am-btn-toolbar">
                                             <div class="am-btn-group am-btn-group-sm tpl-edit-content-btn">
                                                 <!-- <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button> -->
-                                                <a href="/admin.php/banner/edit?id={$banner.id}" class="am-btn am-btn-default am-btn-secondary" role="button"><span class="am-icon-edit"></span> 编辑</a>
+                                                <a href="/banner/edit?id={$banner.id}" class="am-btn am-btn-default am-btn-secondary" role="button"><span class="am-icon-edit"></span> 编辑</a>
                                                 <!-- <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button> -->
-                                                <a href="/admin.php/banner/del?id={$banner.id}" class="am-btn am-btn-default am-btn-danger" role="button"><span class="am-icon-trash-o"></span> 删除</a>
+                                                <a href="/banner/del?id={$banner.id}" class="am-btn am-btn-default am-btn-danger" role="button"><span class="am-icon-trash-o"></span> 删除</a>
                                             </div>
                                         </div>
                                     </div>
@@ -154,11 +154,11 @@
 
 <script type="text/javascript">
 
-var API_URL = '/admin.php';
+var API_URL = '';
     
 $("#parentMenu select").on('change', function(){
     var parent = $(this).val();
-    window.location.href = '/admin.php/banner';
+    window.location.href = '/banner';
 })
 
 function doEdit(id){

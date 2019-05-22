@@ -187,7 +187,7 @@ $("#saveBtn").on('click', function(){
         dataType:'json',
         success:function(res) {
             if (res.code == 200) {
-                // window.location.href = API_URL+'/setting';
+                // window.location.href = API_URL+'/setting';                
                 alert('设置已保存')
             }else{  
                 alert(res.msg)
@@ -229,7 +229,7 @@ function showPreview(obj){
                 $("#doPreview img").attr("src", res.data.img_url);
                 $("#doPreview").show();
                 $("#website.LOGO").val(res.data.img_url);
-
+alert(res.data.img_url)
                 // 按钮样式
                 $("#uploadBtn").removeClass("am-btn-default").addClass("am-btn-primary");
             } else {

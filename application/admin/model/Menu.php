@@ -31,7 +31,7 @@ class Menu extends Model
         //     ],            
         //     [
         //         'name' => '菜单管理',
-        //         'url' => "/admin.php/menu",
+        //         'url' => "/menu",
         //         'check' => false,
         //         'icon' => 'am-icon-share-alt',
         //         'message' => null,
@@ -57,25 +57,25 @@ class Menu extends Model
         //         'children' => [
         //             [
         //                 'name' => '素材',
-        //                 'url' => "/admin.php/picture/sucai",
+        //                 'url' => "/picture/sucai",
         //                 'icon' => 'am-icon-circle-o',
         //                 'children' => []
         //             ],
         //             [
         //                 'name' => '美女',
-        //                 'url' => '/admin.php/picture/meinv',
+        //                 'url' => '/picture/meinv',
         //                 'icon' => 'am-icon-circle-o',
         //                 'children' => []
         //             ],
         //             [
         //                 'name' => '壁纸',
-        //                 'url' => '/admin.php/picture/bizhi',
+        //                 'url' => '/picture/bizhi',
         //                 'icon' => 'am-icon-circle-o',
         //                 'children' => []
         //             ],
         //             [
         //                 'name' => '图片库',
-        //                 'url' => '/admin.php/picture/libs',
+        //                 'url' => '/picture/libs',
         //                 'icon' => 'am-icon-circle-o',
         //                 'children' => []
         //             ],

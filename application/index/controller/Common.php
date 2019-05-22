@@ -22,15 +22,16 @@ class Common extends Controller
     {
         parent::_initialize();        
         $this->checkLogin();
-
+        
         $this->assign([
             'menu_list' => Menu::getMenus($this->isLogin),
-            'tag_list' => json_encode($this->getTags()),
+            'tag_list' => json_encode($this->comTags()),
             'hot_articles' => (new Article())->getHots(['status' => 1, 'hot' => 1]),
             'is_login' => $this->isLogin,
             'settingInfo' => Setting::getSettings(),
             'user_info' => $this->userInfo
         ]);
+
     }
 
     //
@@ -54,7 +55,7 @@ class Common extends Controller
     * 模拟
     * author：Bruce
     */
-    public function getTags()
+    public function comTags()
     {
         $res = (new Tag())->getTags(['status' => 1]);
 

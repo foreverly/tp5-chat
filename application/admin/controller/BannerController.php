@@ -51,7 +51,7 @@ class BannerController extends Common
             $bannerModel = Banner::get($id);
 
             if (empty($bannerModel)) {
-                $this->error('该菜单不存在','/admin.php/banner');
+                $this->error('该菜单不存在','/banner');
             }
 
             $banner_info = $bannerModel->toArray();
@@ -108,13 +108,13 @@ class BannerController extends Common
         $model = Banner::get($id);
 
         if (!$model) {
-            $this->error('该轮播图不存在','/admin.php/banner');
+            $this->error('该轮播图不存在','/banner');
         }
 
         if ($model->delete()) {
-            $this->success('删除成功','/admin.php/banner');
+            $this->success('删除成功','/banner');
         }else{
-            $this->error('删除失败','/admin.php/banner');
+            $this->error('删除失败','/banner');
         }
     }
     
