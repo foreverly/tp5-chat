@@ -176,3 +176,33 @@
 [ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `article` WHERE  `index` = 1 LIMIT 1 [ RunTime:0.001038s ]
 [ sql ] [ SQL ] SHOW COLUMNS FROM `banner` [ RunTime:0.001071s ]
 [ sql ] [ SQL ] SELECT * FROM `banner` WHERE  `status` = 1 LIMIT 3 [ RunTime:0.000610s ]
+---------------------------------------------------------------
+[ 2019-05-22T11:26:30+08:00 ] 127.0.0.1 GET dev.52xue.com/
+[运行时间：0.006972s] [吞吐率：143.43req/s] [内存消耗：171.30kb] [文件加载：31]
+[ info ] [ LANG ] /mnt/d/Workspace/www/tp5-chat/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=s242j5vuosqqtcmsf2i71mnb94; Hm_lvt_7a5339cbb6592af689e5904aa653604b=1558494103; Hm_lpvt_7a5339cbb6592af689e5904aa653604b=1558494103',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.108 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'dev.52xue.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LOG ] INIT File
