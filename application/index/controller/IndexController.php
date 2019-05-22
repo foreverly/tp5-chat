@@ -91,7 +91,7 @@ class IndexController extends Common
                 'url' => '#'
             ];
         }
-var_dump($tag_list);exit;
+        
         ajaxSuccess($tag_list);
     }
 }
