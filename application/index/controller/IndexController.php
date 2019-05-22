@@ -18,9 +18,7 @@ class IndexController extends Common
 
     public function _initialize()
     {
-        parent::_initialize();
-        new \PDO('mysql:host=127.0.0.1;port=3306;dbname=chat;charset=utf8', 'root', 'root', null);
-        die;
+        parent::_initialize();        
     }
     
     public function index()
