@@ -42,7 +42,7 @@ class Common extends Controller
      * 获取ip地址
      **/
     public  static function getIp() {
-        return $_SERVER['HTTP_X_FORWARDED_HOST'] ?? ($_SERVER['HTTP_HOST' ?? '');
+        return $_SERVER['HTTP_X_FORWARDED_HOST'] ?? ($_SERVER['HTTP_HOST'] ?? '');
     }
 
     //
