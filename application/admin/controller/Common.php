@@ -22,7 +22,7 @@ class Common extends Controller
         $config = config('database');
         $config['hostname'] = $this->getIp();
         \think\Config::set('database', $config);
-        
+
         parent::_initialize();        
         $this->checkLogin();
         $this->request = Request::instance();
@@ -40,6 +40,13 @@ class Common extends Controller
             'sidebar_menu_list' => $this->getMenus(),
             // 'menu_html' => $this->makeMenuHtml()
         ]);
+    }
+
+    /**
+     * 获取ip地址
+     **/
+    public  static function getIp() {
+        return $_SERVER['HTTP_X_FORWARDED_HOST'] ?? ($_SERVER['HTTP_HOST'] ?? '');
     }
 
     protected function checkLogin()
