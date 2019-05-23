@@ -19,6 +19,10 @@ class Common extends Controller
 
     public function _initialize()
     {
+        $config = config('database');
+        $config['hostname'] = $this->getIp();
+        \think\Config::set('database', $config);
+        
         parent::_initialize();        
         $this->checkLogin();
         $this->request = Request::instance();
