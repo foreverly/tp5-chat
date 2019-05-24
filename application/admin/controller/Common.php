@@ -66,7 +66,7 @@ class Common extends Controller
 
     public function getMenus()
     {
-        $menu_list = (new Menu())->getMenus(['status' => 1]);
+        $menu_list = (new Menu())->getMenus(['status' => 1, 'type' => 0]);
         $data = [];
         foreach ($menu_list as $key => $menu) {
             if ($menu['parent']) { 

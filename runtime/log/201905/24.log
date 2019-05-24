@@ -4814,3 +4814,58 @@
 [ sql ] [ SQL ] SELECT * FROM `menu` WHERE  `type` = 1  AND `parent` IS NULL [ RunTime:0.000712s ]
 [ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `menu` WHERE  `type` = 1 LIMIT 1 [ RunTime:0.000643s ]
 [ sql ] [ SQL ] SELECT * FROM `menu` WHERE  `type` = 1 ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000640s ]
+---------------------------------------------------------------
+[ 2019-05-24T17:20:32+08:00 ] 127.0.0.1 GET admin.52xue.com/menu?type=1
+[运行时间：0.018713s] [吞吐率：53.44req/s] [内存消耗：502.40kb] [文件加载：48]
+[ info ] [ LANG ] /mnt/d/Workspace/www/tp5-chat/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'admin'
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'menu',
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=e1untdmv0m20arlkfkt65kqqsu',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://admin.52xue.com/menu/edit?type=1',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => 'admin.52xue.com',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'type' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\admin\controller\MenuController->index[ /mnt/d/Workspace/www/tp5-chat/application/admin/controller/MenuController.php ]
+[ info ] [ VIEW ] /mnt/d/Workspace/www/tp5-chat/public/../application/admin/view/menu/index.html [ array (
+  0 => 'sidebar_menu_list',
+  1 => 'type',
+  2 => 'parent',
+  3 => 'menu_list',
+  4 => 'bootstrap',
+  5 => 'father_menu_list',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002536s ] mysql:host=admin.52xue.com;port=3306;dbname=chat;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `menu` [ RunTime:0.000921s ]
+[ sql ] [ SQL ] SELECT * FROM `menu` WHERE  `status` = 1  AND `type` = 0 ORDER BY `order` ASC,`id` ASC [ RunTime:0.000604s ]
+[ sql ] [ SQL ] SELECT * FROM `menu` WHERE  `type` = 1  AND `parent` IS NULL [ RunTime:0.000645s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `menu` WHERE  `type` = 1 LIMIT 1 [ RunTime:0.000529s ]
+[ sql ] [ SQL ] SELECT * FROM `menu` WHERE  `type` = 1 ORDER BY `id` DESC LIMIT 0,10 [ RunTime:0.000552s ]
