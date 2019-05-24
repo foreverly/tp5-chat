@@ -18,7 +18,8 @@ class MenuController extends Common
     
     public function index()
     {
-        $parent = (int)$this->request->get('parent', null) ?: null;
+        $type = (int)$this->request->get('type', 0);
+        $parent = (int)$this->request->get('parent', null);
         $page = input('get.page');
 
         if (isset($page) && null !== $page) {
@@ -40,12 +41,12 @@ class MenuController extends Common
 
         $options = array_merge($options, config('pager.admin'));
 
-        $where = [];
+        $where = ['type' => $type];
         if (!empty($parent)) {
             $where = ['parent' => $parent];
         }
         
-        $father_menu_list = Menu::all(['parent' => null])->toArray();
+        $father_menu_list = Menu::all(['type' => $type, 'parent' => null])->toArray();
         $menu_list        = Db::table('menu')->where($where)->order(['id'=>'desc'])->paginate(
             $pageSize, 
             false, 
@@ -55,6 +56,7 @@ class MenuController extends Common
         // $bootstrap = new Pager($menu_list, $pageSize, $curPage, count($menu_list), false, $options);
 
         return $this->fetch('index', [
+            'type' => $type,
             'parent' => $parent,
             'menu_list' => $menu_list,
             'bootstrap' => $menu_list->render(),
@@ -65,6 +67,7 @@ class MenuController extends Common
     public function edit()
     {
         $id = (int)$this->request->get('id', null);
+        $type = (int)$this->request->get('type', 0);
 
         $menu_info = [];
         if ($id) {
@@ -77,9 +80,11 @@ class MenuController extends Common
             $menu_info = $menuModel->toArray();
         }
 
-        $menu_list = Menu::all(['parent' => null])->toArray();
+        $menu_list = Menu::all(['type' => $type, 'parent' => null])->toArray();
 
         return $this->fetch('edit', [
+            'id' => $id,
+            'type' => $type,
             'menu_info' => $menu_info,
             'father_menu_list' => $menu_list,
         ]);
@@ -93,6 +98,7 @@ class MenuController extends Common
         $route  = $this->request->post('route', '');
         $data   = $this->request->post('data', 'circle-o');
         $order  = (int)$this->request->post('order', 0);
+        $type   = (int)$this->request->post('type', 0);
         $status = (int)$this->request->post('status', 1);
         
         // 数据验证
@@ -108,6 +114,7 @@ class MenuController extends Common
         $model->route   = $route;
         $model->data    = $data;
         $model->order   = $order;
+        $model->type    = $type;
         $model->status  = $status;
 
         $model->save();

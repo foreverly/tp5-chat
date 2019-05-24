@@ -23,32 +23,6 @@ class Menu extends Model
                 'children' => []
             ],
             [
-                'name' => '美图',
-                'url' => '#',
-                'children' => [
-                    [
-                        'name' => '素材',
-                        'url' => '/picture/sucai',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '美女',
-                        'url' => '/picture/meinv',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '壁纸',
-                        'url' => '/picture/bizhi',
-                        'children' => []
-                    ],
-                    [
-                        'name' => '图片库',
-                        'url' => '/picture/libs',
-                        'children' => []
-                    ],
-                ]
-            ],
-            [
                 'name' => '文章',
                 'url' => '#',
                 'children' => [
@@ -70,6 +44,32 @@ class Menu extends Model
                     [
                         'name' => 'Others',
                         'url' => '/article/others',
+                        'children' => []
+                    ],
+                ]
+            ],
+            [
+                'name' => '美图',
+                'url' => '#',
+                'children' => [
+                    [
+                        'name' => '素材',
+                        'url' => '/picture/sucai',
+                        'children' => []
+                    ],
+                    [
+                        'name' => '美女',
+                        'url' => '/picture/meinv',
+                        'children' => []
+                    ],
+                    [
+                        'name' => '壁纸',
+                        'url' => '/picture/bizhi',
+                        'children' => []
+                    ],
+                    [
+                        'name' => '图片库',
+                        'url' => '/picture/libs',
                         'children' => []
                     ],
                 ]

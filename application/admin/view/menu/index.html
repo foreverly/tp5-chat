@@ -34,14 +34,24 @@
                         <div class="am-u-sm-12 am-u-md-6">
                             <div class="am-btn-toolbar">
                                 <div class="am-btn-group am-btn-group-xs">
-                                    <a href="/menu/edit" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
+                                    <a href="/menu/edit?type={$type}" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
                                     <!-- <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
                                     <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button> -->
                                 </div>
                             </div>
                         </div>
-                        <div class="am-u-sm-12 am-u-md-3">
+                        
+                        <div class="am-u-sm-12 am-u-md-3" style="float: left;">
+                            <div class="am-form-group" id="menuType">
+                                <select data-am-selected="{btnSize: 'sm'}">
+                                    <option value="0" {if $type eq 0}selected="selected"{/if}><a href="/menu">后台菜单</a></option>
+                                    <option value="1" {if $type eq 1}selected="selected"{/if}><a href="/menu">前台菜单</a></option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="am-u-sm-12 am-u-md-3" style="float: left;">
                             <div class="am-form-group" id="parentMenu">
                                 <select data-am-selected="{btnSize: 'sm'}">
                                     <option value="0"><a href="/menu">所有菜单</a></option>
@@ -51,14 +61,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="am-u-sm-12 am-u-md-3">
+
+                        <!-- <div class="am-u-sm-12 am-u-md-3">
                             <div class="am-input-group am-input-group-sm">
                                 <input type="text" class="am-form-field">
                                 <span class="am-input-group-btn">
                                     <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search" type="button"></button>
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="am-g">
                         <div class="am-u-sm-12">
@@ -146,14 +157,22 @@
 <script type="text/javascript">
 
 var API_URL = '';
+
+$("#menuType select").on('change', function(){
+    var type = $(this).val();
+    var parent = $("#parentMenu select").val();
+    window.location.href = API_URL+'/menu?type='+type+'&parent='+parent;
+})
     
 $("#parentMenu select").on('change', function(){
+    var type = $("#menuType select").val();
     var parent = $(this).val();
-    window.location.href = API_URL+'/menu?parent='+parent;
+    window.location.href = API_URL+'/menu?type='+type+'&parent='+parent;
 })
 
 function doEdit(id){
-    window.location.href = API_URL+'/menu/edit?id='+id;
+    var type = $("#menuType select").val();
+    window.location.href = API_URL+'/menu/edit?type='+type+'&id='+id;
 }
 
 function doDel(id){
@@ -161,7 +180,8 @@ function doDel(id){
 }
 
 function doCopy(id){
-    window.location.href = API_URL+'/menu/edit?id='+id;
+    var type = $("#menuType select").val();
+    window.location.href = API_URL+'/menu/edit?type='+type+'&id='+id;
 }
 
 </script>

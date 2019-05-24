@@ -17,7 +17,7 @@
             <div class="tpl-portlet-components">
                 <div class="portlet-title">
                     <div class="caption font-green bold">
-                        <span class="am-icon-code"></span> 新增菜单
+                        <span class="am-icon-code"></span> {if $menu_info}编辑{else}新增{/if}菜单
                     </div>
                 </div>
 
@@ -30,6 +30,7 @@
                             <form class="am-form am-form-horizontal">
                                 
                                 <input type="hidden" id="id" name="id" value="{if $menu_info eq true}{$menu_info.id}{/if}">
+                                <input type="hidden" id="type" name="type" value="{$type}">
 
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">菜单名称</label>
@@ -52,8 +53,6 @@
 
                                         <small>父级菜单不选。</small>
                                     </div>
-
-
                                 </div> 
                                 
                                 <div class="am-form-group">
@@ -108,7 +107,7 @@ $(".am-btn-primary").on('click', function(){
         dataType:'json',
         success:function(res) {
             if (res.code == 200) {
-                window.location.href = API_URL+'/menu';
+                window.location.href = API_URL+'/menu?type='+{$type};
             }else{  
                 alert(res.msg)
             }
