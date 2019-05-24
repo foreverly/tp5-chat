@@ -1,0 +1,166 @@
+<style type="text/css">
+.box-wrap{width:100%;height:380px;}
+</style>
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span>我</span></h2>
+            <!-- <img src="__STATIC__/blog/assets/i/f14.jpg" alt="about me" class="blog-entry-img" >
+            <p>妹纸</p>
+            <p>
+            我是妹子UI，中国首个开源 HTML5 跨屏前端框架
+            </p>
+            <p>我不想成为一个庸俗的人。十年百年后，当我们死去，质疑我们的人同样死去，后人看到的是裹足不前、原地打转的你，还是一直奔跑、走到远方的我？</p> -->
+
+            <div class="am-u-sm-12 blog-clear-padding am-u-sm-centered">
+                {if $user_info eq true}
+                <img src="{$user_info.head_url}" alt="about me" class="blog-entry-img" >
+                <p>{$user_info.nick_name}</p>
+                {$user_info.my_sign}
+                {else}
+                <h3>登录/<a>注册</a></h3>
+                <hr>
+                <br>
+
+                <div class="am-cf">
+                    <a href="/login" class="am-btn am-btn-primary am-btn-sm am-fl">去登录</a>
+                    <a href="/register" class="am-btn am-btn-default am-btn-sm am-fr">去注册</a>
+                </div>
+                <br>
+                {/if}
+            </div>
+        </div>
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span>联系站长</span></h2>
+            <p>
+                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+                <a href="https://github.com/foreverly" target="_blank"><span class="am-icon-github am-icon-fw blog-icon"></span></a>
+                <!-- <a href=""><span class="am-icon-weibo am-icon-fw blog-icon"></span></a> -->
+                <!-- <a href=""><span class="am-icon-reddit am-icon-fw blog-icon"></span></a> -->
+                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon"></span></a>
+            </p>
+        </div>
+        <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
+            <h2 class="blog-title"><span>热门标签</span></h2>
+            <div class="am-u-sm-12 blog-clear-padding box-wrap">
+                <!-- {volist name='tag_list' id='tag'}
+                <a href="#" class="blog-tag">{$tag.name}</a>
+                {/volist} -->
+                <div id="box-responsive" class="wordbox"></div>
+            </div>
+        </div>
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>热门文章</span></h2>
+            <ul class="am-list">
+                {volist name='hot_articles' id='article'}
+                <li><a href="{$article.url}">{$article.title}</a></li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+
+<script type="text/javascript">
+$(function() {
+
+    var titles = [];
+    var urls = [];
+    var tag_list = {$tag_list};
+    var len = tag_list.length;
+
+    for (var i = 0; i < len; i++) {
+        titles.push(tag_list[i].name);
+        urls.push(tag_list[i].url);
+    }
+
+    renderTags(titles, urls);
+
+    // ajax请求速度太慢，需优化，暂不用
+    // $.ajax({
+    //     type:"POST",
+    //     data:{},
+    //     dataType:'json',
+    //     url:'/index/getTags',
+    //     success:function(res){
+    //         if (res.code == 200) {
+    //             var data = res.data;
+    //             var len = data.length;
+
+    //             for (var i = 0; i < len; i++) {
+    //                 titles.push(data[i].name);
+    //                 urls.push(data[i].url);
+    //             }
+
+    //             renderTags(titles, urls);
+    //         }            
+    //     }
+    // });
+
+    function renderTags(titles, urls)
+    {
+        var words = [];
+        for(var i = 0; i < titles.length; i++) {
+            words[i] = {
+                'title' : titles[i],
+                'url' : urls[i]
+            }
+        }
+        var colors1 = ['#F46779', '#045DA4'];    
+        var colors2 = ['#D59A3E', '#C58B59'];    
+        var colors3 = ['#49B4E0', '#FCBDA2', '#EBADBD', '#D5C2AF', '#C0BDE5', '#CBCC7F', '#FFDA7F', '#8dd0c3', '#bbbfc6', '#a4d9ef', '#bbdb98'];
+
+        // responsive
+        // 响应式wordbox需要有外层嵌套div
+        
+        var wb1 = new WordBox('#box-responsive', {
+            isLead: false,          //是否包含“全部”分类  
+            isRand: false,          //是否随机排列数组元素  
+            leadWord: null,
+            words: words,
+            colors: colors3,
+            borderWidth: 2,
+            isFixedWidth: false
+        });
+
+        // // fixed width
+        // $('#box-fixedWidth1').wordbox({
+        //     isLead: false,    
+        //     leadWord: null,
+        //     words: words,
+        //     colors: colors2,
+        //     borderWidth: 2,
+        //     isFixedWidth: true,
+        //     width: 800,
+        //     height: 200
+        // });
+
+        // $('#box-fixedWidth2').wordbox({
+        //     isLead: true,          
+        //     leadWord: {'title': '全部', 'url': 'http://www.17sucai.com/','title': 'css', 'url': 'http://www.baidu.com/','title': 'JavaScript', 'url': 'http://www.jquery.com/'},
+        //     words: words,
+        //     colors: colors3,
+        //     borderWidth: 2,
+        //     isFixedWidth: true,
+        //     width: 280,
+        //     height: 300
+        // });
+
+
+        // // 鼠标浮动加下划线
+        // $('.box a').hover(function(event) {            
+        //     $(this).css({'text-decoration': 'underline'});
+        //     event.stopPropagation();
+        // }, function(event) {
+        //     $(this).css({'text-decoration': 'none'});
+        //     event.stopPropagation();
+        // });
+        // // 鼠标浮动字体变大
+        // var fontSize = $('#box-responsive').css('font-size');
+        // $('#box-fixedWidth1 .box a').hover(function(event) {  
+        //     $(this).css({'font-size': '1.4em'});
+        //     event.stopPropagation();
+        // }, function(event) {
+        //     $(this).css({'font-size': fontSize});
+        //     event.stopPropagation();
+        // });
+    }
+});
+ </script>

@@ -1,0 +1,191 @@
+
+
+<style>
+
+.fui-page{
+    width: 400px;
+}
+
+.am-btn, button, img, input:not([type=radio]):not([type=checkbox]), select {
+    vertical-align: middle;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+div {
+    display: block;
+}
+
+input, select, textarea {
+    max-width: 280px;
+}
+
+button, input, select[multiple], textarea {
+    background-image: none;
+}
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.form-horizontal .form-group {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    
+</style>
+
+<body id="blog">
+
+<div class='am-g am-g-fixed blog-fixed fui-page-group' style="width: 400px;margin: 0px auto">
+    <div class="fui-statusbar"></div>
+    <div class='fui-page chat-page'>
+    	<div class="fui-header">
+    	    <div class="title">个人中心</div>
+    	</div>
+
+    	<div class="fui-content navbar chat-fui-content container body-content" style="padding-bottom: 2rem;">
+    		<form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="text">用户名</label>
+                    <div class="col-md-10">
+                        <input class="form-control" disabled="disabled" data-val="true" id="userName" name="userName" type="text" value="{$user_info.user_name}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="nickName">头像</label>
+                    <div class="col-md-10">
+                        <input class="form-control" id="headUrl" name="headUrl" type="hidden" value="{$user_info.head_url}" />
+                        <div class="imgBox">
+                            <img id="clickHead" src="{$user_info.head_url}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="nickName">昵称</label>
+                    <div class="col-md-10">
+                        <input class="form-control" id="nickName" name="nickName" type="text" value="{$user_info.nick_name}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="email">邮箱</label>
+                    <div class="col-md-10">
+                        <input class="form-control" id="email" name="email" type="text" placeholder="用于找回密码" value="{$user_info.email}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="mySign">个性签名</label>
+                    <div class="col-md-10">
+                        <input class="form-control" id="mySign" name="mySign" type="text" placeholder="这人非常懒，啥也不说" value="{$user_info.my_sign}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a href="/" class="am-btn am-btn-default">取消</a>
+                        <input type="button" class="am-btn am-btn-primary" value="保存" id="btnEdit" / style="margin-left: 165px;">
+                    </div>
+                </div>
+            </form>
+    	</div>
+    </div>
+</div>
+
+<form id="infoLogoForm" enctype='multipart/form-data' style="display: none;">
+    <input type="file" name="uploadImg" id="uploadImg" style="display: none">
+</form>
+
+</body>
+<script>
+    /**
+     *根据时间戳格式化为日期形式
+     */
+    function mydate(nS){
+
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    }
+
+    $("#clickHead").on('click', function(){
+        $("#uploadImg").click();
+    })
+
+    var uploading = false;
+    $("#uploadImg").on('change', function(){
+        // var fileData = $("#uploadImg").files;
+        var fileData = document.getElementById("uploadImg").files[0];
+        
+        if(uploading){
+            alert("头像正在上传中，请稍候");
+            return false;
+        }
+        $.ajax({
+            url: "/user/upload",
+            type: 'POST',
+            cache: false,
+            data: new FormData($('#infoLogoForm')[0]),
+            processData: false,
+            contentType: false,
+            dataType:"json",
+            beforeSend: function(){
+                uploading = true;
+            },
+            success : function(res) {
+                if (res.code == 200) {
+                    $("#clickHead").attr("src", res.data.head_url);
+                    $("#headUrl").val(res.data.head_url);
+                } else {
+                    showError(res.data.msg);
+                }
+                uploading = false;
+            }
+        });
+    })
+
+    $("#btnEdit").on('click', function(){
+
+        $.ajax({
+            url: "/user/edit",
+            type: 'POST',
+            data: $('.form-horizontal').serialize(),
+            dataType:"json",
+            // beforeSend: function(){
+            //     // uploading = true;
+            // },
+            success:function(res) {
+                if (res.code == 200) {
+                    window.location.href = '/';
+                } else {
+                    showError(res.data.msg);
+                }
+                uploading = false;
+            }
+        });
+    })
+
+</script>

@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <title>沟通中</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/themes.css?v=2017129">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/h5app.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/fonts/iconfont.css?v=2016070717">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/chat_list.css">
+    <script src="__STATIC__/qqFace/js/jquery.min.js"></script>
+    <script src="__STATIC__/chat/js/dist/flexible/flexible_css.debug.js"></script>
+    <script src="__STATIC__/chat/js/dist/flexible/flexible.debug.js"></script>
+</head>
+<body>
+
+<style type="text/css">
+
+.badge{
+    background: #ff0000 none repeat scroll 0 0;
+
+    border-radius: 0.17rem;
+    color: #fff;
+    height: 0.34rem;
+    width: 0.34rem;
+    /*left: 50%;*/
+    line-height: 0.34rem;
+    min-width: 0.34rem;
+    padding: 0 0rem;
+    position: absolute;
+    top: 0.1rem;
+    z-index: 3;
+    text-align:center;
+}
+
+.num1{
+    width: 0.34rem;
+}
+
+.num2{
+    width: 0.54rem;
+}
+
+.num3{
+    width: 0.70rem;
+}
+
+.chat-info{
+    padding-left: 0.3rem;
+}
+.fui-footer{
+    width:100%;
+    margin-bottom: 0.2rem;
+}
+.fui-footer ul li{
+    float: left;
+    width: 29%;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    margin-left: 2.8%;
+    border: 1px solid green;
+    border-radius: 5px;
+}
+
+.fui-header-right{
+    width: 0.8rem;
+    height: 0.8rem!important;
+    line-height: 0.8rem!important;
+}
+
+.fui-header-right img{
+    width: 100%;
+    height: 100%;
+}
+    
+</style>
+
+<div class='fui-page-group'>
+    <div class="fui-statusbar"></div>
+<div class='fui-page chat-page'>
+	<div class="fui-header">
+	    <div class="title">消息列表</div>
+        <div class="fui-header-right"><img src="/static/images/out.jpg" onclick="window.location.href='/user/logout'"></div>
+	</div>
+
+	<div class="fui-content navbar chat-fui-content" style="padding-bottom: 2rem;"><!-- 
+		<div class="chat-list flex" >
+
+			<div class="chat-img"  style="background-image: url('/img/123.jpg')">
+				<span class="badge" style="top: -0.1rem;left: 80%;">1</span>
+			</div>
+			<div class="chat-info">
+				<p class="chat-merch flex">
+					<span class="title t-28">魔力克</span>
+					<span class="time">2017-12-14</span>
+				</p>
+				<p class="chat-text singleflow-ellipsis">你好</p>
+			</div>
+		</div> -->
+	</div>
+
+    <div class="fui-footer">
+        <ul>
+            <a href="#"><li>首页</li></a>
+            <a href="/contact"><li>联系人</li></a>
+            <a href="/user/profile"><li>我</li></a>
+        </ul>
+    </div>
+</div>
+</div>
+</body>
+<script>
+
+    var API_URL = "/chat/";
+    var fromid = <?php echo $fromid ?>;
+
+    var ws = new WebSocket("ws://127.0.0.1:8282");
+
+    // 接收消息
+    ws.onmessage = function(e){
+        var message = JSON.parse(e.data);
+
+        switch (message.type){
+            case 'init':
+                var bind = {};
+                bind.type = 'bind';
+                bind.fromid = fromid;
+
+                ws.send(JSON.stringify(bind));
+
+                break;
+            case 'text':
+                $(".chat-fui-content").html("");
+                // 插入数据库需要一点时间，直接拉取会导致拉取不到最新的，延时200ms
+                setTimeout(function(){
+                    refreshList();
+                }, 200);
+                
+                break;
+            case 'say_img':
+                $(".chat-fui-content").html("");
+                setTimeout(function(){
+                    refreshList();
+                }, 200);
+
+                break;
+            // case 'save':
+            //     saveMessage(message);
+            //     break;
+            // case 'online':
+            //     if (message.status == 1) {
+            //         online = 1;
+            //         $(".shop-online").text('在线');
+            //     }else{
+            //         online = 0;
+            //         $(".shop-online").text('离线');
+            //     }
+            //     break;
+        }        
+    }
+
+    $(function(){
+        refreshList();
+    })
+
+    function refreshList(){
+        $.post(
+            API_URL+"list",
+            {fromid:fromid},
+            function(res){
+                if (res.code == 200) {
+
+                    var data = res.data;
+                    var c = data.length;
+
+                    for (var i = 0; i < c; i++) {
+                        var str = '';
+                        var len = data[i]['noread'].length;
+
+                        str += '<a href="'+data[i]['chat_url']+'" target=_blank>';
+                        str += '<div class="chat-list flex" >';
+                        str += '<div class="chat-img"  style="background-image: url(\''+data[i]['head']+'\')">';
+                        if (data[i]['noread'] != '0') {
+                            str += '<span class="badge num'+len+'" style="top: -0.1rem;left: 80%;">'+data[i]['noread']+'</span>';
+                        }                        
+                        str += '</div>';
+                        str += '<div class="chat-info">';
+                        str += '<p class="chat-merch flex">';
+                        str += '<span class="title t-28">'+data[i]['fromname']+'</span>';
+                        str += '<span class="time">'+data[i]['created_time']+'</span>';
+                        str += '</p>';
+                        if (data[i]['type'] == 1) {
+                            var content = data[i]['content'];
+                        }else{
+                            var content = '[新图片]';
+                        }
+                        str += '<p class="chat-text singleflow-ellipsis">'+content+'</p>';
+                        str += '</div>';
+                        str += '</div>';
+                        str += '</a>';
+
+                        $(".chat-fui-content").append(str);
+                    }                    
+                }
+            },'json'
+        )
+    }
+
+    /**
+     *根据时间戳格式化为日期形式
+     */
+    function mydate(nS){
+
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    }
+
+</script>
+
+</html>

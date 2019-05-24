@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no" />
+    <title>联系人</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/themes.css?v=2017129">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/h5app.css">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/fonts/iconfont.css?v=2016070717">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/chat/css/chat_list.css">
+    <link href="__STATIC__/dialog/dist/dialog.css" rel="stylesheet"></head>
+    <script src="__STATIC__/qqFace/js/jquery.min.js"></script>
+    <script src="__STATIC__/chat/js/dist/flexible/flexible_css.debug.js"></script>
+    <script src="__STATIC__/chat/js/dist/flexible/flexible.debug.js"></script>
+    <script src="__STATIC__/dialog/dist/mDialogMin.js"></script>
+</head>
+<body>
+
+<style type="text/css">
+
+.badge{
+    background: #ff0000 none repeat scroll 0 0;
+
+    border-radius: 0.17rem;
+    color: #fff;
+    height: 0.34rem;
+    width: 0.34rem;
+    /*left: 50%;*/
+    line-height: 0.34rem;
+    min-width: 0.34rem;
+    padding: 0 0rem;
+    position: absolute;
+    top: 0.1rem;
+    z-index: 3;
+    text-align:center;
+}
+
+.num1{
+    width: 0.34rem;
+}
+
+.num2{
+    width: 0.54rem;
+}
+
+.num3{
+    width: 0.70rem;
+}
+
+.chat-info{
+    padding-left: 0.3rem;
+}
+.fui-footer{
+    width:100%;
+    margin-bottom: 0.2rem;
+}
+.fui-footer ul li{
+    float: left;
+    width: 29%;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    margin-left: 2.8%;
+    border: 1px solid green;
+    border-radius: 5px;
+}
+
+.fui-footer ul li a.popup{position:relative;}
+.fui-footer ul li a.popup span{display:none;position:absolute;top:-40px;left:2px;z-index: 99;border: 1px solid; padding:4px;width:100px;}
+.fui-footer ul li a.popup:hover span{display:block;}
+
+.icon-cls{
+    width: 0.8rem;
+    height: 0.8rem!important;
+    line-height: 0.8rem!important;
+}
+
+.icon-cls img{
+    width: 100%;
+    height: 100%;
+}
+    
+</style>
+
+<div class='fui-page-group'>
+    <div class="fui-statusbar"></div>
+    <div class='fui-page chat-page'>
+    	<div class="fui-header">
+            <div class="fui-header-left icon-cls" title="添加联系人"><img src="/static/images/add.jpg" class="mDialogs" id="mdialog4"></div>
+    	    <div class="title">联系人列表</div>
+            <div class="fui-header-right icon-cls"><img src="/static/images/out.jpg" onclick="window.location.href='/user/logout'"></div>
+    	</div>
+
+    	<div class="fui-content navbar chat-fui-content" style="padding-bottom: 2rem;">
+    		<!-- <div class="chat-list flex" >
+
+    			<div class="chat-img"  style="background-image: url('/img/123.jpg')">
+                    
+    			</div>
+    			<div class="chat-info">
+    				<p class="chat-merch flex">
+    					<span class="title t-28">魔力克</span>
+    				</p>
+    			</div>
+    		</div> -->
+    	</div>
+
+        <div class="fui-footer">
+            <ul>
+                <a href="/chat"><li>首页</li></a>
+                <a href="#" class="popup"><li>联系人</li></a>
+                <a href="/user/profile"><li>我</li></a>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    var API_URL = "/contact/";
+    var fromid = <?php echo $fromid ?>;
+
+    var ws = new WebSocket("ws://127.0.0.1:8282");
+
+    // 接收消息
+    ws.onmessage = function(e){
+        var message = JSON.parse(e.data);
+
+        switch (message.type){
+            case 'init':
+                var bind = {};
+                bind.type = 'bind';
+                bind.fromid = fromid;
+
+                ws.send(JSON.stringify(bind));
+
+                break;
+            case 'text':
+                $(".chat-fui-content").html("");
+                // 插入数据库需要一点时间，直接拉取会导致拉取不到最新的，延时200ms
+                // setTimeout(function(){
+                //     refreshList();
+                // }, 200);
+                
+                break;
+            case 'say_img':
+                $(".chat-fui-content").html("");
+                setTimeout(function(){
+                    refreshList();
+                }, 200);
+
+                break;
+            // case 'save':
+            //     saveMessage(message);
+            //     break;
+            // case 'online':
+            //     if (message.status == 1) {
+            //         online = 1;
+            //         $(".shop-online").text('在线');
+            //     }else{
+            //         online = 0;
+            //         $(".shop-online").text('离线');
+            //     }
+            //     break;
+        }        
+    }
+
+    $(function(){
+        refreshList();
+    })
+
+    mdialog4.onclick = function(){
+        Dialog.init('<input type="text" placeholder="请输入对方ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
+            title : '添加联系人',
+            button : {
+                // 搜索 : function(){
+                //     var user_name = this.querySelector('input').value;
+                //     $.ajax({
+                //         type:'POST',
+                //         url:'/user/check',
+                //         data:'user_name='+user_name,
+                //         dataType:'json',
+                //         success:function(res){
+                //             if (res.code == '200') {
+                //                 Dialog.close(this);
+                //             }else{
+                //                 Dialog.init('你查找的用户：'+user_name+'不存在！', 1100);
+                //             }
+                //         }
+                //     })
+                // },
+                添加 : function(){
+                    var user_id = this.querySelector('input').value;
+                    var _this = this; // 寄存对象
+                    $.ajax({
+                        type:'POST',
+                        url:'/user/add',
+                        data:'user_id='+user_id,
+                        dataType:'json',
+                        success:function(res){
+                            if (res.code == '200') {
+                                Dialog.init('添加成功！', 1000);                                
+                                Dialog.close(_this);
+                                refreshList();
+                            }else{ 
+                                Dialog.init(res.msg, 1100);
+                            }
+                        }
+                    })
+                }
+            }
+        });
+    }
+
+    function refreshList(){
+        $(".chat-fui-content").html('');
+        $.post(
+            API_URL+"getList",
+            {fromid:fromid},
+            function(res){
+                if (res.code == 200) {
+
+                    var data = res.data;
+                    var c = data.length;
+
+                    for (var i = 0; i < c; i++) {
+                        var str = '';
+
+                        str += '<a href="'+data[i]['chat_url']+'" target=_blank>';
+                        str += '<div class="chat-list flex" >';
+                        str += '<div class="chat-img"  style="background-image: url(\''+data[i]['head_url']+'\')">';
+                                                
+                        str += '</div>';
+                        str += '<div class="chat-info">';
+                        str += '<p class="chat-merch flex">';
+                        str += '<span class="title t-28">'+data[i]['display_name']+'</span>';
+                        str += '</p>';
+                        str += '<p class="chat-text singleflow-ellipsis">'+data[i]['my_sign']+'</p>';
+                        str += '</div>';
+                        str += '</div>';
+                        str += '</a>';
+
+                        $(".chat-fui-content").append(str);
+                    }                    
+                }
+            },'json'
+        )
+    }
+
+    /**
+     *根据时间戳格式化为日期形式
+     */
+    function mydate(nS){
+
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,143 @@
+﻿<link href="__STATIC__/css/856d476167df436bb4fde998445ac4de.css" rel="stylesheet"/>
+
+<link href="__STATIC__/css/c78c7a35a6df4d5486e8e3fdb52b6864.css" rel="stylesheet"/>
+
+<script src="__STATIC__/js/ac76df5200b649c5974e9c272fb3bca3.js"></script>
+
+<style>
+    .indexbtn-default {
+        background-color: #222222;
+        border-color: #222222;
+    }
+
+        .indexbtn-default:hover {
+            border-color: #222222;
+        }
+
+        .indexbtn-default .caret {
+            border-top-color: #808080;
+        }
+
+        .indexbtn-default:focus {
+            border-color: #222222;
+        }
+
+    .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+        border-color: #222222;
+    }
+    .categoryListoColor {
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        float: left;
+        margin-top: 5px;
+        border: 1px solid #808080;
+    }
+</style>
+
+
+<body id="BodyInnerHtml">
+    <div class="container body-content">
+<h2>修改密码</h2>
+<form class="form-horizontal">
+    <input name="__RequestVerificationToken" type="hidden" value="QOwm6sFG6B8ou9OHUJx6YKqseSeZNc8-EAZoqBnd0VfFQAgF7pAueeEEjjC9WB_QeuUNYg9nsmhGk1LVd3JVJfZlcl2NWUCetpgglyiqbF01" />
+    <hr />
+    <div class="validation-summary-valid text-danger" data-valmsg-summary="true">
+        <ul>
+            <li style="display:none"></li>
+        </ul>
+    </div>
+    <div class="form-group" style="margin-left:18%">
+        <label id="lblMsgResult" style="display:none"></label>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="email">邮箱</label>
+        <div class="col-md-10">
+            <input class="form-control" data-val="true" data-val-email="The 邮箱 field is not a valid e-mail address." data-val-required="邮箱字段是必需的。" id="email" name="email" placeholder="输入邮箱" type="text" value="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="text">用户名</label>
+        <div class="col-md-10">
+            <input class="form-control" data-val="true" data-val-name="The 用户名 field is not a valid e-mail address." data-val-required="用户名字段是必需的。" id="userName" name="userName" placeholder="输入用户名" type="text" value="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="loginPwd">密码</label>
+        <div class="col-md-10">
+            <input class="form-control" data-val="true" data-val-length="密码 必须至少包含 6 个字符。" data-val-length-max="100" data-val-length-min="6" data-val-required="密码 字段是必需的。" id="loginPwd" name="loginPwd" placeholder="输入登录密码" type="password" />
+        </div>
+    </div>
+    <div class="form-group" style="margin-left:18%">
+        <label id="lblConfirmPasswordResult" style="display:none"></label>
+    </div>
+    <div class="form-group" style="margin-left:18%">
+        <label id="lblVrifyCodeResult" style="display:none"></label>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" class="btn btn-default" value="修改" id="btnChangePsw" />
+        </div>
+    </div>
+</form>
+
+
+
+        <hr />
+        <!-- <footer style="text-align:center">
+            <p id="ICPp">&copy; 2015 - 2018 吾记v1.0  粤ICP备17034106号 </p>
+        </footer> -->
+    </div>
+
+    <script src="__STATIC__/js/jquery.min.js"></script>
+<!-- 
+    <script src="__STATIC__/js/11fccb833d7042aabd91dd7c57a9647e.js"></script>
+
+    <script src="__STATIC__/js/5ac0ee38601343638a12c4e153198bb3.js"></script>
+    
+    <script src="__STATIC__/js/d1d0dc6009c7449cb9f98cb59db31e2b.js"></script>
+
+    <script src="__STATIC__/js/cbb89b7942fd444287d13abc1e9b4181.js"></script> -->
+
+
+    
+    <link href="__STATIC__/css/layer_1.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #fff;
+        }
+    </style>
+
+    <script>
+	    $(function () {
+            if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+
+
+            } else {
+                $("#buyLi").attr("style", "display:none");
+            }
+        })
+
+
+        $("#btnRegister").on('click', function(){
+            var formData = $(".form-horizontal").serialize();
+            
+            $.ajax({
+                type:'POST',
+                url:'/login/register',
+                data:formData,
+                dataType:'json',
+                success:function(res){
+                    if (res.code == '200') {
+                        window.location.href = '/login';
+                    }else{
+                        alert(res.msg)
+                    }
+                }
+            })
+        })
+
+    </script>
+</body>
+

@@ -1,0 +1,68 @@
+﻿
+<div class="admin-content-body">
+  <div class="am-cf am-padding am-padding-bottom-0">
+    <div class="am-fl am-cf">
+      <strong class="am-text-primary am-text-lg">相册</strong> / <small>Gallery</small>
+    </div>
+  </div>
+
+  <hr>
+
+  <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-margin gallery-list">
+    <!-- 列表输出 -->
+  </ul>
+
+  <div class="am-margin am-cf" id="pageBox">
+    <!-- 分页输出 -->
+  </div>
+
+<script type="text/javascript">
+
+// 输出列表
+goPage(1);
+
+function goPage(curPage = 1, pageSize = 18){
+
+  var page = curPage;
+  var size = pageSize;
+  var type = "{$type}";
+
+  $.ajax({
+    type:'POST',
+    url:'/picture/list',
+    data:{"page":page, "size":size, "type":type},
+    dataType:'json',
+    success:function(res){
+      if (res.code == '200') {
+        var html = '';
+        var data = res.data;
+        var pictures = data.picture_list;
+
+        for (var i = 0; i < pictures.length; i++) {
+          html += '<li>';
+          html +=   '<a href="' + pictures[i].url +'">';
+          html +=     '<img class="am-img-thumbnail am-img-bdrs" src="__STATIC__' + pictures[i].img_url + '" alt=""/>';
+          html +=     '<div class="gallery-title">' + pictures[i].title + '</div>'; // 最多二十个汉字
+          html +=     '<div class="gallery-desc">' + pictures[i].desc + '</div>';
+          html +=   '</a>';
+          html += '</li>';
+        }
+
+        if (html != '') {
+          // 列表输出
+          $(".gallery-list").html(html);
+          // 分页输出
+          $("#pageBox").html(Paginator(data.total, page, size));
+        }else{
+          $(".gallery-list").html('暂无数据');
+        }
+      }else{
+        alert(res.msg)
+      }
+    }
+  })
+}
+
+</script>
+
+</div>
