@@ -91,14 +91,21 @@
 
                                 <div class="am-form-group">
                                     <label for="user-phone" class="am-u-sm-3 am-form-label">文章分类 </label>
-                                    <div class="am-u-sm-9">
-                                        <select name="type" data-am-selected="{searchBox: 1}">
-                                          <option value="1" {if $article_info eq true && 1 eq $article_info.type}selected="selected"{/if}>心情</option>
-                                          <option value="2" {if $article_info eq true && 2 eq $article_info.type}selected="selected"{/if}>新闻</option>
-                                          <option value="3" {if $article_info eq true && 3 eq $article_info.type}selected="selected"{/if}>菜谱</option>
-                                          <option value="4" {if $article_info eq true && 4 eq $article_info.type}selected="selected"{/if}>技术</option>
+                                    <div class="am-u-sm-3" style="float: left;">
+                                        <select name="type" data-am-selected="{searchBox: 1}" id="parentSelect">
+                                            {volist name="$category_list" id='category'}
+                                            <option value="{$category.id}" {if $article_info eq true && $category.id eq $article_info.type}selected="selected"{/if}>{$category.category_name}</option>
+                                            {/volist}
                                         </select>
                                     </div>
+                                    
+                                    <div class="am-u-sm-3" style="float: left;{if $child_category_list}display: block;{else}display: none;{/if}" id="childSelect">
+                                        <select name="category_id" data-am-selected="{searchBox: 1}">
+                                            {volist name="$child_category_list" id='child'}
+                                            <option value="{$child.id}" {if $article_info eq true && $child.id eq $article_info.category_id}selected="selected"{/if}>{$child.category_name}</option>
+                                            {/volist}
+                                        </select>
+                                    </div>                                    
                                 </div>
 
                                 <div class="am-form-group">
@@ -221,6 +228,38 @@
 </div>
 
 <script type="text/javascript">
+
+$("#parentSelect").on('change', function(){
+    var pid = $(this).val();
+    
+    $.ajax({
+        url:API_URL+'/article/getCategories',
+        type:'POST',
+        data:{"pid":pid},
+        dataType:'json',
+        success:function(res) {
+            if (res.code == 200) {
+                var data = res.data;
+                var len  = data.length;
+
+                if (len) {
+
+                    var html = '';
+                    for (var i = 0; i < len; i++) {
+                        html += '<option value="'+data[i].id+'">'+data[i].category_name+'</option>';
+                    }
+                    $("#childSelect").find('select').html(html);
+                    $("#childSelect").show();
+                }else{
+                    $("#childSelect").hide();
+                }
+            }else{
+                $("#childSelect").hide();
+                alert(res.msg)
+            }
+        }
+    })
+})
 
 // 实例化编辑器
 // 建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -477,7 +516,7 @@ $("#saveBtn").on('click', function(){
         dataType:'json',
         success:function(res) {
             if (res.code == 200) {
-                window.location.href = API_URL+'/article';
+                window.location.href = API_URL+'/article?type=' + $("#parentSelect").val();
             }else{  
                 alert(res.msg)
             }

@@ -60,6 +60,8 @@ class IndexController extends Common
     public function getRotations()
     {
         $res = Db::table('banner')->where('status', 1)->limit(3)->select();
+        // $sql = "SELECT * FROM `banner` as t1 JOIN (SELECT ROUND(RAND() * (select max(`id`) from `banner`)) AS `id`) AS t2 WHERE t1.id >= t2.id AND status = 1 ORDER BY t1.id LIMIT 3";
+        // $res = Db::query($sql); 
 
         $banner_list = [];
         foreach ($res as $key => $value) {

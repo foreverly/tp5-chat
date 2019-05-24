@@ -169,4 +169,20 @@ if (!function_exists('makeVerifyCode')) {
 	}
 }
 
+if (!function_exists('dd')) {
+	/*
+	 * 生成随机验证码
+	 * @param int $length 生成随机字符串的长度
+	 * @param string $char 组成随机字符串的字符串
+	 * @return string $string 生成的随机验证码
+	 */
+	function dd($data) 
+	{		
+	    echo "<pre>";
+	    var_dump($data);
+	    echo "</pre>";
+	    exit;
+	}
+}
+
 	
