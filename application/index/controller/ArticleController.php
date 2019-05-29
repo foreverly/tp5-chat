@@ -2,9 +2,6 @@
 namespace app\index\controller;
 
 use think\Controller;
-use think\Request;
-use think\Session;
-use think\Cache;
 use think\Db;
 use app\index\model\Article;
 use app\index\model\Comment;
