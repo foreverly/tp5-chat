@@ -9,7 +9,6 @@ use app\index\model\Article;
 
 class IndexController extends Common
 {
-
     protected $needLogin = false;
 
     protected $page = 1;

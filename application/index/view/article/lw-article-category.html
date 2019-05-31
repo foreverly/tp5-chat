@@ -1,0 +1,120 @@
+<style type="text/css">
+.hover{
+    color: #10D07A;
+}
+</style>
+<div class="am-g am-g-fixed blog-fixed blog-content">
+    <div class="am-u-sm-12">
+        <div class="timeline-year">
+            <!-- <hr> -->
+
+            {volist name='category_list' id='category'}
+            <ul>
+                <h3><a href="{$category.url}" {if $category.id eq $tid}class="hover"{/if}>{$category.category_name}</a></h3>
+                <li>
+                    {volist name='category.children' id='child' key='k'}
+                    <span class="am-u-sm-4 am-u-md-1{if $k eq 0} timeline-span{/if}">
+                        <a href="{$child.url}" {if $child.id eq $cid}class="hover"{/if}>{$child.category_name}</a>
+                    </span>
+                    {/volist}
+                    <span></span>
+                </li>
+            </ul>
+            <br>
+            {/volist}
+
+        </div>
+        <!-- <hr> -->
+    </div>
+</div>
+
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed">
+    <div class="am-u-md-8 am-u-sm-12" id="artBox">
+
+
+        {foreach $article_list as $article}
+        <article class="am-g blog-entry-article">
+            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
+                <img src="{$article.cover_picture}" alt="" class="am-u-sm-12">
+            </div>
+            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
+                <span><a href="" class="blog-color">{$article.author} &nbsp;</a></span>
+                <span> {$article.from} &nbsp;</span>
+                <span>{$article.time}</span>
+                <h1><a href="{$article.url}">{$article.title}</a></h1>
+                <p>{$article.slogan}</p>
+                <p><a href="{$article.url}" class="blog-continue">continue reading</a></p>
+            </div>
+        </article>
+        {/foreach}
+        
+        <ul class="am-pagination">
+            {$pageHtml}
+            <!-- <li class="am-pagination-prev" {if $page-1 elt 0}style="display:none"{/if}><a href="javascript:goArticlePage({$page-1});">&laquo; Prev</a></li>
+            <li class="am-pagination-next" {if $page+1 egt $totalPage}style="display:none"{/if}><a href="javascript:goArticlePage({$page+1});">Next &raquo;</a></li> -->
+        </ul>
+    </div>
+
+    {include file="layout/sidebar"}
+</div>
+<!-- content end -->
+
+<script type="text/javascript">
+    
+// function goArticlePage(page)
+// {
+//     $.ajax({
+//         url:'/index/getArticles',
+//         type:'POST',
+//         data:{'page':page},
+//         dataType:'json',
+//         success:function(res){
+//             if (res.code = '200') {
+
+//                 var data = res.data;
+//                 var html = '';
+//                 var prev = page - 1;
+//                 var next = page + 1;
+//                 var total= {$totalPage};
+
+//                 // 文章列表主体
+//                 for (var i = 0; i < data.length; i++) {
+//                     html += '<article class="am-g blog-entry-article">';
+//                     html += '<div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">';
+//                     html += '<img src="'+data[i].cover_picture+'" alt="" class="am-u-sm-12">';
+//                     html += '</div>';
+//                     html += '<div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">';
+//                     html += '<span><a href="" class="blog-color">'+data[i].author+' &nbsp;</a></span';
+//                     html += '<span> '+data[i].from+' &nbsp;</span>';
+//                     html += '<span>'+data[i].time+'</span>';
+//                     html += '<h1><a href="'+data[i].url+'">{$article.title}</a></h1>';
+//                     html += '<p>'+data[i].slogan+'</p>';
+//                     html += '<p><a href="'+data[i].url+'" class="blog-continue">continue reading</a></p>';
+//                     html += '</div>';
+//                     html += '</article>';
+//                 }
+
+//                 // 上一页与下一页
+//                 html += '<ul class="am-pagination">';
+//                 html += '<li class="am-pagination-prev" ';
+//                 if (prev < 1) {
+//                     html += 'style="display:none"';
+//                 }
+//                 html += '><a href="javascript:goArticlePage('+prev+');">&laquo; Prev</a></li>';
+//                 html += '<li class="am-pagination-next" ';
+//                 if (next > total) {
+//                     html += 'style="display:none"';
+//                 }
+//                 html += '><a href="javascript:goArticlePage('+next+');" disabled="disabled">Next &raquo;</a></li>';                
+//                 html += '</ul>';
+
+//                 $("#artBox").html(html);
+//             }else{
+//                 alert(res.msg)
+//             }
+//         }
+//     })
+// }
+
+</script>

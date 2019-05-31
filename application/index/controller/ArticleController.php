@@ -6,11 +6,16 @@ use think\Db;
 use app\index\model\Article;
 use app\index\model\Comment;
 use app\index\model\UserBackend;
+use app\common\service\app\ArticleCategoryService;
 
 class ArticleController extends Common
 {
 
     protected $needLogin = false;
+
+    protected $page = 1;
+
+    protected $size = 10;
 
 	public function _initialize()
     {
@@ -89,7 +94,7 @@ class ArticleController extends Common
         }
 
         $model = new Comment();
-        $model->uid = $this->userInfo['uid']??0;
+        $model->uid = $this->userInfo['uid'] ?? 0;
         $model->to_id = $to_id;
         $model->article_id = $article_id;
         $model->content = $content;
@@ -102,5 +107,36 @@ class ArticleController extends Common
         }else{
             ajaxError('评论失败');
         }
+    }
+
+    public function category()
+    {
+        $tid = (int)$this->request->get('tid', 0);
+        $cid = (int)$this->request->get('cid', 0);
+        $page = (int)$this->request->get('page', 1);
+        $size = (int)$this->request->get('size', $this->size);
+
+        $where = [];
+        if ($tid) {
+            $where['type'] = $tid;
+        }
+        if ($cid) {
+            $where['category_id'] = $cid;
+        }
+
+        $totalPage = ceil((new Article())->getCount($where)/$this->size);
+        $list = (new Article())->getArticles($where, $page, $size);
+
+        $category_list = ArticleCategoryService::getCategories();
+
+        return $this->fetch('lw-article-category', [
+            'article_list' => $list,
+            'tid' => $tid,
+            'cid' => $cid,
+            'category_list' => $category_list,
+            'page' => $page,
+            'pageHtml' => ArticleCategoryService::getPageHtml($totalPage, $page, $this->size),
+            'totalPage' => $totalPage,
+        ]);
     }
 }
