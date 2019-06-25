@@ -56,7 +56,7 @@ class CategoryController extends Common
                 $this->error('该菜单不存在','/category');
             }
 
-            $category_info = $categorygModel->toArray();
+            $category_info = $categoryModel->toArray();
         }
 
         return $this->fetch('edit', [
