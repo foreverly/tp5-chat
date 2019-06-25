@@ -140,4 +140,25 @@ class CategoryController extends Common
 
         ajaxSuccess($category_list);
     }
+
+    public function changePram()
+    {
+        $id  = (int)$this->request->post('id', 0);
+        $key = trim($this->request->post('key'));
+
+        if (!in_array($key, ['status'])) {
+            ajaxError('未知的类型');
+        }
+
+        $model = ArticleCategory::get($id);
+        if ($model->$key == 1) {
+            $model->$key = 0;
+        }else{
+            $model->$key = 1;
+        }
+
+        $model->save();
+
+        ajaxSuccess();
+    }
 }

@@ -62,8 +62,8 @@
                                             <td>{$category.category_name}</td>
                                             <td>{$category.pid}</td>
                                             <td>
-                                                <div class="tpl-switch">
-                                                    <input type="checkbox" id="status" name="status" class="ios-switch bigswitch tpl-switch-btn" checked />
+                                                <div class="tpl-switch" onclick="changePram({$category.id})">
+                                                    <input type="checkbox" id="status" name="status" class="ios-switch bigswitch tpl-switch-btn" {if $category.status eq 1}checked{/if} />
                                                     <div class="tpl-switch-btn-view">
                                                         <div>
                                                         </div>
@@ -137,6 +137,18 @@ function doDel(id){
 
 function doCopy(id){
     window.location.href = API_URL+'/category/edit?id='+id;
+}
+
+function changePram(id){
+    $.ajax({
+        url:API_URL+'/category/changePram',
+        type:'POST',
+        data:{"id":id, "key":"status"},
+        dataType:'json',
+        success:function(res) {
+            // TODO
+        }
+    })
 }
 
 </script>
