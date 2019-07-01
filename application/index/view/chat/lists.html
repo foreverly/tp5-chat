@@ -113,9 +113,10 @@
 <script>
 
     var API_URL = "/chat/";
+    var domain = {$domain} ? : 'localhost';
     var fromid = <?php echo $fromid ?>;
 
-    var ws = new WebSocket("ws://127.0.0.1:8282");
+    var ws = new WebSocket("ws://"+domain+":8282");
 
     // 接收消息
     ws.onmessage = function(e){
