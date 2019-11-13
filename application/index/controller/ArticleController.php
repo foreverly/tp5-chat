@@ -46,6 +46,9 @@ class ArticleController extends Common
         $info = Article::get($id);
         $author_info = UserBackend::get($info['author_id']);
 
+        $info->pv += 1;
+        $info->save(false);
+
         $info['seo_keywords'] = $info['seo_keywords'] ? explode(',', $info['seo_keywords']) : [];
         $info['content']      = htmlspecialchars_decode($info['content']);
 
@@ -68,7 +71,7 @@ class ArticleController extends Common
             'next' => $next,
             'author_info' => [
                 'name' => $author_info['display_name'] ?: '佚名', 
-                'my_sign' => $author_info['my_sign'] ?: '桃李不言，下自成蹊。',
+                'my_sign' => $author_info['my_sign'] ?: '天上地久有时尽，此恨绵绵无绝期。',
                 'head_url' => $author_info['head_url'] ?: '/static/chat/img/avatar5.png',                
             ],
             'comment_list' => $comment_list
