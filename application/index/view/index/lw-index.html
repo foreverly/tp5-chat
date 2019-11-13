@@ -28,17 +28,22 @@
 
         {foreach $article_list as $article}
         <article class="am-g blog-entry-article">
+            
             <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img">
-                <img src="{$article.cover_picture}" alt="" class="am-u-sm-12">
+                <a href="{$article.url}">
+                    <img src="{$article.cover_picture}" alt="" class="am-u-sm-12">
+                </a>
             </div>
             <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
-                <span><a href="" class="blog-color">{$article.author} &nbsp;</a></span>
-                <span> {$article.from} &nbsp;</span>
-                <span>{$article.time}</span>
+                <span><a href="" class="blog-color">{$article.author} &nbsp;|&nbsp;</a></span>
+                <span> {$article.from} &nbsp;|&nbsp;</span>
+                <span> 浏览量：{$article.pv} &nbsp;|&nbsp;</span>
+                <span>{$article.time}</span>                
                 <h1><a href="{$article.url}">{$article.title}</a></h1>
                 <p>{$article.slogan}</p>
-                <p><a href="{$article.url}" class="blog-continue">continue reading</a></p>
+                <!-- <p><a href="#" class="blog-continue">continue reading</a></p> -->
             </div>
+            
         </article>
         {/foreach}
         

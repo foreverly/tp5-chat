@@ -55,6 +55,7 @@ class Article extends Model
                 'title' => $value['title'],
                 'url' => '/article/info?id=' . $value['id'],
                 'cover_picture' => $value['cover_image'],
+                'pv' => $value['pv'],
                 // 'slogan' => $value['slogan'] ?: cutStr(htmlspecialchars_decode($value['content']), 212, '...'),
                 'slogan' => $value['slogan'],
                 'author' => 'Bruce',
