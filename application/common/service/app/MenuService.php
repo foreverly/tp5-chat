@@ -11,7 +11,7 @@ class MenuService
 {	
 	public static function getMenus()
     {
-    	$is_login = Session::get('is_login');    	
+    	$is_login = Session::get('is_login');  	
         $res = Menu::getAll("*", ['type' => 1, 'status' => 1], "order desc");
 
         $list = [];
