@@ -82,8 +82,9 @@ function goArticlePage(page)
                     html += '<img src="'+data[i].cover_picture+'" alt="" class="am-u-sm-12">';
                     html += '</div>';
                     html += '<div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">';
-                    html += '<span><a href="" class="blog-color">'+data[i].author+' &nbsp;</a></span';
-                    html += '<span> '+data[i].from+' &nbsp;</span>';
+                    html += '<span><a href="" class="blog-color">'+data[i].author+' &nbsp;|&nbsp;</a></span';
+                    html += '<span> '+data[i].from+' &nbsp;|&nbsp;</span>';
+                    html += '<span> 浏览量：'+data[i].pv+' &nbsp;|&nbsp;</span>';
                     html += '<span>'+data[i].time+'</span>';
                     html += '<h1><a href="'+data[i].url+'">'+data[i].title+'</a></h1>';
                     html += '<p>'+data[i].slogan+'</p>';
